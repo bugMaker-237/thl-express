@@ -1,0 +1,3 @@
+{
+  "extends": ["./app-client/node_modules/tslint-angular"]
+}

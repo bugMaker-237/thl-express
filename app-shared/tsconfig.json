@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "module": "esNext",
+    "target": "es5",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "noEmitHelpers": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noEmitOnError": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "lib": ["es6", "dom", "es2015.iterable"],
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["src/*"],
+      "*": ["./node_modules/*"],
+      "@apps.common/services": ["../submodules/apps-common/services/index.ts"],
+      "@apps.common/models": ["../submodules/apps-common/models/index.ts"],
+      "@apps.common/config": ["../submodules/apps-common/config/index.ts"],
+      "@app.shared/models": ["../app-shared/models/index.ts"],
+      "@apps.common/modules": [
+        "../submodules/apps-common/modules/mobile/index.ts"
+      ]
+    }
+  }
+}

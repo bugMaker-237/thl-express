@@ -1,0 +1,20 @@
+{
+  "name": "fake-backend",
+  "version": "0.0.1",
+  "description": "Fake backend service to test front end apps",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "tsc -w index.ts",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "fake",
+    "backend",
+    "server"
+  ],
+  "author": "Steam-erp",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.12.0"
+  }
+}

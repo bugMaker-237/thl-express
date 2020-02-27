@@ -1,0 +1,58 @@
+[{
+        "path": "/check-username",
+        "requests": [{
+            "method": "POST",
+            "body": {
+                "username": "bugMaker"
+            },
+            "reponse": {
+                "contentType": "application/json",
+                "status": 200,
+                "body": {
+                    "image": "http://etienneyamsi.com/images/jn-pp.png",
+                    "username": "bugMaker",
+                    "name": "Etienne Yamsi"
+                }
+            }
+        }]
+
+    },
+    {
+        "path": "/sign-in",
+        "requests": [{
+            "method": "POST",
+            "body": {
+                "username": "bugMaker",
+                "password": "#bug@maker"
+            },
+            "reponse": {
+                "contentType": "application/json",
+                "status": 200,
+                "body": {
+                    "image": "http://etienneyamsi.com/images/jn-pp.png",
+                    "username": "bugMaker",
+                    "name": "Etienne Yamsi",
+                    "token": "token",
+                    "roles": ["admin"],
+                    "email": "fake.user@gocreate.server"
+                }
+            }
+        }]
+
+    },
+    {
+        "path": "/sign-out",
+        "requests": [{
+            "method": "POST",
+            "body": {
+                "token": "token"
+            },
+            "reponse": {
+                "contentType": "text/plain",
+                "status": 200,
+                "body": "ok"
+            }
+        }]
+
+    }
+]

@@ -1,0 +1,64 @@
+<RadSideDrawer class="app-shell" tkExampleTitle tkToggleNavButton hideActionBar>
+  <GridLayout tkDrawerContent rows="56, *" class="sideStackLayout">
+    <StackLayout
+      class="sideTitleStackLayout"
+      hieght="200"
+      horizontalAlignment="center"
+      verticalAlignment="center"
+    >
+      <Image [src]="user.picture" stretch="none" class="rounded-circle"></Image>
+    </StackLayout>
+    <ScrollView row="1">
+      <StackLayout class="sideStackLayout">
+        <Label text="Primary" class="sideLabel sideLightGrayLabel"></Label>
+        <Label text="Social" class="sideLabel"></Label>
+        <Label text="Promotions" class="sideLabel"></Label>
+        <Label text="Labels" class="sideLabel sideLightGrayLabel"></Label>
+        <Label text="Important" class="sideLabel"></Label>
+        <Label text="Starred" class="sideLabel"></Label>
+        <Label text="Sent Mail" class="sideLabel"></Label>
+        <Label text="Drafts" class="sideLabel"></Label>
+        <Label
+          text="Close Drawer"
+          color="lightgray"
+          padding="10"
+          style="horizontal-align: center"
+          (tap)="onCloseDrawerTap()"
+        ></Label>
+      </StackLayout>
+    </ScrollView>
+  </GridLayout>
+  <StackLayout tkMainContent>
+    <StackLayout
+      orientation="horizontal"
+      verticalAlignment="center"
+      height="64"
+      padding="10"
+    >
+      <core-ui-icon name="arrow_back" size="28" (tapAction)="goBack()">
+      </core-ui-icon>
+      <StackLayout
+        horizontalAlignment="center"
+        verticalAlignment="center"
+        width="80%"
+      >
+        <Label
+          class="h3"
+          text="Accueil"
+          textWrap="true"
+          horizontalAlignment="center"
+        ></Label>
+      </StackLayout>
+    </StackLayout>
+    <Label
+      [text]="mainContentText"
+      textWrap="true"
+      class="drawerContentText"
+    ></Label>
+    <Button
+      text="OPEN DRAWER"
+      (tap)="openDrawer()"
+      class="drawerContentButton"
+    ></Button>
+  </StackLayout>
+</RadSideDrawer>
