@@ -1,0 +1,53 @@
+<StackLayout class="page-block ">
+  <nav-bar showDrawerButton="true" text="Profile"></nav-bar>
+  <ScrollView height="100%" hideActionBar>
+    <FlexboxLayout
+      height="100%"
+      width="100%"
+      flexDirection="column"
+      maxWidth="400"
+      alignItems="center"
+      alignContent="center"
+      justifyContent="center"
+    >
+      <StackLayout class="stack" padding="20">
+        <StackLayout #stack>
+          <Image
+            [src]="user.image"
+            width="90"
+            horizontalAlignment="center"
+            class="rounded-circle m-b-10"
+            alignSelf="center"
+          ></Image>
+          <core-ui-tf
+            hint="Identifiant"
+            keyboardType="email"
+            required="true"
+            [editable]="!formDisabled"
+            returnKeyType="done"
+            [(ngModel)]="user.username"
+            (returnPress)="onReturnPress($event)"
+            autocorrect="false"
+            customClass="m-b-20 m-t-10 text-field-outline"
+            iconPrefix="person"
+            customTextFieldClass="no-border p-10"
+          ></core-ui-tf>
+          <Button
+            class="btn btn-primary text-black"
+            height="64"
+            margin="0"
+            text="Enregistrer"
+            (tap)="(null)"
+            [nsRouterLink]="['/app-shell']"
+            pageTransition="slide"
+          ></Button>
+          <!-- <Label
+            text="Vous avez déjà un compte ?"
+            margin="0,10,0,10"
+            textWrap="true"
+          ></Label> -->
+        </StackLayout>
+      </StackLayout>
+    </FlexboxLayout>
+  </ScrollView>
+</StackLayout>

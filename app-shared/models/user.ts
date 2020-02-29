@@ -5,8 +5,10 @@ export interface UserRequest {
   confirmPassword: string;
 }
 
-export interface User {
+export interface IUser {
+  image: string;
   username: string;
-  email: string;
-  phone: string;
+  token?: string;
+  name: string;
+  email?: string;
 }

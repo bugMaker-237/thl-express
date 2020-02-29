@@ -16,8 +16,8 @@
     "lib": ["es6", "dom", "es2015.iterable"],
     "baseUrl": "./",
     "paths": {
-      "~/*": ["src/*"],
-      "*": ["./node_modules/*"],
+      "*": ["../app-client/node_modules/*"],
+      "~/*": ["./*"],
       "@apps.common/services": ["../submodules/apps-common/services/index.ts"],
       "@apps.common/models": ["../submodules/apps-common/models/index.ts"],
       "@apps.common/config": ["../submodules/apps-common/config/index.ts"],
@@ -25,6 +25,7 @@
       "@apps.common/modules": [
         "../submodules/apps-common/modules/mobile/index.ts"
       ]
-    }
+    },
+    "typeRoots": ["../app-client/node_modules/@types"]
   }
 }

@@ -1,26 +1,6 @@
-<StackLayout class="sign-up-block">
-  <StackLayout
-    orientation="horizontal"
-    verticalAlignment="center"
-    height="64"
-    padding="10"
-  >
-    <core-ui-icon name="arrow_back" size="28" (tapAction)="goBack()">
-    </core-ui-icon>
-    <StackLayout
-      horizontalAlignment="center"
-      verticalAlignment="center"
-      width="80%"
-    >
-      <Label
-        class="h3"
-        text="S'inscrire"
-        textWrap="true"
-        horizontalAlignment="center"
-      ></Label>
-    </StackLayout>
-  </StackLayout>
-  <ScrollView height="100%" hideActionBar>
+<StackLayout class="page-block  sign-up-block">
+  <nav-bar text="S'inscrire"></nav-bar>
+  <ScrollView height="100%">
     <FlexboxLayout
       height="100%"
       width="100%"
@@ -104,7 +84,7 @@
             margin="0"
             text="S'INSCRIRE"
             (tap)="(null)"
-            [nsRouterLink]="['/app-shell']"
+            [nsRouterLink]="['/verify-code']"
             pageTransition="slide"
           ></Button>
           <!-- <Label

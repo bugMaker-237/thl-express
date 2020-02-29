@@ -21,7 +21,10 @@
       "@root/*": ["../submodules/apps-common/*"],
       "@apps.common/services": ["../submodules/apps-common/services/index.ts"],
       "@apps.common/models": ["../submodules/apps-common/models/index.ts"],
+      "@apps.common/config": ["../submodules/apps-common/config/index.ts"],
+      "@apps.common/utils": ["../submodules/apps-common/utils/index.ts"],
       "@app.shared/models": ["../app-shared/models/index.ts"],
+      "@app.shared/services": ["../app-shared/services/index.ts"],
       "@apps.common/modules": [
         "../submodules/apps-common/modules/mobile/index.ts"
       ]

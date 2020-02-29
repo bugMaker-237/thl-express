@@ -1,0 +1,76 @@
+<StackLayout class="page-block">
+  <nav-bar text="Demandes pressing" showDrawerButton="true">
+    <StackLayout actions>
+      <core-ui-icon name="add" size="28" (tapAction)="goToAdd()">
+      </core-ui-icon>
+    </StackLayout>
+  </nav-bar>
+  <ScrollView class="pressing-list-block" height="100%">
+    <StackLayout>
+      <StackLayout *ngFor="let item of articles">
+        <MDCardView margin="10" elevation="10">
+          <StackLayout>
+            <GridLayout
+              class="p-b-5 p-t-10 p-l-10 p-r-10 m-b-5"
+              columns="*, auto"
+            >
+              <label class="m-l-5" [text]="item.date" row="0" col="0"></label>
+              <label
+                class="m-r-5"
+                [text]="item.price + ' FCFA'"
+                row="0"
+                col="1"
+              ></label>
+            </GridLayout>
+
+            <StackLayout
+              class="m-l-5 p-l-10 p-r-10 m-r-5 p-t-5 p-b-5 m-b-5 b-b-1 b-t-1"
+            >
+              <GridLayout
+                class="p-b-10"
+                columns="*, auto"
+                *ngFor="let a of item.cloths"
+              >
+                <label
+                  row="0"
+                  col="0"
+                  horizontalAlignment="left"
+                  colSpan="2"
+                  [text]="a.type + ' (' + a.quantity + ')'"
+                ></label>
+                <label
+                  row="0"
+                  col="1"
+                  [text]="a.price + ' FCFA'"
+                  row="0"
+                  col="1"
+                ></label>
+              </GridLayout>
+            </StackLayout>
+
+            <StackLayout orientation="horizontal">
+              <Button
+                width="100%"
+                *ngIf="!item.validated"
+                class="btn btn-accent text-white no-border"
+                height="48"
+                margin="0"
+                text="Modifier"
+                (tap)="(null)"
+              ></Button>
+              <Button
+                width="100%"
+                *ngIf="item.validated"
+                class="btn btn-primary text-black no-border"
+                height="48"
+                margin="0"
+                text="Payer"
+                (tap)="(null)"
+              ></Button>
+            </StackLayout>
+          </StackLayout>
+        </MDCardView>
+      </StackLayout>
+    </StackLayout>
+  </ScrollView>
+</StackLayout>
