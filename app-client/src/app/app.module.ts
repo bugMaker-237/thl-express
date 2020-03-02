@@ -3,31 +3,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { AppComponent } from './app.component';
 
-import { AuthModule } from '@apps.common/modules';
 import { CommonModule } from '@apps.common/modules';
-import { APP_CONFIG, IAppConfig } from '@apps.common/config';
-import { AuthService } from '@root/services';
-import { pages } from './pages';
-import { components } from './components';
+import { AppSharedModule } from '@app.shared/app-shared.module';
+import { AppShellComponent } from '@app.shared/components';
+import { pages } from './features';
 
-import { registerElement } from 'nativescript-angular/element-registry';
-
-registerElement(
-  'MapView',
-  () => require('nativescript-google-maps-sdk').MapView
-);
 @NgModule({
   bootstrap: [AppComponent],
-  imports: [NativeScriptModule, CommonModule, AppRoutingModule, AuthModule],
-  declarations: [AppComponent, ...components, ...pages],
+  imports: [
+    NativeScriptModule,
+    AppSharedModule,
+    CommonModule,
+    AppRoutingModule
+  ],
+  declarations: [AppComponent, AppShellComponent, ...pages],
   providers: [],
   schemas: [NO_ERRORS_SCHEMA]
 })
-export class AppModule {
-  constructor(
-    @Inject(APP_CONFIG) config: IAppConfig,
-    authService: AuthService
-  ) {
-    config.authorization.getToken = () => authService.token;
-  }
-}
+export class AppModule {}

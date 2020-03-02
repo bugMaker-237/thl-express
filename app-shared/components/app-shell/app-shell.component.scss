@@ -1,0 +1,21 @@
+.app-shell {
+
+  button {
+    font-size: 15;
+    horizontal-align: center;
+  }
+
+  RadSideDrawer .drawerContentText {
+    font-size: 13;
+    padding: 10;
+  }
+
+  .sideStackLayout {
+    background-color: #fafafa;
+  }
+
+  .sideTitleStackLayout {
+    text-align: center;
+    vertical-align: center;
+  }
+}

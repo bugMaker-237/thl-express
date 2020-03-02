@@ -1,0 +1,78 @@
+<StackLayout class="verify-code-block page-block ">
+  <nav-bar text="Validation"></nav-bar>
+  <ScrollView height="100%">
+    <StackLayout
+      #stack
+      padding="20"
+      maxWidth="400"
+      horizontalAlignment="center"
+    >
+      <Image
+        width="400"
+        src="~/assets/thl-logo.png"
+        margin="0,10,20,10"
+        alignSelf="center"
+      ></Image>
+      <Label
+        class="h3"
+        text="Verification du code"
+        textWrap="true"
+        horizontalAlignment="center"
+      ></Label>
+      <Label
+        class="m-t-10"
+        text="SVP, vérifiez vos SMS"
+        textWrap="true"
+        horizontalAlignment="center"
+      ></Label>
+      <Label
+        style="text-align: center;"
+        class="m-t-10"
+        text="Nous venons juste d'envoyer un SMS de vérification sur votre mobile"
+        textWrap="true"
+        horizontalAlignment="center"
+      ></Label>
+      <Label
+        class="m-t-10"
+        text="+237 697825762"
+        horizontalAlignment="center"
+        textWrap="true"
+      ></Label>
+      <TextField
+        width="100%"
+        textAlignment="center"
+        hint="- - - -"
+        keyboardType="number"
+        [(ngModel)]="verificationCode"
+        required="true"
+        [editable]="!formDisabled"
+        returnKeyType="done"
+        (returnPress)="onReturnPress($event)"
+        autocorrect="false"
+        class="m-b-2 p-b-10 m-t-20 font-bigger"
+        textTransform="capitalize"
+        textDecoration="underline"
+      ></TextField>
+      <StackLayout
+        orientation="horizontal"
+        class="m-b-20"
+        horizontalAlignment="center"
+      >
+        <Label text="Vous n'avez pas reçu le code ? " textWrap="true"></Label>
+
+        <Label class="text-primary" text=" Renvoyer" textWrap="true"></Label>
+      </StackLayout>
+
+      <Button
+        class="btn btn-primary text-black"
+        height="64"
+        margin="0"
+        text="VERIFIER"
+        (tap)="(null)"
+        clearHistory="true"
+        [nsRouterLink]="['/app-shell']"
+        pageTransition="slide"
+      ></Button>
+    </StackLayout>
+  </ScrollView>
+</StackLayout>

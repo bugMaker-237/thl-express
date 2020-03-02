@@ -1,0 +1,74 @@
+<RadSideDrawer
+  class="app-shell page-block "
+  tkExampleTitle
+  tkToggleNavButton
+  hideActionBar
+>
+  <GridLayout tkDrawerContent rows="200, *" backgroundColor="#fff">
+    <GridLayout
+      rows="30,*"
+      horizontalAlignment="center"
+      verticalAlignment="center"
+    >
+      <StackLayout row="0" horizontalAlignment="right" width="100%">
+        <core-ui-icon
+          horizontalAlignment="right"
+          col="0"
+          name="close"
+          size="28"
+          customClass="m-t-10 m-r-10"
+          (tapAction)="toggleDrawer(false)"
+        >
+        </core-ui-icon>
+      </StackLayout>
+      <StackLayout row="1">
+        <Image
+          [src]="user.image"
+          width="90"
+          horizontalAlignment="center"
+          class="rounded-circle m-b-10"
+        ></Image>
+        <Label
+          [text]="user.name"
+          horizontalAlignment="center"
+          class="m-b-5"
+        ></Label>
+        <Label
+          [text]="user.email"
+          textWrap="true"
+          horizontalAlignment="center"
+          class="m-b-20"
+        ></Label>
+      </StackLayout>
+    </GridLayout>
+    <ListView
+      row="1"
+      (itemTap)="openPage($event)"
+      [items]="menus"
+      class="list-group sideStackLayout"
+    >
+      <ng-template let-item="item" let-i="index">
+        <GridLayout columns="auto,*,auto" pageTransition="slideRight">
+          <StackLayout col="0" verticalAlignment="center">
+            <core-ui-icon [name]="item.icon" customClass="p-l-10" size="24">
+            </core-ui-icon>
+          </StackLayout>
+          <Label col="1" class="list-group-item" [text]="item.name"></Label>
+          <StackLayout col="2" verticalAlignment="center">
+            <core-ui-icon
+              name="arrow_forward"
+              backColor="white"
+              size="16"
+              customClass="p-r-10"
+            >
+            </core-ui-icon>
+          </StackLayout>
+          <!--  -->
+        </GridLayout>
+      </ng-template>
+    </ListView>
+  </GridLayout>
+  <StackLayout tkMainContent>
+    <page-router-outlet> </page-router-outlet>
+  </StackLayout>
+</RadSideDrawer>

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { NativeScriptRouterModule } from 'nativescript-angular/router';
 import { Routes } from '@angular/router';
-import { AppShellComponent } from './components/app-shell/app-shell.component';
-import { authRoutes, appRoutes } from './pages';
+import { AppShellComponent } from '@app.shared/components';
+import { authRoutes, appRoutes } from './features';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },

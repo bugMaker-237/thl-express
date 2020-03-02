@@ -1,0 +1,146 @@
+<StackLayout class="page-block">
+  <nav-bar text="Détails de l'historique"> </nav-bar>
+  <ScrollView class="history-details" height="100%">
+    <StackLayout>
+      <GridLayout height="200">
+        <MapView
+          [latitude]="history.latitude"
+          [longitude]="history.longitude"
+          [zoom]="20"
+        ></MapView>
+      </GridLayout>
+      <StackLayout class="p-l-10 p-r-10">
+        <GridLayout
+          class="m-t-20 m-b-20 m-l-10 m-r-10 p-b-10 b-b-1 b-thin"
+          columns="*, auto"
+        >
+          <label
+            verticalAlignment="center"
+            class="h4"
+            [text]="history.date"
+            row="0"
+            col="0"
+          ></label>
+          <label
+            verticalAlignment="center"
+            [text]="history.state"
+            row="0"
+            col="1"
+          ></label>
+        </GridLayout>
+
+        <GridLayout
+          class="p-l-10 p-r-10 m-b-5"
+          orientation="horizontal"
+          columns="50, *"
+        >
+          <StackLayout col="0">
+            <core-ui-icon rotate="180" name="navigation" size="16">
+            </core-ui-icon>
+            <Label class="dotted" text="" textWrap="true"></Label>
+          </StackLayout>
+
+          <label
+            col="1"
+            [text]="history.start"
+            class="p-b-5 b-b-1 b-thin"
+          ></label>
+        </GridLayout>
+        <GridLayout
+          class="p-l-10 p-r-10 p-b-5 m-b-5"
+          orientation="horizontal"
+          verticalAlignment="center"
+          columns="50, *"
+        >
+          <StackLayout col="0">
+            <Label class="dotted" text="" textWrap="true"></Label>
+            <core-ui-icon
+              name="panorama_fish_eye"
+              backColor="primary"
+              size="16"
+            >
+            </core-ui-icon>
+          </StackLayout>
+
+          <label class="p-t-5" col="1" [text]="history.end"></label>
+        </GridLayout>
+      </StackLayout>
+      <StackLayout class="bg-primary">
+        <Button
+          width="100%"
+          class="btn btn-primary text-black btn-flat text-white"
+          height="48"
+          margin="0"
+          style="text-align: center;"
+          text="NOTER"
+        ></Button>
+      </StackLayout>
+      <StackLayout class="p-l-10 p-r-10">
+        <GridLayout
+          class="m-t-20 m-b-20 m-l-10 m-r-10 p-b-10 b-b-1 b-thin"
+          columns="*, auto"
+        >
+          <label text="Prix" row="0" col="0" class="h4"></label>
+        </GridLayout>
+        <GridLayout
+          class="m-l-10 m-r-10 m-b-5 p-b-5 b-b-1 b-thin"
+          columns="*, auto"
+        >
+          <label [text]="history.paimentMethod" row="0" col="0"></label>
+          <label [text]="history.price + ' FCFA'" row="0" col="1"></label>
+        </GridLayout>
+        <GridLayout rows="auto,auto" columns="*,auto" class="m-b-20 p-10">
+          <StackLayout
+            class="m-b-10"
+            orientation="horizontal"
+            row="0"
+            col="0"
+            colSpan="2"
+          >
+            <Image
+              [src]="history.driver.picture"
+              class="raduis-5"
+              width="70"
+              height="70"
+            ></Image>
+            <StackLayout margin="20">
+              <Label
+                class="h4"
+                [text]="history.driver.firstName"
+                textWrap="true"
+              ></Label>
+              <Label
+                class="h4"
+                [text]="history.driver.lastName"
+                textWrap="true"
+              ></Label>
+            </StackLayout>
+          </StackLayout>
+          <StackLayout row="1" col="0">
+            <Label text="Immatriculation: " textWrap="true"></Label>
+            <Label
+              [text]="history.driver.immatriculation"
+              textWrap="true"
+            ></Label>
+          </StackLayout>
+          <StackLayout row="1" col="1">
+            <Label text="Typde de course: " textWrap="true"></Label>
+            <Label [text]="history.driver.driveType" textWrap="true"></Label>
+          </StackLayout>
+        </GridLayout>
+      </StackLayout>
+      <StackLayout class="bg-accent">
+        <Button
+          width="100%"
+          class="btn btn-accent btn-flat text-white"
+          height="48"
+          margin="0"
+          [nsRouterLink]="['/app-shell/history/complain']"
+          pageTransition="fade"
+          style="text-align: center;"
+          text="SE PLAINDRE"
+        ></Button>
+      </StackLayout>
+    </StackLayout>
+  </ScrollView>
+</StackLayout>

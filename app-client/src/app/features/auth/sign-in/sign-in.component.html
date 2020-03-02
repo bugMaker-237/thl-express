@@ -1,0 +1,64 @@
+<StackLayout class="page-block">
+  <nav-bar text="Se connecter"></nav-bar>
+  <ScrollView height="100%" class="sign-in-block">
+    <StackLayout class="stack" padding="20" maxWidth="400">
+      <StackLayout #stack>
+        <Image
+          width="400"
+          src="~/assets/thl-logo.png"
+          margin="0,10,20,10"
+          alignSelf="center"
+        ></Image>
+        <core-ui-tf
+          hint="Identifiant"
+          keyboardType="email"
+          required="true"
+          [editable]="!formDisabled"
+          returnKeyType="done"
+          [(ngModel)]="username"
+          (returnPress)="onReturnPress($event)"
+          autocorrect="false"
+          customClass="m-b-20 m-t-10 text-field-outline"
+          iconPrefix="person"
+          customTextFieldClass="no-border p-10"
+        ></core-ui-tf>
+
+        <core-ui-tf
+          hint="Mot de passe"
+          [(ngModel)]="password"
+          [secure]="!viewPassword"
+          required="true"
+          [editable]="!formDisabled"
+          returnKeyType="done"
+          (returnPress)="onReturnPress($event)"
+          autocorrect="false"
+          customClass="m-b-20 m-t-10 text-field-outline"
+          customTextFieldClass="no-border p-10"
+          [iconSuffix]="viewPassword ? 'visibility_off' : 'visibility'"
+          iconPrefix="lock"
+          (iconSuffixTapAction)="viewPassword = !viewPassword"
+        ></core-ui-tf>
+
+        <Button
+          class="btn btn-primary text-black"
+          height="64"
+          margin="0"
+          text="Se connecter"
+          (tap)="(null)"
+          clearHistory="true"
+          [nsRouterLink]="['/app-shell']"
+          pageTransition="slide"
+        ></Button>
+        <Button
+          class="btn btn-accent text-white"
+          height="64"
+          margin="0"
+          text="S'inscrire"
+          (tap)="(null)"
+          [nsRouterLink]="['/sign-up']"
+          pageTransition="slide"
+        ></Button>
+      </StackLayout>
+    </StackLayout>
+  </ScrollView>
+</StackLayout>

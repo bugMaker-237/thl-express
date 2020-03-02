@@ -1,0 +1,80 @@
+<StackLayout class="page-block">
+  <nav-bar text="Demandes pressing" showDrawerButton="true">
+    <StackLayout actions>
+      <core-ui-icon name="add" size="28" (tapAction)="goToAdd()">
+      </core-ui-icon>
+    </StackLayout>
+  </nav-bar>
+  <ScrollView class="pressing-list-block" height="100%">
+    <StackLayout>
+      <CardView
+        margin="10"
+        elevation="20"
+        class="m-l-20 m-r-20 m-t-5 m-b-5"
+        *ngFor="let item of articles"
+      >
+        <StackLayout>
+          <GridLayout
+            class="m-t-20 m-b-20 m-l-10 m-r-10 p-b-10 b-b-1 b-thin"
+            columns="*, auto"
+          >
+            <label
+              verticalAlignment="center"
+              class="h4"
+              [text]="item.date"
+              row="0"
+              col="0"
+            ></label>
+            <label
+              verticalAlignment="center"
+              [text]="item.price + ' FCFA'"
+              row="0"
+              col="1"
+            ></label>
+          </GridLayout>
+
+          <StackLayout class="p-l-10 p-r-10 p-t-5 p-b-5 m-b-5">
+            <GridLayout
+              class="p-b-10"
+              columns="*, auto"
+              *ngFor="let a of item.cloths"
+            >
+              <label
+                row="0"
+                col="0"
+                horizontalAlignment="left"
+                colSpan="2"
+                [text]="a.type + ' (' + a.quantity + ')'"
+              ></label>
+              <label row="0" col="1" [text]="a.price + ' FCFA'"></label>
+            </GridLayout>
+          </StackLayout>
+
+          <StackLayout
+            orientation="horizontal"
+            [class]="!item.validated ? 'bg-accent' : 'bg-primary'"
+          >
+            <Button
+              width="100%"
+              *ngIf="!item.validated"
+              class="btn btn-accent text-white btn-flat"
+              height="48"
+              margin="0"
+              style="text-align: center;"
+              text="MODIFIER"
+            ></Button>
+            <Button
+              width="100%"
+              *ngIf="item.validated"
+              class="btn btn-primary text-black btn-flat"
+              height="48"
+              margin="0"
+              style="text-align: center;"
+              text="PAYER"
+            ></Button>
+          </StackLayout>
+        </StackLayout>
+      </CardView>
+    </StackLayout>
+  </ScrollView>
+</StackLayout>

@@ -6,9 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, IAppConfig } from '@apps.common/config';
 import { GenericSubjects, LocalStorageService } from '@apps.common/services';
 import { UserRequest, IUser } from '../models';
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService extends HttpService {
   constructor(
     protected http: HttpClient,

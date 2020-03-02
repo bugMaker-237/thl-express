@@ -18,6 +18,21 @@ android {
     additionalParameters "--no-version-vectors"
   }
   project.ext {
-    //googlePlayServicesVersion = "11.2.2"
-}
+    googlePlayServicesVersion = "+"
+  }
+  defaultConfig { 
+    //override supported platforms
+    ndk {
+           abiFilters.clear()
+    }
+  } 
+  splits {
+    abi {
+      enable true //enables the ABIs split mechanism
+      reset() //reset the list of ABIs to be included to an empty string
+      //include 'arm64-v8a', 'armeabi-v7a', 'x86'
+      include 'x86'
+      universalApk false
+    }
+  }
 }
