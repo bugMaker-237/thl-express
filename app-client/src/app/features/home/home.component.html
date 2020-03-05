@@ -1,80 +1,143 @@
 <StackLayout class="page-block home-block">
-  <nav-bar showDrawerButton="true" text="Accueil"></nav-bar>
-  <AbsoluteLayout height="100%">
-    <GridLayout height="100%" width="100%">
-      <MapView
-        [latitude]="latitude"
-        [longitude]="longitude"
-        [zoom]="zoom"
-        [minZoom]="minZoom"
-        [maxZoom]="maxZoom"
-        [bearing]="bearing"
-        [tilt]="tilt"
-        i-padding="50,50,50,50"
-        [padding]="padding"
-        (mapReady)="onMapReady($event)"
-        (markerSelect)="onMarkerEvent($event)"
-        (markerBeginDragging)="onMarkerEvent($event)"
-        (markerEndDragging)="onMarkerEvent($event)"
-        (markerDrag)="onMarkerEvent($event)"
-        (markerInfoWindowTapped)="onMarkerEvent($event)"
-        (coordinateTapped)="onCoordinateTapped($event)"
-        (cameraChanged)="onCameraChanged($event)"
-        (cameraMove)="onCameraMove($event)"
-      ></MapView>
-    </GridLayout>
-    <GridLayout width="100%" class="p-5">
-      <CardView class="m-20" elevation="20" raduis="10">
-        <GridLayout class="raduis-5 p-t-10 p-b-10 p-l-5 p-r-5" rows="auto,auto">
-          <GridLayout row="0" columns="50, *">
-            <StackLayout col="0">
-              <core-ui-icon
-                customClass="m-t-10"
-                name="navigation"
-                rotate="180"
-                size="16"
-              >
-              </core-ui-icon>
-              <Label
-                backgroundColor="red"
-                class="dotted"
-                text=""
-                textWrap="true"
-              ></Label>
-            </StackLayout>
-            <core-ui-tf
-              col="1"
-              hint="Point de départ"
-              [(ngModel)]="endPoint"
-              autocorrect="false"
-              customClass="b-b-1"
-              iconSuffix="close"
-              customTextFieldClass="no-border"
-            ></core-ui-tf>
+  <nav-bar showDrawerButton="true" text="Définir un trajet"></nav-bar>
+  <DockLayout height="100%" stretchLastChild="true">
+    <StackLayout dock="bottom" width="100%" class="bg-primary">
+      <Button
+        width="100%"
+        #orderTrip
+        class="btn btn-primary btn-flat text-black"
+        height="0"
+        margin="0"
+        style="text-align: center;"
+        text="Commander une course"
+      ></Button>
+    </StackLayout>
+    <StackLayout dock="bottom" width="100%">
+      <StackLayout class="bg-primary">
+        <Button
+          width="100%"
+          #orderTrip
+          class="btn btn-primary btn-flat text-black"
+          height="0"
+          margin="0"
+          style="text-align: center;"
+          text="Commander une course"
+        ></Button>
+      </StackLayout>
+    </StackLayout>
+    <AbsoluteLayout height="100%">
+      <GridLayout height="100%" width="100%">
+        <MapView
+          [latitude]="latitude"
+          [longitude]="longitude"
+          [zoom]="zoom"
+          [minZoom]="minZoom"
+          [maxZoom]="maxZoom"
+          [bearing]="bearing"
+          [tilt]="tilt"
+          i-padding="50,50,50,50"
+          [padding]="padding"
+          (mapReady)="onMapReady($event)"
+          (markerSelect)="onMarkerEvent($event)"
+          (markerBeginDragging)="onMarkerEvent($event)"
+          (markerEndDragging)="onMarkerEvent($event)"
+          (markerDrag)="onMarkerEvent($event)"
+          (markerInfoWindowTapped)="onMarkerEvent($event)"
+          (coordinateTapped)="onCoordinateTapped($event)"
+          (cameraChanged)="onCameraChanged($event)"
+          (cameraMove)="onCameraMove($event)"
+        ></MapView>
+      </GridLayout>
+      <GridLayout width="100%" class="p-5">
+        <CardView class="m-20" elevation="20" raduis="10">
+          <GridLayout
+            class="raduis-5 p-t-10 p-b-10 p-l-5 p-r-5"
+            rows="auto,auto"
+          >
+            <GridLayout row="0" columns="50, *">
+              <StackLayout col="0">
+                <core-ui-icon
+                  customClass="m-t-10"
+                  name="navigation"
+                  rotate="180"
+                  size="16"
+                >
+                </core-ui-icon>
+                <Label
+                  backgroundColor="red"
+                  class="dotted"
+                  text=""
+                  textWrap="true"
+                ></Label>
+              </StackLayout>
+              <StackLayout col="1" class="b-b-1">
+                <RadAutoCompleteTextView
+                  #autocomplete1
+                  completionMode="Contains"
+                  displayMode="plain"
+                  hint="Point de départ"
+                  class="no-border"
+                  (textChanged)="onTextChanged($event)"
+                  (didAutoComplete)="onDidAutoComplete($event, 0)"
+                >
+                  <SuggestionView
+                    tkAutoCompleteSuggestionView
+                    suggestionViewHeight="300"
+                  >
+                    <ng-template tkSuggestionItemTemplate let-item="item">
+                      <GridLayout columns="30,*" padding="10">
+                        <StackLayout col="0 m-l-10">
+                          <core-ui-icon name="location_on" size="16">
+                          </core-ui-icon>
+                        </StackLayout>
+                        <Label col="1" [text]="item.text"></Label>
+                      </GridLayout>
+                    </ng-template>
+                  </SuggestionView>
+                </RadAutoCompleteTextView>
+              </StackLayout>
+            </GridLayout>
+            <GridLayout row="1" columns="50, *">
+              <StackLayout col="0">
+                <Label class="dotted" text="" textWrap="true"></Label>
+                <core-ui-icon
+                  customClass="m-b-10"
+                  name="panorama_fish_eye"
+                  backColor="primary"
+                  size="16"
+                >
+                </core-ui-icon>
+              </StackLayout>
+              <StackLayout col="1">
+                <RadAutoCompleteTextView
+                  #autocomplete2
+                  completionMode="Contains"
+                  displayMode="plain"
+                  hint="Point d'arrivé"
+                  class="no-border"
+                  (textChanged)="onTextChanged($event)"
+                  (didAutoComplete)="onDidAutoComplete($event, 1)"
+                >
+                  <SuggestionView
+                    tkAutoCompleteSuggestionView
+                    suggestionViewHeight="300"
+                  >
+                    <ng-template tkSuggestionItemTemplate let-item="item">
+                      <GridLayout columns="30,*" padding="10">
+                        <StackLayout col="0 m-l-10">
+                          <core-ui-icon name="location_on" size="16">
+                          </core-ui-icon>
+                        </StackLayout>
+                        <Label col="1" [text]="item.text"></Label>
+                      </GridLayout>
+                    </ng-template>
+                  </SuggestionView>
+                </RadAutoCompleteTextView>
+              </StackLayout>
+            </GridLayout>
           </GridLayout>
-          <GridLayout row="1" columns="50, *">
-            <StackLayout col="0">
-              <Label class="dotted" text="" textWrap="true"></Label>
-              <core-ui-icon
-                customClass="m-b-10"
-                name="panorama_fish_eye"
-                backColor="primary"
-                size="16"
-              >
-              </core-ui-icon>
-            </StackLayout>
-            <core-ui-tf
-              col="1"
-              hint="Point d'arrivé"
-              [(ngModel)]="endPoint"
-              autocorrect="false"
-              customClass=""
-              iconSuffix="close"
-              customTextFieldClass="no-border"
-            ></core-ui-tf>
-          </GridLayout>
-        </GridLayout>
-      </CardView>
-    </GridLayout>
-  </AbsoluteLayout>
+        </CardView>
+      </GridLayout>
+    </AbsoluteLayout>
+  </DockLayout>
 </StackLayout>

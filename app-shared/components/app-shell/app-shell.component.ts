@@ -25,7 +25,7 @@ export class AppShellComponent implements AfterViewInit, OnInit {
   };
   public menus = [
     {
-      name: 'Accueil',
+      name: 'Service VIP',
       icon: 'home',
       link: '/app-shell/home'
     },
