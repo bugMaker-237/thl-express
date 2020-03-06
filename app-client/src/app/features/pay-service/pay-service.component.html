@@ -1,0 +1,116 @@
+<StackLayout class="pay-service page-block">
+  <nav-bar text="Payer le service"> </nav-bar>
+  <ScrollView class="history-list" height="100%">
+    <StackLayout>
+      <CardView class="m-l-20 m-r-20 m-b-20 p-b-10" elevation="20">
+        <StackLayout class="p-10">
+          <GridLayout
+            class="m-t-20 m-b-20 m-l-10 m-r-10 p-b-10 b-b-1 b-thin"
+            columns="*, auto"
+          >
+            <label
+              verticalAlignment="center"
+              class="h4"
+              text="Information sur le service"
+              row="0"
+              col="0"
+            ></label>
+            <label
+              verticalAlignment="center"
+              [text]="service.price + ' FCFA'"
+              row="0"
+              col="1"
+            ></label>
+          </GridLayout>
+
+          <GridLayout
+            class="p-l-10 p-r-10 m-b-5"
+            orientation="horizontal"
+            columns="50, *"
+          >
+            <StackLayout col="0">
+              <core-ui-icon rotate="180" name="navigation" size="16">
+              </core-ui-icon>
+              <Label class="dotted" text="" textWrap="true"></Label>
+            </StackLayout>
+
+            <label
+              col="1"
+              [text]="service.origin"
+              class="p-b-5 b-b-1 b-thin"
+            ></label>
+          </GridLayout>
+          <GridLayout
+            class="p-l-10 p-r-10 p-b-5 m-b-5"
+            orientation="horizontal"
+            verticalAlignment="center"
+            columns="50, *"
+          >
+            <StackLayout col="0">
+              <Label class="dotted" text="" textWrap="true"></Label>
+              <core-ui-icon
+                name="panorama_fish_eye"
+                backColor="primary"
+                size="16"
+              >
+              </core-ui-icon>
+            </StackLayout>
+
+            <label class="p-t-5" col="1" [text]="service.destination"></label>
+          </GridLayout>
+        </StackLayout>
+      </CardView>
+      <StackLayout class="m-20">
+        <label
+          verticalAlignment="center"
+          class="h4"
+          text="Information sur le payeur"
+          row="0"
+          col="0"
+        ></label>
+        <core-ui-tf
+          hint="Nom"
+          required="true"
+          [editable]="!formDisabled"
+          returnKeyType="done"
+          [(ngModel)]="buyer.lastName"
+          autocorrect="false"
+          customClass="m-b-20 m-t-10 text-field-outline"
+          iconPrefix="person"
+          customTextFieldClass="no-border p-10"
+        ></core-ui-tf>
+        <core-ui-tf
+          hint="Prenom"
+          required="true"
+          [editable]="!formDisabled"
+          returnKeyType="done"
+          [(ngModel)]="buyer.firstName"
+          autocorrect="false"
+          customClass="m-b-20 m-t-10 text-field-outline"
+          iconPrefix="person"
+          customTextFieldClass="no-border p-10"
+        ></core-ui-tf>
+        <core-ui-tf
+          hint="Prenom"
+          required="true"
+          keyboardType="phone"
+          [editable]="!formDisabled"
+          returnKeyType="done"
+          [(ngModel)]="buyer.phone"
+          autocorrect="false"
+          customClass="m-b-20 m-t-10 text-field-outline"
+          iconPrefix="phone"
+          customTextFieldClass="no-border p-10"
+        ></core-ui-tf>
+
+        <Button
+          class="btn btn-accent text-white"
+          height="64"
+          margin="0"
+          text="Payer"
+          (tap)="(null)"
+        ></Button>
+      </StackLayout>
+    </StackLayout>
+  </ScrollView>
+</StackLayout>

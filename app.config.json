@@ -10,8 +10,8 @@
     "anonymousRoutes": ["/sign-in", "/check-username"]
   },
   "apiEndpoints": {
-    "user": {
-      "serviceName": "user",
+    "only": {
+      "serviceName": "only",
       "servicePath": "d16c7050.ngrok.io/",
       "version": "0.0.1"
     }

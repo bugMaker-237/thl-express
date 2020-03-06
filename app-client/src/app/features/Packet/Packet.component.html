@@ -1,0 +1,48 @@
+<StackLayout class="packet-block page-block">
+  <nav-bar text="Transporter un colis" showDrawerButton="true"></nav-bar>
+  <ScrollView class="stack" height="100%">
+    <StackLayout padding="20">
+      <Button [text]="selectedType" (tap)="choosePacketType()"></Button>
+
+      <core-ui-tf
+        hint="Valeur en CFA"
+        [(ngModel)]="packet.value"
+        required="true"
+        keyboardType="number"
+        [editable]="!formDisabled"
+        autocorrect="false"
+        customClass="m-b-20 m-t-10 text-field-outline"
+        customTextFieldClass="no-border p-10"
+      ></core-ui-tf>
+      <core-ui-tf
+        hint="Nom du receveur"
+        [(ngModel)]="packet.receiverName"
+        required="true"
+        keyboardType="number"
+        [editable]="!formDisabled"
+        autocorrect="false"
+        customClass="m-b-20 m-t-10 text-field-outline"
+        customTextFieldClass="no-border p-10"
+      ></core-ui-tf>
+      <core-ui-tf
+        keyboardType="phone"
+        hint="Telephone du receveur"
+        [(ngModel)]="packet.receiverName"
+        required="true"
+        keyboardType="number"
+        [editable]="!formDisabled"
+        autocorrect="false"
+        customClass="m-b-20 m-t-10 text-field-outline"
+        customTextFieldClass="no-border p-10"
+      ></core-ui-tf>
+
+      <Button
+        class="btn btn-accent text-white"
+        height="64"
+        margin="0"
+        text="Enregistrer"
+        (tap)="save()"
+      ></Button>
+    </StackLayout>
+  </ScrollView>
+</StackLayout>

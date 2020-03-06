@@ -17,7 +17,6 @@
     "baseUrl": "./",
     "paths": {
       "*": ["../app-client/node_modules/*"],
-      "~/*": ["./*"],
       "@apps.common/services": ["../submodules/apps-common/services/index.ts"],
       "@apps.common/models": ["../submodules/apps-common/models/index.ts"],
       "@apps.common/config": ["../submodules/apps-common/config/index.ts"],

@@ -41,32 +41,33 @@
         ></Label>
       </StackLayout>
     </GridLayout>
-    <ListView
-      row="1"
-      (itemTap)="openPage($event)"
-      [items]="menus"
-      class="list-group sideStackLayout"
-    >
-      <ng-template let-item="item" let-i="index">
-        <GridLayout columns="auto,*,auto" pageTransition="slideRight">
-          <StackLayout col="0" verticalAlignment="center">
-            <core-ui-icon [name]="item.icon" customClass="p-l-10" size="24">
-            </core-ui-icon>
-          </StackLayout>
-          <Label col="1" class="list-group-item" [text]="item.name"></Label>
-          <StackLayout col="2" verticalAlignment="center">
-            <core-ui-icon
-              name="arrow_forward"
-              backColor="white"
-              size="16"
-              customClass="p-r-10"
-            >
-            </core-ui-icon>
-          </StackLayout>
-          <!--  -->
-        </GridLayout>
-      </ng-template>
-    </ListView>
+    <ScrollView row="1" height="100%">
+      <ListView
+        (itemTap)="openPage($event)"
+        [items]="menus"
+        class="list-group sideStackLayout"
+      >
+        <ng-template let-item="item" let-i="index">
+          <GridLayout columns="auto,*,auto" pageTransition="slideRight">
+            <StackLayout col="0" verticalAlignment="center">
+              <core-ui-icon [name]="item.icon" customClass="p-l-10" size="24">
+              </core-ui-icon>
+            </StackLayout>
+            <Label col="1" class="list-group-item" [text]="item.name"></Label>
+            <StackLayout col="2" verticalAlignment="center">
+              <core-ui-icon
+                name="arrow_forward"
+                backColor="white"
+                size="16"
+                customClass="p-r-10"
+              >
+              </core-ui-icon>
+            </StackLayout>
+            <!--  -->
+          </GridLayout>
+        </ng-template>
+      </ListView>
+    </ScrollView>
   </GridLayout>
   <StackLayout tkMainContent>
     <page-router-outlet> </page-router-outlet>

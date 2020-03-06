@@ -2,7 +2,7 @@ import { PressingComponent } from './pressing/pressing.component';
 import { PressingListComponent } from './pressing/pressing-list/pressing-list.component';
 import { PressingNewComponent } from './pressing/pressing-new/pressing-new.component';
 import { ProfilComponent } from './profil/profil.component';
-import { HomeComponent } from './home/home.component';
+import { MapComponent } from './map/map.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
@@ -12,20 +12,24 @@ import { HistoryComponent } from './history/history.component';
 import { HistoryListComponent } from './history/history-list/history-list.component';
 import { HistoryDetailsComponent } from './history/history-details/history-details.component';
 import { ComplainComponent } from './complain/complain.component';
+import { PayServiceComponent } from './pay-service/pay-service.component';
+import { PacketComponent } from './Packet/Packet.component';
 
 export const pages = [
   SignInComponent,
   SignUpComponent,
   VerifyCodeComponent,
   ProfilComponent,
-  HomeComponent,
+  MapComponent,
   PressingComponent,
   PressingListComponent,
   PressingNewComponent,
   HistoryComponent,
   HistoryDetailsComponent,
   HistoryListComponent,
-  ComplainComponent
+  ComplainComponent,
+  PayServiceComponent,
+  PacketComponent
 ];
 
 export const authRoutes: Routes = [
@@ -36,8 +40,8 @@ export const authRoutes: Routes = [
 
 export const appRoutes: Routes = [
   {
-    path: 'home',
-    component: HomeComponent
+    path: 'map',
+    component: MapComponent
   },
   {
     path: 'profil',
@@ -46,6 +50,14 @@ export const appRoutes: Routes = [
   {
     path: 'complain',
     component: ComplainComponent
+  },
+  {
+    path: 'pay-service',
+    component: PayServiceComponent
+  },
+  {
+    path: 'packet',
+    component: PacketComponent
   },
   {
     path: 'pressing',

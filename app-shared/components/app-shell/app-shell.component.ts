@@ -27,7 +27,12 @@ export class AppShellComponent implements AfterViewInit, OnInit {
     {
       name: 'Service VIP',
       icon: 'home',
-      link: '/app-shell/home'
+      link: '/app-shell/map'
+    },
+    {
+      name: 'Service Colis',
+      icon: 'business_center',
+      link: '/app-shell/packet'
     },
     {
       name: 'Profile',

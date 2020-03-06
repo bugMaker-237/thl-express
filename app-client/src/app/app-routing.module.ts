@@ -11,7 +11,7 @@ const routes: Routes = [
     path: 'app-shell',
     component: AppShellComponent,
     children: [
-      { path: '', redirectTo: '/app-shell/home', pathMatch: 'full' },
+      { path: '', redirectTo: '/app-shell/map', pathMatch: 'full' },
       ...appRoutes
     ]
   },

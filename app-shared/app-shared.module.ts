@@ -8,6 +8,7 @@ import { CommonModule } from '@apps.common/modules';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 
 import { registerElement } from 'nativescript-angular/element-registry';
+import { DriverService } from './services/driver.service';
 
 registerElement(
   'MapView',
@@ -18,7 +19,7 @@ registerElement(
   imports: [NativeScriptModule, CommonModule],
   declarations: [...components],
   exports: [...components],
-  providers: [AuthService],
+  providers: [AuthService, DriverService],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppSharedModule {

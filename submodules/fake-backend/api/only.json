@@ -1,0 +1,132 @@
+[
+  {
+    "path": "/login",
+    "requests": [
+      {
+        "method": "POST",
+        "body": {
+          "email": "hi@fa.ke",
+          "password": "#bug@maker"
+        },
+        "reponse": {
+          "contentType": "application/json",
+          "status": 200,
+          "body": {
+            "message": "Connexion réussie",
+            "status": 200,
+            "data": {
+              "user": {
+                "id": 2,
+                "name": "Bug Maker",
+                "phone": "697825762",
+                "email": "hi@fa.ke",
+                "last_login": "2020-03-06 00:00:00",
+                "role": "client",
+                "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTk0MDYzYzJhZWIzNjE5MWM2OWNhODJiYTBjZWNiZTg4NmQ1ZGYzNDQ3NTI5NmY5ZTA0ZmUzYmViYTJlZmJiYzJhYjExNjNmYWQ3ZTg4YzMiLCJpYXQiOjE1ODM0NjY3ODIsIm5iZiI6MTU4MzQ2Njc4MiwiZXhwIjoxNjE1MDAyNzgyLCJzdWIiOiIyIiwic2NvcGVzIjpbImNsaWVudCJdfQ.PPgpj1aWQhzdi1CkBfIVTIWlxdER_m1fvn0pTml3N83GKMoyqZxE4AfCiXjNP-D-TcCHIbE0ptZZBwiFNh75prMgy7Wji6eKdnQMCmYZcC_OL_DuRzojRCY3iV-eGiW8oz7W2oAjo_my3PlvyqhDWEV12Mg-R2eg2CnOV-0w3O3MBb_vhaFcBJnTkwX4WRjNQviB6a1q_gjMJqJ5biNe6jR0E5fM2-9UM_Xb7UiaCxSCOw_rqv-RaS4La-Z3Wy8Qw5d3k4d2Q1rdvRD3O6lKtzDzgWcwIFKTjU109VjlyMTWdn6P9gh86V6ZBdVwJ1TCNx8eoobffLKnLWcubT5rStlmMBb_aULTtJ5l0mXXDl_lhhJpXJPUKI9VJD3S25uMDzycYC0HKs8Xexqp1gYgGNjytOzHMEp8iXCX4TACHOzyZZI912m0gTv3--HxD6PieT_B3Y-mwBGKfjAzcsqwurHYWrNdRYFVF4q3rMwnI4hCA0xuaxdT-Q5isIGgulPansyninABj5k3ywT7ykcGkd_vR2UIrpzJoCGFxK-2BDFIKFdpnM49dFV6OpUqrlxGr1GSYdch4QxPD81zweEaZFxqaxDmTf5zwUIye9IfBlNd2iDxYODLemF4UNslbZlFlnzPhKCvrHgLOgAEnKOHdjsF8yBoCXDh5eYp-nWT_1g",
+                "active": 1,
+                "suspend": 0,
+                "delete": 0,
+                "created_at": "2020-03-06 03:50:28",
+                "updated_at": "2020-03-06 03:50:43"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "path": "/register",
+    "requests": [
+      {
+        "method": "POST",
+        "body": {
+          "email": "client@gmail.com",
+          "phone": "+237 697825762",
+          "name": "bugmaker",
+          "password": "bug@maker",
+          "confirm_password": "bug@maker"
+        },
+        "reponse": {
+          "contentType": "text/plain",
+          "status": 200,
+          "body": {
+            "errors": {
+              "email": ["The email has already been taken."],
+              "phone": ["The phone must be a number."]
+            },
+            "status": 610
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "body": {
+          "email": "bug@maker.fake",
+          "phone": 697825762,
+          "name": "bugmaker",
+          "password": "bug@maker",
+          "confirm_password": "bug@maker"
+        },
+        "reponse": {
+          "contentType": "text/plain",
+          "status": 200,
+          "body": {
+            "message": "Votre compte a été crée avec success. Validez le avec le code recu par SMS",
+            "status": 200,
+            "data": {
+              "user": {
+                "name": "the buggy",
+                "email": "buggy@fa.ke",
+                "role": "client",
+                "phone": 679487211,
+                "active": 0,
+                "verify_code": 78699,
+                "code_expire": "2020-03-06T04:29:24.684562Z",
+                "updated_at": "2020-03-06 04:23:24",
+                "created_at": "2020-03-06 04:23:24",
+                "id": 9,
+                "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYWJjNWQxNTg1ODUyMmM4MzI1Y2JiOTk5ZDM0NTI4NDc4MTA5ODE4ZjVmZGVmYjY3YWRiNjc2ZjNhZDUxOGE1NThhMmJkNmRmMzA1OTRiOTciLCJpYXQiOjE1ODM0Njg2MDUsIm5iZiI6MTU4MzQ2ODYwNSwiZXhwIjoxNjE1MDA0NjA1LCJzdWIiOiI5Iiwic2NvcGVzIjpbImNsaWVudCJdfQ.GjbAr6HkBtOxQAsunb8bxtFpkDPMG2yeXGsJtm46KCz7gQUOURIErKdNeQGnXTvuNhHNbUh4bUbaHjN5-ZBgdSnkcAJaKSxR_Ot59axmIJUvzznS0ymoJMRR-CAqKhIjl2YuVyvWNyyaxc1hJTRh_Gf9k5LwCdJ5KFxwrt9AzRxb-xK7AAPKGUpp39anNzy_nq23i0JkhhXHKnj8ELVtTI5ZXOLzfbNmZZi12z4hFjkf1VMdyCPLx41yj0bC2X5etHCKrifvWuz0uJU2zEVG4vx0F-xCvPrp7K_C867XUiGvlpW18U2VxJL97dK9RSLJfBnD7SuhzSYm_TtB5KNqoGo4IkJCKLuEzLldumDqVkMSM9K3Z6Xzbzpl6IefiBw1yGCODMhZulCJZur8n2E81FqyAcJymwQq7gvKKy3MRyKZKuZLbozG2Jmd90lH0GoGr_N8CRSvI6d2IwGx714gWHIyu2kTytQF4tZwG8kwR4kWiR_kDP0SQ_J1K74EHwr6JxGDv4evRwVQy64KFq2Gi567_k9DaBWlg041TR05vZY5zBQdqqeWT9dvuZhODKVHTuQTaCf2nOLDYXSkCZJehUmGEXJlYoBFeFnKl3Zi-7Efidv3Nqhw7thKusWSU5-O6XDKTQuHoeo6sKxb4GszHvR_fHjA7HvHWx65BGxWTbc"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "path": "/validate",
+    "requests": [
+      {
+        "method": "POST",
+        "body": {
+          "phone": 697825762,
+          "code": "bugmaker"
+        },
+        "reponse": {
+          "contentType": "text/plain",
+          "status": 200,
+          "body": {
+            "message": "Le code que vous avez saisis n'est pas valide",
+            "status": 610
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "body": {
+          "phone": 697825762,
+          "code": "UIpoaz12"
+        },
+        "reponse": {
+          "contentType": "text/plain",
+          "status": 200,
+          "body": {
+            "message": "Code validé",
+            "status": 200
+          }
+        }
+      }
+    ]
+  }
+]

@@ -12,7 +12,7 @@
     "backend",
     "server"
   ],
-  "author": "Steam-erp",
+  "author": "Etienne Yamsi",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^12.12.0"

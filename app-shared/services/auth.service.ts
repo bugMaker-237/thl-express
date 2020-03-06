@@ -15,7 +15,7 @@ export class AuthService extends HttpService {
     protected genericSubjects: GenericSubjects,
     @Inject(APP_CONFIG) private config: IAppConfig
   ) {
-    super(http, storage, 'AUTH', null, config.apiEndpoints.user.servicePath);
+    super(http, storage, 'AUTH', null, config.apiEndpoints.only.servicePath);
     // genericSubjects.add<boolean>('authenticationStatus$');
   }
 
