@@ -1,5 +1,5 @@
 <StackLayout class="page-block">
-  <nav-bar text="Historique" showDrawerButton="true"> </nav-bar>
+  <nav-bar [text]="'Historique - ' + type" showDrawerButton="true"> </nav-bar>
   <ScrollView class="history-list" height="100%">
     <StackLayout>
       <CardView
@@ -15,7 +15,7 @@
             <label
               verticalAlignment="center"
               class="h4"
-              [text]="item.date"
+              [text]="item.date | date"
               row="0"
               col="0"
             ></label>
@@ -40,7 +40,7 @@
 
             <label
               col="1"
-              [text]="item.start"
+              [text]="item.origin"
               class="p-b-5 b-b-1 b-thin"
             ></label>
           </GridLayout>
@@ -60,7 +60,7 @@
               </core-ui-icon>
             </StackLayout>
 
-            <label class="p-t-5" col="1" [text]="item.end"></label>
+            <label class="p-t-5" col="1" [text]="item.destination"></label>
           </GridLayout>
           <StackLayout class="bg-accent">
             <Button

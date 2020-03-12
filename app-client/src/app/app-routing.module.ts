@@ -3,23 +3,33 @@ import { NativeScriptRouterModule } from 'nativescript-angular/router';
 import { Routes } from '@angular/router';
 import { AppShellComponent } from '@app.shared/components';
 import { authRoutes, appRoutes } from './features';
+import { AuthGuard } from './features/auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
-  ...authRoutes,
+  { path: '', redirectTo: '/app-shell/map/VIP', pathMatch: 'full' },
+  {
+    path: 'auth',
+    // canActivate:
+    children: [
+      { path: '', redirectTo: '/auth/sign-in', pathMatch: 'full' },
+      ...authRoutes
+    ]
+  },
   {
     path: 'app-shell',
+    canActivate: [AuthGuard],
     component: AppShellComponent,
-    children: [
-      { path: '', redirectTo: '/app-shell/map', pathMatch: 'full' },
-      ...appRoutes
-    ]
+    children: [...appRoutes]
   },
   { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
-  imports: [NativeScriptRouterModule.forRoot(routes)],
+  imports: [
+    NativeScriptRouterModule.forRoot(routes, {
+      onSameUrlNavigation: 'reload'
+    })
+  ],
   exports: [NativeScriptRouterModule]
 })
 export class AppRoutingModule {}

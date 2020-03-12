@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@apps.common/modules';
 import { AppSharedModule } from '@app.shared/app-shared.module';
 import { AppShellComponent } from '@app.shared/components';
-import { pages } from './features';
+import { pages, resolvers, providers } from './features';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -19,7 +19,7 @@ import { pages } from './features';
     NativeScriptUIAutoCompleteTextViewModule
   ],
   declarations: [AppComponent, AppShellComponent, ...pages],
-  providers: [],
+  providers: [...resolvers, ...providers],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppModule {}

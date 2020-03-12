@@ -14,6 +14,10 @@ import { HistoryDetailsComponent } from './history/history-details/history-detai
 import { ComplainComponent } from './complain/complain.component';
 import { PayServiceComponent } from './pay-service/pay-service.component';
 import { PacketComponent } from './Packet/Packet.component';
+import { historyRoute, historyResolvers } from './history/routes';
+import { pressingRoutes, pressingResolvers } from './pressing/routes';
+import { HistoryService } from './history/history.service';
+import { PressingService } from './pressing/pressing.service';
 
 export const pages = [
   SignInComponent,
@@ -31,7 +35,8 @@ export const pages = [
   PayServiceComponent,
   PacketComponent
 ];
-
+export const resolvers = [...historyResolvers, ...pressingResolvers];
+export const providers = [HistoryService, PressingService];
 export const authRoutes: Routes = [
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
@@ -40,7 +45,7 @@ export const authRoutes: Routes = [
 
 export const appRoutes: Routes = [
   {
-    path: 'map',
+    path: 'map/:type',
     component: MapComponent
   },
   {
@@ -59,39 +64,6 @@ export const appRoutes: Routes = [
     path: 'packet',
     component: PacketComponent
   },
-  {
-    path: 'pressing',
-    component: PressingComponent,
-    children: [
-      {
-        path: 'list',
-        component: PressingListComponent
-      },
-      {
-        path: 'new',
-        component: PressingNewComponent
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' }
-    ]
-  },
-  {
-    path: 'history',
-    component: HistoryComponent,
-    children: [
-      {
-        path: 'list',
-        component: HistoryListComponent
-      },
-      {
-        path: 'details/:id',
-        component: HistoryDetailsComponent
-      },
-      {
-        path: 'complain',
-        data: { isFragment: true },
-        component: ComplainComponent
-      },
-      { path: '', redirectTo: 'list', pathMatch: 'full' }
-    ]
-  }
+  pressingRoutes,
+  historyRoute
 ];

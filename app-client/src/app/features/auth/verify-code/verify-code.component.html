@@ -47,7 +47,6 @@
         required="true"
         [editable]="!formDisabled"
         returnKeyType="done"
-        (returnPress)="onReturnPress($event)"
         autocorrect="false"
         class="m-b-2 p-b-10 m-t-20 font-bigger"
         textTransform="capitalize"
@@ -60,7 +59,7 @@
       >
         <Label text="Vous n'avez pas reçu le code ? " textWrap="true"></Label>
 
-        <Label class="text-primary" text=" Renvoyer" textWrap="true"></Label>
+        <Label class="text-primary" (tap)="resend()" text=" Renvoyer" textWrap="true"></Label>
       </StackLayout>
 
       <Button
@@ -68,10 +67,7 @@
         height="64"
         margin="0"
         text="VERIFIER"
-        (tap)="(null)"
-        clearHistory="true"
-        [nsRouterLink]="['/app-shell']"
-        pageTransition="slide"
+        (tap)="verifyCode()"
       ></Button>
     </StackLayout>
   </ScrollView>

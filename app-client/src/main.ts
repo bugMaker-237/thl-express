@@ -14,6 +14,7 @@ import {
   uncaughtErrorEvent,
   ApplicationEventData
 } from 'tns-core-modules/application';
+import { enableProdMode } from '@angular/core';
 
 applicationOn(launchEvent, (args: ApplicationEventData) => {
   if (args.android) {
@@ -91,3 +92,4 @@ applicationOn(uncaughtErrorEvent, (args: ApplicationEventData) => {
 // so we provide a wrapper platform object, platformNativeScriptDynamic,
 // that sets up a NativeScript application and can bootstrap the Angular framework.
 platformNativeScriptDynamic().bootstrapModule(AppModule);
+// enableProdMode();

@@ -4,5 +4,6 @@
   "singleQuote": true,
   "endOfLine": "auto",
   "insertPragma": false,
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "quoteProps": "preserve"
 }

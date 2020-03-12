@@ -4,8 +4,8 @@
   "description": "Fake backend service to test front end apps",
   "main": "index.js",
   "scripts": {
-    "prepare": "tsc -w index.ts",
-    "start": "nodemon index.js"
+    "prepare": "tsc index.ts",
+    "start": "nodemon --watch './**/*.ts,*.json' --exec ts-node ./index.ts || exit 1"
   },
   "keywords": [
     "fake",

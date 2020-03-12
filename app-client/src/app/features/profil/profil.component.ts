@@ -13,7 +13,7 @@ export class ProfilComponent implements OnInit {
     image: '',
     name: '',
     username: ''
-  } as IUser;
+  } as any;
   formDisabled = false;
   viewPassword = false;
   constructor(private page: Page) {}
@@ -22,10 +22,9 @@ export class ProfilComponent implements OnInit {
     this.user = {
       name: 'Etienne Yamsi',
       image: 'https://etienneyamsi.com/images/jn-pp.png',
-      username: 'bugmaker',
       email: 'yamsietienne@gmail.com',
       token: 'token'
-    };
+    } as any;
   }
   onReturnPress(event) {}
 }

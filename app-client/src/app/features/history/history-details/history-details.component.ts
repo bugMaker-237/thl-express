@@ -1,4 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { IPosition, IMapRoute } from '@apps.common/models';
+import {
+  MapView,
+  Marker,
+  Position,
+  Polyline
+} from 'nativescript-google-maps-sdk';
+import { IHistory } from '~/app/models/history';
+import { ActivatedRoute } from '@angular/router';
+import { Color } from 'tns-core-modules/color/color';
+import { Loader } from '@apps.common/services';
+import { drawRoute, drawMarker, doZoom } from '~/app/utils/map';
 
 @Component({
   selector: 'history-details',
@@ -6,22 +18,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['history-details.component.scss']
 })
 export class HistoryDetailsComponent implements OnInit {
-  history = {
-    date: '10 Fevrier 2020, 19:11',
-    price: '1 500',
-    start: 'Carrefour Mvan',
-    end: 'Chapele Obili',
-    latitude: 4.0832,
-    longitude: 9.7803,
-    state: 'ANNULER',
-    paimentMethod: 'Orange Money',
-    driver: {
-      firstName: 'John',
-      lastName: 'Doe',
-      picture: 'https://etienneyamsi.com/images/pp.png',
-      immatriculation: 'LT 312 MT',
-      driveType: 'Personne'
-    }
-  };
-  ngOnInit() {}
+  history: IHistory = {
+    driver: {}
+  } as any;
+
+  constructor(private _activatedRoute: ActivatedRoute) {}
+
+  ngOnInit() {
+    Loader.default.show();
+  }
+
+  onMapReady(event) {
+    const mapView = event.object as MapView;
+    this._activatedRoute.data.subscribe({
+      next: (data: {
+        itemAndMapRoute: { item: IHistory; mapRoute: IMapRoute[] };
+      }) => {
+        const { item, mapRoute } = data.itemAndMapRoute;
+        this.history = item;
+        drawMarker(mapView, item.originPosition, 0);
+        drawMarker(mapView, item.destinationPosition, 0);
+        drawRoute(mapView, mapRoute);
+
+        doZoom(mapView);
+
+        Loader.default.hide();
+      }
+    });
+  }
 }

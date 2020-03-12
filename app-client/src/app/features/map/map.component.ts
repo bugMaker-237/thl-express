@@ -1,7 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Page, View } from 'tns-core-modules/ui/page/page';
-import { Color } from 'tns-core-modules/color';
-import { alert } from 'tns-core-modules/ui/dialogs';
 import {
   Button,
   StackLayout,
@@ -16,11 +14,17 @@ import {
 } from 'nativescript-google-maps-sdk';
 import { getNativeApplication } from 'tns-core-modules/application/application';
 import { ad } from 'tns-core-modules/utils/utils';
-import { GooglePlaces, GoogleDirections } from '@apps.common/services';
+import {
+  GooglePlaces,
+  GoogleDirections,
+  getStringResource,
+  GlobalStoreService,
+  DialogService
+} from '@apps.common/services';
 import {
   IPlacePredilection,
   IPlace,
-  IRoute,
+  IMapRoute,
   IPosition,
   ViewState
 } from '@apps.common/models';
@@ -35,6 +39,8 @@ import { screen } from 'tns-core-modules/platform';
 import { DriverService } from '@app.shared/services/driver.service';
 import { IDriver } from '@app.shared/models/driver';
 import { RouterExtensions } from 'nativescript-angular/router';
+import { clearMap, drawMarker, drawRoute, doZoom } from '~/app/utils/map';
+import { ActivatedRoute } from '@angular/router';
 
 interface TAnimation {
   definition: AnimationDefinition;
@@ -74,57 +80,82 @@ export class MapComponent implements OnInit {
   public tilt = 0;
   public padding = [10, 10, 10, 10];
   public currentRouteDistance: string;
-  public selectedDriver: IDriver = { firstName: '' };
+  public selectedDriver: IDriver = { id: null, user: { name: '' } as any };
 
-  private driverMarkers: Marker[] = [];
   private placesFieldWereDirty = false;
   private currentViewState: ViewState<TAnimation>;
   private viewStates: ViewState<TAnimation>[] = [];
   private mapView: MapView;
-  private startPoint: IPlace;
-  private endPoint: IPlace;
+  private origin: IPlace;
+  private destination: IPlace;
   private lastCamera: String;
   private gp: GooglePlaces;
   private gd: GoogleDirections;
-  private curRt: IRoute = {
+  private curRt: IMapRoute = {
     distance: {},
     bounds: {},
     duration: {}
   } as any;
   private kmPrice = 5;
+  public type: string;
+  private isPacketTransportation: boolean;
+  private packet: any;
 
-  set currentRoute(value: IRoute) {
+  set currentMapRoute(value: IMapRoute) {
     this.curRt = value;
     this.currentRouteDistance = this.curRt ? this.curRt.distance.text : '';
   }
-  get currentRoute() {
+  get currentMapRoute() {
     return this.curRt;
   }
 
   constructor(
     private _driverService: DriverService,
-    private _router: RouterExtensions
+    private _router: RouterExtensions,
+    private _activatedRoute: ActivatedRoute,
+    private _store: GlobalStoreService,
+    private _dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
     // using pixels and screen scale top align element at the bottom of absoluteLayout
     this.state3.nativeElement.top = screen.mainScreen.heightDIPs - 56 - 100;
-
     this.registerViewStates();
-
-    const GAK = getNativeApplication()
-      .getApplicationContext()
-      .getString(ad.resources.getStringId('nativescript_google_maps_api_key'));
-
+    const GAK = getStringResource('nativescript_google_maps_api_key');
     this.gp = new GooglePlaces(GAK);
     this.gd = new GoogleDirections(GAK);
     this.autocomplete1.autoCompleteTextView.loadSuggestionsAsync = this.getPlacesPromise();
     this.autocomplete2.autoCompleteTextView.loadSuggestionsAsync = this.getPlacesPromise();
+    this.initialise();
   }
+  initialise() {
+    this._activatedRoute.params.subscribe({
+      next: params => {
+        this.type = params.type;
+        console.log('init');
+        this.toggleState(0);
+        clearMap(this.mapView);
+        this.autocomplete1.nativeElement.text = '';
+        this.autocomplete2.nativeElement.text = '';
+        this.autocomplete1.nativeElement.focus();
+        this.origin = null;
+        this.destination = null;
+      }
+    });
+    this._activatedRoute.queryParams.subscribe({
+      next: queryParams => {
+        this.isPacketTransportation = queryParams.isPacketTransportation;
+        if (this.isPacketTransportation) {
+          this.packet = this._store.get('ongoing-packet');
+        }
+      }
+    });
+  }
+
   registerViewStates() {
     // It seems as if due to HRM webpack only loads viewStates.json once at
     // the start of debuging during hot reloading
-    // for production this is not an issue but for dev purpose we use this if:
+    // so we instead use a fonction that returns the list of view-states
 
     this.viewStates = getViewStates().map(vs => {
       vs.animations.forEach(a => {
@@ -146,7 +177,7 @@ export class MapComponent implements OnInit {
               return t;
             })
           )
-          .catch(err => alert(err ? err.message : err));
+          .catch(err => this._dialogService.alert(err ? err.message : err));
       } else {
         return Promise.resolve([]);
       }
@@ -162,7 +193,7 @@ export class MapComponent implements OnInit {
       this.placesFieldWereDirty
     ) {
       this.toggleState(0);
-      this.clearMap();
+      clearMap(this.mapView);
       this.placesFieldWereDirty = false;
     } else {
       this.placesFieldWereDirty =
@@ -170,25 +201,28 @@ export class MapComponent implements OnInit {
         this.autocomplete2.nativeElement.text !== '';
     }
   }
-  setCarPositions() {
+  setBikePositions() {
     this._driverService
-      .getAvailableDrivers(this.startPoint, this.endPoint)
+      .getAvailableDrivers(this.type, this.origin)
       .subscribe(res => {
-        this.mapView.removeMarker(...this.driverMarkers);
-        const driverMarkersPromises = [];
-        res.forEach(d => {
-          driverMarkersPromises.push(
-            this.drawMaker(this.mapView, d.location, 3, 'Transporteur', {
-              isDriver: true,
-              driver: d
-            })
+        if (res.length === 0) {
+          this._dialogService.alert(
+            'Aucun transporteur disponible dans cette zone pour l\'instant, patientez, puis réessayé'
           );
-        });
-        Promise.all(driverMarkersPromises).then(markers => {
-          this.driverMarkers.push(...markers);
-          console.log(markers);
-          this.toggleState(3);
-        });
+        } else {
+          const driverMarkersPromises = [];
+          res.forEach(d => {
+            driverMarkersPromises.push(
+              drawMarker(this.mapView, d.location, 3, 'Transporteur', {
+                isDriver: true,
+                driver: d
+              })
+            );
+          });
+          Promise.all(driverMarkersPromises).then(markers => {
+            this.toggleState(3);
+          });
+        }
       });
   }
   async onDidAutoComplete(
@@ -197,36 +231,34 @@ export class MapComponent implements OnInit {
   ) {
     try {
       if (position === 0) {
-        this.startPoint = await this.gp.getPlaceById(event.token.data.placeId);
+        this.origin = await this.gp.getPlaceById(event.token.data.placeId);
       } else {
-        this.endPoint = await this.gp.getPlaceById(event.token.data.placeId);
+        this.destination = await this.gp.getPlaceById(event.token.data.placeId);
       }
-      if (this.endPoint && this.startPoint) {
-        this.clearMap();
-        this.drawMaker(this.mapView, this.startPoint, 0);
-        this.drawMaker(this.mapView, this.endPoint, 1);
-        console.log('drawing route');
+      if (this.destination && this.origin) {
+        clearMap(this.mapView);
+        drawMarker(this.mapView, this.origin, 0);
+        drawMarker(this.mapView, this.destination, 1);
         const dirs = await this.gd.getDirections(
-          this.startPoint,
-          this.endPoint,
+          this.origin,
+          this.destination,
           true,
           'DRIVING'
         );
-        this.drawRoute(this.mapView, dirs);
-        this.doZoom(this.mapView);
-        this.currentRoute = dirs[0];
+        drawRoute(this.mapView, dirs);
+        doZoom(this.mapView);
+        this.currentMapRoute = dirs[0];
         // closes keyboard
         ad.dismissSoftInput();
 
         this.toggleState(1);
       }
     } catch (e) {
-      alert(e.message);
+      this._dialogService.alert(e.message);
     }
   }
   toggleState(stateOrder: number) {
     this.currentViewState = this.viewStates.find(x => x.order === stateOrder);
-    console.log(this.viewStates.map(v => v.order));
     if (!!this.currentViewState && this.currentViewState.animations) {
       this.currentViewState.animations.forEach(a =>
         a.view.animate(a.definition)
@@ -234,91 +266,20 @@ export class MapComponent implements OnInit {
     }
   }
   payTrip() {
+    this._store.set('ongoing-payment', {
+      origin: this.origin,
+      destination: this.destination,
+      price: this.getRoutePrice()
+    });
     this._router.navigate(['/app-shell/pay-service'], {
       transition: {
         name: 'slide'
       }
     });
   }
-  private clearMap() {
-    this.mapView.removeAllMarkers();
-    this.mapView.removeAllShapes();
-  }
-  private drawRoute(mapView: MapView, dirs: IRoute[]) {
-    const lines: Polyline[] = [];
-    dirs.forEach(r => {
-      const polyline = new Polyline();
-      // const point = Position.positionFromLatLng(startPlace.latitude, startPlace.longitude);
-      polyline.addPoints(
-        r.polyline.map(p =>
-          Position.positionFromLatLng(p.latitude, p.longitude)
-        )
-      );
-      polyline.visible = true;
-      polyline.width = 20;
-      polyline.color = new Color('#FFD300');
-      polyline.geodesic = true;
-      lines.push(polyline);
-    });
-    lines.forEach(l => mapView.addPolyline(l));
-  }
-  private async drawMaker(
-    mapView: MapView,
-    place: IPosition,
-    index: number,
-    title = '',
-    userData = null
-  ): Promise<Marker> {
-    try {
-      const marker = new Marker();
-      marker.position = Position.positionFromLatLng(
-        place.latitude,
-        place.longitude
-      );
-      marker.title = title || (index === 0 ? 'Départ' : 'Arrivé');
-      marker.snippet = place.name;
 
-      const image: Image = new Image();
-      let imgSrc: ImageSource;
-      if (index === 1) {
-        imgSrc = await ImageSource.fromFile('~/assets/finish.png');
-      } else if (index === 0) {
-        imgSrc = await ImageSource.fromFile('~/assets/arrived.png');
-      } else {
-        imgSrc = await ImageSource.fromFile('~/assets/bike.png');
-      }
-      image.imageSource = imgSrc;
-      marker.icon = image;
-      marker.userData = userData;
-      mapView.addMarker(marker);
-      marker.showInfoWindow();
-      return marker;
-    } catch (e) {
-      alert(e.message);
-      return;
-    }
-    // this.mapView.
-  }
-
-  private doZoom(mapView: MapView) {
-    const builder = new (com.google
-      .android as any).gms.maps.model.LatLngBounds.Builder();
-    mapView.findMarker(marker => {
-      builder.include(marker.android.getPosition());
-      return false;
-    });
-
-    const bounds = builder.build();
-    const padding = 200;
-    const cu = (com.google
-      .android as any).gms.maps.CameraUpdateFactory.newLatLngBounds(
-      bounds,
-      padding
-    );
-    this.mapView.gMap.animateCamera(cu);
-  }
   getRoutePrice() {
-    return this.kmPrice * this.currentRoute.distance.value;
+    return this.kmPrice * this.currentMapRoute.distance.value;
   }
   onMapReady(event) {
     this.mapView = event.object as MapView;
@@ -327,7 +288,6 @@ export class MapComponent implements OnInit {
 
   onMarkerEvent(args) {
     const marker = args.marker as Marker;
-    console.log(marker.userData);
     if (marker.userData && marker.userData.isDriver) {
       this.selectedDriver = marker.userData.driver;
       this.toggleState(4);

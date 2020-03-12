@@ -7,7 +7,7 @@
 >
   <StackLayout col="0" verticalAlignment="center">
     <core-ui-icon
-      *ngIf="canGoBack() && !showDrawerButton"
+      *ngIf="canGoBack && !showDrawerButton"
       name="arrow_back"
       size="28"
       (tapAction)="goBack()"

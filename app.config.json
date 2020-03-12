@@ -2,21 +2,38 @@
   "license": "All rights reserved",
   "version": "0.0.1",
   "authorization": {
-    "appDomains": ["/(d16c7050.ngrok.io/).*/"],
+    "appDomains": ["e3615c05.ngrok.io"],
     "authorizationHeaderName": "Authorization",
     "authorizationScheme": "Bearer ",
-    "throwNoTokenError": false,
+    "throwNoTokenError": true,
     "continueIfTokenExpired": false,
-    "anonymousRoutes": ["/sign-in", "/check-username"]
+    "anonymousRoutes": [
+      "/api/login",
+      "/api/register",
+      "/api/validate",
+      "/api/resend"
+    ]
   },
   "apiEndpoints": {
     "only": {
+      "serviceHost": "https://e3615c05.ngrok.io",
       "serviceName": "only",
-      "servicePath": "d16c7050.ngrok.io/",
+      "servicePath": "https://e3615c05.ngrok.io/api",
+      "version": "0.0.1"
+    },
+    "client": {
+      "serviceHost": "https://e3615c05.ngrok.io",
+      "serviceName": "client",
+      "servicePath": "https://e3615c05.ngrok.io/api/client",
       "version": "0.0.1"
     }
   },
   "cacheConfig": {
-    "unCachableRoutes": ["/login", "/register", "/validate", "/resend"]
+    "unCachableRoutes": [
+      "/api/login",
+      "/api/register",
+      "/api/validate",
+      "/api/resend"
+    ]
   }
 }

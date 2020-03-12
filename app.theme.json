@@ -1,0 +1,14 @@
+{
+  "appDisplayName": "THL CLient",
+  "primaryColor": "#FFD300",
+  "primaryDarkColor": "#b89900",
+  "secondaryColor": "#4771BA",
+  "accentColor": "#4771BA",
+  "warnColor": "#a07534",
+  "dangerColor": "#942e2e",
+  "primaryForeColor": "#333333",
+  "secondaryForeColor": "#ffffff",
+  "accentForeColor": "#ffffff",
+  "warnForeColor": "#ffffff",
+  "dangerForeColor": "#ffffff"
+}

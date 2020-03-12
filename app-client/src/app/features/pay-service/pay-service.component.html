@@ -2,7 +2,7 @@
   <nav-bar text="Payer le service"> </nav-bar>
   <ScrollView class="history-list" height="100%">
     <StackLayout>
-      <CardView class="m-l-20 m-r-20 m-b-20 p-b-10" elevation="20">
+      <CardView class="m-t-20 m-l-20 m-r-20 m-b-20 p-b-10" elevation="20">
         <StackLayout class="p-10">
           <GridLayout
             class="m-t-20 m-b-20 m-l-10 m-r-10 p-b-10 b-b-1 b-thin"
@@ -10,7 +10,7 @@
           >
             <label
               verticalAlignment="center"
-              class="h4"
+              class="h5"
               text="Information sur le service"
               row="0"
               col="0"
@@ -36,7 +36,7 @@
 
             <label
               col="1"
-              [text]="service.origin"
+              [text]="service.origin.name"
               class="p-b-5 b-b-1 b-thin"
             ></label>
           </GridLayout>
@@ -56,7 +56,11 @@
               </core-ui-icon>
             </StackLayout>
 
-            <label class="p-t-5" col="1" [text]="service.destination"></label>
+            <label
+              class="p-t-5"
+              col="1"
+              [text]="service.destination.name"
+            ></label>
           </GridLayout>
         </StackLayout>
       </CardView>

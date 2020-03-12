@@ -16,7 +16,7 @@
             "status": 200,
             "data": {
               "user": {
-                "id": 2,
+                "id": 9,
                 "name": "Bug Maker",
                 "phone": "697825762",
                 "email": "hi@fa.ke",
@@ -42,13 +42,13 @@
         "method": "POST",
         "body": {
           "email": "client@gmail.com",
-          "phone": "+237 697825762",
+          "phone": "697825762",
           "name": "bugmaker",
           "password": "bug@maker",
-          "confirm_password": "bug@maker"
+          "confirmPassword": "bug@maker"
         },
         "reponse": {
-          "contentType": "text/plain",
+          "contentType": "application/json",
           "status": 200,
           "body": {
             "errors": {
@@ -69,7 +69,7 @@
           "confirm_password": "bug@maker"
         },
         "reponse": {
-          "contentType": "text/plain",
+          "contentType": "application/json",
           "status": 200,
           "body": {
             "message": "Votre compte a été crée avec success. Validez le avec le code recu par SMS",
@@ -95,35 +95,259 @@
     ]
   },
   {
-    "path": "/validate",
+    "path": "/resend/9",
     "requests": [
       {
         "method": "POST",
-        "body": {
-          "phone": 697825762,
-          "code": "bugmaker"
-        },
         "reponse": {
-          "contentType": "text/plain",
+          "contentType": "application/json",
           "status": 200,
           "body": {
-            "message": "Le code que vous avez saisis n'est pas valide",
-            "status": 610
+            "status": 200,
+            "data": {
+              "code": 23902,
+              "codeExpires": "2022-03-06T04:29:24.684562Z"
+            }
           }
         }
-      },
+      }
+    ]
+  },
+  {
+    "path": "/drivers",
+    "requests": [
       {
-        "method": "POST",
-        "body": {
-          "phone": 697825762,
-          "code": "UIpoaz12"
+        "method": "GET",
+        "query": {
+          "points": "4.0832,9.7803|4.08,9.78",
+          "type": "VIP"
         },
         "reponse": {
-          "contentType": "text/plain",
+          "contentType": "application/json",
           "status": 200,
           "body": {
-            "message": "Code validé",
-            "status": 200
+            "status": 200,
+            "data": [
+              {
+                "name": "Etienne Yamsi",
+                "matricule": "IU343OI",
+                "picture": "~/assets/bike.png",
+                "phoneNumber": "+237 697825762",
+                "location": {
+                  "latitude": 4.0802,
+                  "longitude": 9.7802
+                }
+              },
+              {
+                "name": "Bug Maker",
+                "matricule": "IU349OI",
+                "picture": "~/assets/bike.png",
+                "phoneNumber": "+237 697825762",
+                "location": {
+                  "latitude": 4.08,
+                  "longitude": 9.7805
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "path": "/history",
+    "requests": [
+      {
+        "method": "GET",
+        "reponse": {
+          "contentType": "application/json",
+          "status": 200,
+          "body": {
+            "status": 200,
+            "data": [
+              {
+                "id": 1,
+                "date": "2020-03-06T02:29:24.684562Z",
+                "price": 3200,
+                "origin": "Fouquet, Akwa",
+                "destination": "Makepe, Rhône poulin"
+              },
+              {
+                "id": 2,
+                "date": "2020-02-06T10:29:24.684562Z",
+                "price": 1000,
+                "origin": "Zepol, Akwa",
+                "destination": "Ecobank, immeuble pmuc"
+              },
+              {
+                "id": 3,
+                "date": "2022-02-12T12:29:24.684562Z",
+                "price": 500,
+                "origin": "Rue pau, Akwa",
+                "destination": "Hotel Douala bar, Akwa"
+              },
+              {
+                "id": 4,
+                "date": "2020-01-01T09:29:24.684562Z",
+                "price": 3200,
+                "origin": "Mahima la soudanese, Akwa",
+                "destination": "Carrefour Eto'o, Nkonmondo"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "path": "/history/1",
+    "requests": [
+      {
+        "method": "GET",
+        "reponse": {
+          "contentType": "application/json",
+          "status": 200,
+          "body": {
+            "status": 200,
+            "data": {
+              "id": 1,
+              "date": "2020-03-06T02:29:24.684562Z",
+              "price": 3200,
+              "origin": "Fouquet, Akwa",
+              "destination": "Makepe, Rhône poulin",
+              "state": "En cours",
+              "paimentMethod": "Orange Money",
+              "transportType": "Course",
+              "originPosition": {
+                "latitude": 4.0802,
+                "longitude": 9.7802
+              },
+              "destinationPosition": {
+                "latitude": 4.08,
+                "longitude": 9.7805
+              },
+              "driver": {
+                "name": "Ousmanou Mohamed",
+                "picture": "https://etienneyamsi.com/images/pp.png",
+                "immatriculation": "LT 0029 DL"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "path": "/pressing",
+    "requests": [
+      {
+        "method": "GET",
+        "reponse": {
+          "contentType": "application/json",
+          "status": 200,
+          "body": {
+            "status": 200,
+            "data": [
+              {
+                "id": 1,
+                "date": "2020-03-06T02:29:24.684562Z",
+                "price": 22000,
+                "cloths": [
+                  {
+                    "type": "Gandoura",
+                    "price": 20000,
+                    "quantity": 10
+                  },
+                  {
+                    "type": "Pantalons",
+                    "price": 2000,
+                    "quantity": 3
+                  }
+                ],
+                "validated": false
+              },
+              {
+                "id": 1,
+                "date": "2020-03-12T02:29:24.684562Z",
+                "price": 3200,
+                "cloths": [
+                  {
+                    "type": "Chemise",
+                    "price": 1000,
+                    "quantity": 2
+                  },
+                  {
+                    "type": "Pantalons",
+                    "price": 1200,
+                    "quantity": 2
+                  }
+                ],
+                "validated": true
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "path": "/pressing/cloth-types",
+    "requests": [
+      {
+        "method": "GET",
+        "reponse": {
+          "contentType": "application/json",
+          "status": 200,
+          "body": {
+            "status": 200,
+            "data": [
+              {
+                "id": 1,
+                "type": "Gandoura",
+                "unitPrice": 2000
+              },
+              {
+                "id": 2,
+                "type": "Pantalon",
+                "unitPrice": 1000
+              },
+              {
+                "id": 3,
+                "type": "Chemise",
+                "unitPrice": 500
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "path": "/pressing",
+    "requests": [
+      {
+        "method": "POST",
+        "body": [
+          {
+            "price": 20000,
+            "quantity": 10,
+            "type": 1,
+            "details": "Gandoura blanc"
+          },
+          {
+            "price": 2000,
+            "quantity": 3,
+            "type": 3,
+            "details": "Chemise verte"
+          }
+        ],
+        "reponse": {
+          "contentType": "application/json",
+          "status": 200,
+          "body": {
+            "status": 200,
+            "message": "Enregistrement Effectué",
+            "data": "Enregistrement Effectué"
           }
         }
       }

@@ -1,10 +1,12 @@
 import { IPosition } from '@apps.common/models';
+import { IUser } from './user';
 
 export interface IDriver {
-  firstName: string;
-  lastName?: string;
+  id: any;
   picture?: string;
+  distance?: number;
   matricule?: string;
-  phoneNumber?: string;
+  immatriculation?: string;
+  user?: IUser;
   location?: IPosition;
 }

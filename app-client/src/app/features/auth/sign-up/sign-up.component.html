@@ -1,14 +1,7 @@
 <StackLayout class="page-block  sign-up-block">
   <nav-bar text="S'inscrire"></nav-bar>
   <ScrollView height="100%">
-    <StackLayout
-      class="stack"
-      padding="20"
-      maxWidth="400"
-      alignItems="center"
-      alignContent="center"
-      justifyContent="center"
-    >
+    <StackLayout class="stack" padding="20" maxWidth="400">
       <StackLayout #stack>
         <Image
           width="400"
@@ -17,13 +10,11 @@
           alignSelf="center"
         ></Image>
         <core-ui-tf
-          hint="Identifiant"
-          keyboardType="email"
+          hint="Nom"
           required="true"
           [editable]="!formDisabled"
           returnKeyType="done"
-          [(ngModel)]="user.username"
-          (returnPress)="onReturnPress($event)"
+          [(ngModel)]="user.name"
           autocorrect="false"
           customClass="m-b-20 m-t-10 text-field-outline"
           iconPrefix="person"
@@ -36,8 +27,7 @@
           required="true"
           [editable]="!formDisabled"
           returnKeyType="done"
-          [(ngModel)]="user.emailOrPhone"
-          (returnPress)="onReturnPress($event)"
+          [(ngModel)]="user.email"
           autocorrect="false"
           customClass="m-b-20 m-t-10 text-field-outline"
           iconPrefix="email"
@@ -48,10 +38,10 @@
           hint="Mot de passe"
           [(ngModel)]="user.password"
           [secure]="!viewPassword"
+          minLength="8"
           required="true"
           [editable]="!formDisabled"
           returnKeyType="done"
-          (returnPress)="onReturnPress($event)"
           autocorrect="false"
           customClass="m-b-20 m-t-10 text-field-outline"
           customTextFieldClass="no-border p-10"
@@ -64,10 +54,10 @@
           hint="Confirmer Mot de passe"
           [(ngModel)]="user.confirmPassword"
           [secure]="!viewPassword"
+          minLength="8"
           required="true"
           [editable]="!formDisabled"
           returnKeyType="done"
-          (returnPress)="onReturnPress($event)"
           autocorrect="false"
           customClass="m-b-20 m-t-10 text-field-outline"
           customTextFieldClass="no-border p-10"
@@ -81,15 +71,8 @@
           height="64"
           margin="0"
           text="S'INSCRIRE"
-          (tap)="(null)"
-          [nsRouterLink]="['/verify-code']"
-          pageTransition="slide"
+          (tap)="register()"
         ></Button>
-        <!-- <Label
-          text="Vous avez déjà un compte ?"
-          margin="0,10,0,10"
-          textWrap="true"
-        ></Label> -->
       </StackLayout>
     </StackLayout>
   </ScrollView>

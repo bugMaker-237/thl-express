@@ -23,7 +23,7 @@
       </StackLayout>
       <StackLayout row="1">
         <Image
-          [src]="user.image"
+          [src]="user.image || '~/assets/avatar.jpg'"
           width="90"
           horizontalAlignment="center"
           class="rounded-circle m-b-10"

@@ -16,7 +16,6 @@
           [editable]="!formDisabled"
           returnKeyType="done"
           [(ngModel)]="username"
-          (returnPress)="onReturnPress($event)"
           autocorrect="false"
           customClass="m-b-20 m-t-10 text-field-outline"
           iconPrefix="person"
@@ -30,7 +29,6 @@
           required="true"
           [editable]="!formDisabled"
           returnKeyType="done"
-          (returnPress)="onReturnPress($event)"
           autocorrect="false"
           customClass="m-b-20 m-t-10 text-field-outline"
           customTextFieldClass="no-border p-10"
@@ -44,10 +42,7 @@
           height="64"
           margin="0"
           text="Se connecter"
-          (tap)="(null)"
-          clearHistory="true"
-          [nsRouterLink]="['/app-shell']"
-          pageTransition="slide"
+          (tap)="login()"
         ></Button>
         <Button
           class="btn btn-accent text-white"
@@ -55,7 +50,7 @@
           margin="0"
           text="S'inscrire"
           (tap)="(null)"
-          [nsRouterLink]="['/sign-up']"
+          [nsRouterLink]="['../sign-up']"
           pageTransition="slide"
         ></Button>
       </StackLayout>

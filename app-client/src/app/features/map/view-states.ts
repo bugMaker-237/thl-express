@@ -29,6 +29,13 @@ export const getViewStates = () => [
           duration: 300
         },
         view: 'state4'
+      },
+      {
+        definition: {
+          height: 0,
+          duration: 300
+        },
+        view: 'state5'
       }
     ]
   },

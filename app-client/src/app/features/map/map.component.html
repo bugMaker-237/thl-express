@@ -1,5 +1,5 @@
 <StackLayout class="page-block home-block">
-  <nav-bar showDrawerButton="true" text="Définir un trajet"></nav-bar>
+  <nav-bar showDrawerButton="true" [text]="'Définir un trajet - ' + type"></nav-bar>
   <DockLayout height="100%" stretchLastChild="true">
     <StackLayout dock="bottom" width="100%" class="bg-primary">
       <Button
@@ -30,24 +30,15 @@
           col="0"
           row="0"
           class="h4"
-          [text]="
-            selectedDriver.firstName +
-            ' ' +
-            (selectedDriver.lastName ? selectedDriver.lastName : '')
-          "
+          [text]="selectedDriver.user.name"
           textWrap="true"
         ></Label>
-        <StackLayout
-          horizontalAlignment="left"
-          colSpan="2"
-          col="0"
-          row="1"
-          class="m-t-20"
-        >
+        <StackLayout horizontalAlignment="left" colSpan="2" col="0" row="1">
           <Image
-            [src]="selectedDriver.picture"
-            height="100"
-            width="100"
+            margin="30,0,0,0"
+            [src]="selectedDriver.picture || '~/assets/avatar.jpg'"
+            height="90"
+            width="90"
           ></Image>
         </StackLayout>
         <StackLayout col="1" row="0">
@@ -72,7 +63,7 @@
             <Label text="Téléphone: " textWrap="true"></Label>
             <Label
               class="h5"
-              [text]="selectedDriver.phoneNumber"
+              [text]="selectedDriver.user.phone"
               textWrap="true"
             ></Label>
             <Label text="Matricule: " textWrap="true"></Label>
@@ -188,7 +179,7 @@
               class="btn btn-primary btn-flat text-black"
               height="64"
               margin="0"
-              (tap)="setCarPositions()"
+              (tap)="setBikePositions()"
               style="text-align: center;"
               text="Confirmer"
             ></Button>

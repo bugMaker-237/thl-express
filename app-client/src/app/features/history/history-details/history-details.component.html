@@ -4,8 +4,9 @@
     <StackLayout>
       <GridLayout height="200">
         <MapView
-          [latitude]="history.latitude"
-          [longitude]="history.longitude"
+          [latitude]="history.originPosition.latitude"
+          [longitude]="history.originPosition.longitude"
+          (mapReady)="onMapReady($event)"
           [zoom]="20"
         ></MapView>
       </GridLayout>
@@ -17,7 +18,7 @@
           <label
             verticalAlignment="center"
             class="h4"
-            [text]="history.date"
+            [text]="history.date | date"
             row="0"
             col="0"
           ></label>
@@ -42,7 +43,7 @@
 
           <label
             col="1"
-            [text]="history.start"
+            [text]="history.origin"
             class="p-b-5 b-b-1 b-thin"
           ></label>
         </GridLayout>
@@ -62,7 +63,7 @@
             </core-ui-icon>
           </StackLayout>
 
-          <label class="p-t-5" col="1" [text]="history.end"></label>
+          <label class="p-t-5" col="1" [text]="history.destination"></label>
         </GridLayout>
       </StackLayout>
       <StackLayout class="bg-primary">
@@ -98,20 +99,15 @@
             colSpan="2"
           >
             <Image
-              [src]="history.driver.picture"
+              [src]="history.driver.picture || '~/asstes/avatar.jpg'"
               class="raduis-5"
               width="70"
               height="70"
             ></Image>
-            <StackLayout margin="20">
+            <StackLayout margin="20" maxWidth="60">
               <Label
                 class="h4"
-                [text]="history.driver.firstName"
-                textWrap="true"
-              ></Label>
-              <Label
-                class="h4"
-                [text]="history.driver.lastName"
+                [text]="history.driver.name"
                 textWrap="true"
               ></Label>
             </StackLayout>
@@ -125,7 +121,7 @@
           </StackLayout>
           <StackLayout row="1" col="1">
             <Label text="Typde de course: " textWrap="true"></Label>
-            <Label [text]="history.driver.driveType" textWrap="true"></Label>
+            <Label [text]="history.transportType" textWrap="true"></Label>
           </StackLayout>
         </GridLayout>
       </StackLayout>

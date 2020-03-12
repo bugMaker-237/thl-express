@@ -9,23 +9,26 @@ var apiFolder = './api/';
 registerEndpoints();
 http_1.createServer(function (request, response) {
     var route = getRoute(request);
-    if (route == null)
+    if (route == null) {
         noConfigFound(request, response);
+    }
     else {
-        checkRouteParamMatch(request, route, function (res) {
+        console.log('#Request: ' + request.url);
+        checkRouteParamMatch(request, response, route, function (res) {
             response.writeHead(res.status, { 'content-type': res.contentType });
             response.end(JSON.stringify(res.body));
         });
     }
 }).listen(9001);
-function noConfigFound(request, response) {
-    var err = 'Could not find endpoint or route for this request: ' + request.url;
+function noConfigFound(request, response, msg) {
+    if (msg === void 0) { msg = null; }
+    var err = msg || 'Could not find endpoint or route for this request: ' + request.url;
     response.writeHead(404, err, { 'Content-Type': 'application/json' });
     response.end(JSON.stringify({
         errors: [err]
     }));
 }
-function checkRouteParamMatch(request, route, cb) {
+function checkRouteParamMatch(request, response, route, cb) {
     var data = [];
     request.on('data', function (chunk) {
         data.push(chunk);
@@ -44,6 +47,12 @@ function checkRouteParamMatch(request, route, cb) {
                 requestQuery === expectedQuery &&
                 requestBody === expectedBody) {
                 cb(r.reponse);
+            }
+            else {
+                console.log('#MISMATCHED');
+                console.log('#Expected: ' + JSON.stringify(r));
+                console.log('#Actual: ' + JSON.stringify(requestBody));
+                noConfigFound(request, response, 'Route mismatch');
             }
         });
     });

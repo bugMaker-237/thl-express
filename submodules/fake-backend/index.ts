@@ -30,16 +30,21 @@ createServer((request, response) => {
   if (route == null) {
     noConfigFound(request, response);
   } else {
-    checkRouteParamMatch(request, route, res => {
+    console.log('#Request: ' + request.url);
+    checkRouteParamMatch(request, response, route, res => {
       response.writeHead(res.status, { 'content-type': res.contentType });
       response.end(JSON.stringify(res.body));
     });
   }
 }).listen(9001);
 
-function noConfigFound(request: IncomingMessage, response: ServerResponse) {
+function noConfigFound(
+  request: IncomingMessage,
+  response: ServerResponse,
+  msg: string | null = null
+) {
   const err =
-    'Could not find endpoint or route for this request: ' + request.url;
+    msg || 'Could not find endpoint or route for this request: ' + request.url;
   response.writeHead(404, err, { 'Content-Type': 'application/json' });
   response.end(
     JSON.stringify({
@@ -50,6 +55,7 @@ function noConfigFound(request: IncomingMessage, response: ServerResponse) {
 
 function checkRouteParamMatch(
   request: IncomingMessage,
+  response: ServerResponse,
   route: Route,
   cb: (resp: RouteResponse) => void
 ) {
@@ -65,9 +71,18 @@ function checkRouteParamMatch(
 
     route.requests.forEach(r => {
       const expectedMethod = r.method.toUpperCase();
-      const expectedQuery = stringify(r.query);
-      const expectedBody = r.body ? JSON.stringify(r.body) : '';
-      const requestQuery = request.url.split('?')[1] || '';
+      const expectedQuery = stringify(r.query)
+        .split('')
+        .sort()
+        .join('');
+      const expectedBody = (r.body ? JSON.stringify(r.body) : '')
+        .split('')
+        .sort()
+        .join('');
+      const requestQuery = (request.url.split('?')[1] || '')
+        .split('')
+        .sort()
+        .join('');
 
       if (
         request.method.toUpperCase() === expectedMethod &&
@@ -75,6 +90,11 @@ function checkRouteParamMatch(
         requestBody === expectedBody
       ) {
         cb(r.reponse);
+      } else {
+        console.log('#MISMATCHED');
+        console.log('#Expected: ' + JSON.stringify(r));
+        console.log('#Actual: ' + JSON.stringify(requestBody));
+        noConfigFound(request, response, 'Route mismatch');
       }
     });
   });

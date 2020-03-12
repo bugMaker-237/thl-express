@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IHistoryListItem } from '~/app/models/history';
+import { ActivatedRoute } from '@angular/router';
+import { HistoryService } from '~/app/features/history/history.service';
 
 @Component({
   selector: 'history-list',
@@ -6,29 +9,29 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: 'history-list.component.html'
 })
 export class HistoryListComponent implements OnInit {
-  histories = [
-    {
-      id: 1,
-      date: '10 Fevrier 2020, 19:11',
-      price: '1 500',
-      start: 'Carrefour Mvan',
-      end: 'Chapele Obili'
-    },
-    {
-      id: 2,
-      date: '19 Janvier, 12:17',
-      price: '500',
-      start: 'Bonamoussadi',
-      end: 'Ecole publique Deido'
-    }
-  ];
+  histories: IHistoryListItem[] = [];
+  type: string;
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _historyService: HistoryService
+  ) {}
+
   ngOnInit() {
-    this.histories = [
-      ...this.histories,
-      ...this.histories,
-      ...this.histories,
-      ...this.histories,
-      ...this.histories
-    ];
+    this._activatedRoute.data.subscribe({
+      next: (data: { histories: IHistoryListItem[] }) => {
+        console.log(data.histories);
+        this.histories = data.histories;
+      }
+    });
+    this._activatedRoute.parent.params.subscribe({
+      next: params => {
+        this.type = params.type;
+      }
+    });
+  }
+  loadHistories(paging = 1) {
+    this._historyService.getHistories(this.type, paging).subscribe({
+      next: res => (this.histories = res)
+    });
   }
 }
