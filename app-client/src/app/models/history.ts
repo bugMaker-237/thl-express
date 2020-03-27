@@ -1,5 +1,7 @@
 import { IPosition } from '@apps.common/models';
 import { IDriver } from '@app.shared/models/driver';
+import { IPressingListItem } from './pressing';
+import { IPacket } from './packet';
 
 export interface IHistoryListItem {
   id: any;
@@ -15,5 +17,7 @@ export interface IHistory extends IHistoryListItem {
   state: string; // etat de la course (Annuler, encours, terminé, etc...)
   paimentMethod: string;
   driver: IDriver;
+  packet: IPacket;
+  pressing: IPressingListItem;
   transportType: string; // type de course
 }

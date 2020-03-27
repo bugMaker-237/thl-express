@@ -1,4 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  Inject
+} from '@angular/core';
 import { Page, View } from 'tns-core-modules/ui/page/page';
 import {
   Button,
@@ -19,7 +25,10 @@ import {
   GoogleDirections,
   getStringResource,
   GlobalStoreService,
-  DialogService
+  DialogService,
+  MailService,
+  PlatformService,
+  Loader
 } from '@apps.common/services';
 import {
   IPlacePredilection,
@@ -41,6 +50,12 @@ import { IDriver } from '@app.shared/models/driver';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { clearMap, drawMarker, drawRoute, doZoom } from '~/app/utils/map';
 import { ActivatedRoute } from '@angular/router';
+import { IPacket } from '~/app/models/packet';
+import { Settings } from '@app.shared/models';
+import { SettingsService } from '@app.shared/services';
+import { IAppConfig, APP_CONFIG } from '@apps.common/config';
+import { IJourneyRequest } from './journey';
+import { JourneyService } from './journey.service';
 
 interface TAnimation {
   definition: AnimationDefinition;
@@ -51,7 +66,8 @@ interface TAnimation {
   selector: 'map',
   moduleId: module.id,
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  styleUrls: ['./map.component.scss'],
+  providers: [JourneyService]
 })
 export class MapComponent implements OnInit {
   @ViewChild('autocomplete1', { static: true })
@@ -81,6 +97,8 @@ export class MapComponent implements OnInit {
   public padding = [10, 10, 10, 10];
   public currentRouteDistance: string;
   public selectedDriver: IDriver = { id: null, user: { name: '' } as any };
+  public wishes: string;
+  public type: string;
 
   private placesFieldWereDirty = false;
   private currentViewState: ViewState<TAnimation>;
@@ -96,10 +114,9 @@ export class MapComponent implements OnInit {
     bounds: {},
     duration: {}
   } as any;
-  private kmPrice = 5;
-  public type: string;
+  private kmPrice = 0;
   private isPacketTransportation: boolean;
-  private packet: any;
+  private packet: IPacket;
 
   set currentMapRoute(value: IMapRoute) {
     this.curRt = value;
@@ -110,14 +127,20 @@ export class MapComponent implements OnInit {
   }
 
   constructor(
+    @Inject(APP_CONFIG) private _appConfig: IAppConfig,
     private _driverService: DriverService,
     private _router: RouterExtensions,
     private _activatedRoute: ActivatedRoute,
     private _store: GlobalStoreService,
-    private _dialogService: DialogService
+    private _settingsService: SettingsService,
+    private _dialogService: DialogService,
+    private _platformService: PlatformService,
+    private _mailService: MailService,
+    private _journeyService: JourneyService
   ) {}
 
   ngOnInit(): void {
+    Loader.default.show();
     // using pixels and screen scale top align element at the bottom of absoluteLayout
     this.state3.nativeElement.top = screen.mainScreen.heightDIPs - 56 - 100;
     this.registerViewStates();
@@ -132,7 +155,6 @@ export class MapComponent implements OnInit {
     this._activatedRoute.params.subscribe({
       next: params => {
         this.type = params.type;
-        console.log('init');
         this.toggleState(0);
         clearMap(this.mapView);
         this.autocomplete1.nativeElement.text = '';
@@ -145,8 +167,16 @@ export class MapComponent implements OnInit {
     this._activatedRoute.queryParams.subscribe({
       next: queryParams => {
         this.isPacketTransportation = queryParams.isPacketTransportation;
+        this.packet = this._store.get('current-packet-packet');
+        const settings = this._settingsService.settings;
         if (this.isPacketTransportation) {
-          this.packet = this._store.get('ongoing-packet');
+          if (this.packet.nature === 'PLIS') {
+            this.kmPrice = settings.plisfermeprice;
+          } else {
+            this.kmPrice = settings.autrecolisprice;
+          }
+        } else {
+          this.kmPrice = settings.kmprice;
         }
       }
     });
@@ -207,7 +237,7 @@ export class MapComponent implements OnInit {
       .subscribe(res => {
         if (res.length === 0) {
           this._dialogService.alert(
-            'Aucun transporteur disponible dans cette zone pour l\'instant, patientez, puis réessayé'
+            "Aucun transporteur disponible dans cette zone pour l'instant, patientez, puis réessayé"
           );
         } else {
           const driverMarkersPromises = [];
@@ -248,13 +278,31 @@ export class MapComponent implements OnInit {
         drawRoute(this.mapView, dirs);
         doZoom(this.mapView);
         this.currentMapRoute = dirs[0];
+
         // closes keyboard
         ad.dismissSoftInput();
 
         this.toggleState(1);
       }
     } catch (e) {
-      this._dialogService.alert(e.message);
+      this._dialogService.confirm(e.message, 'REPORT', 'CONTINUE').then(res => {
+        if (res) {
+          let error = this._platformService.getAllDeviceInfo();
+          error += e.stack || '';
+          this._mailService.compose({
+            subjectSuffix: 'MAP - ISSUE',
+            attachments: [
+              {
+                fileName: 'Platform & error details',
+                mimeType: 'text/plain',
+                path: 'base64://' + error
+              }
+            ],
+            body: e.message,
+            to: this._appConfig.contacts.issue
+          });
+        }
+      });
     }
   }
   toggleState(stateOrder: number) {
@@ -266,24 +314,45 @@ export class MapComponent implements OnInit {
     }
   }
   payTrip() {
-    this._store.set('ongoing-payment', {
-      origin: this.origin,
-      destination: this.destination,
-      price: this.getRoutePrice()
-    });
-    this._router.navigate(['/app-shell/pay-service'], {
-      transition: {
-        name: 'slide'
-      }
-    });
+    this._journeyService
+      .saveJourney(
+        this.currentMapRoute,
+        this.selectedDriver,
+        this.origin,
+        this.destination,
+        this.wishes,
+        this.isPacketTransportation,
+        this.packet
+      )
+      .subscribe({
+        next: res => {
+          this._store.set('ONGOING_PAYMENT', {
+            type: 'journey',
+            journeyId: res.id,
+            origin: this.origin,
+            destination: this.destination,
+            price: this.getRoutePrice(),
+            redirectUrl: '../history/JOURNEY'
+          });
+          this._router.navigate(['../../pay-service'], {
+            transition: {
+              name: 'slide'
+            },
+            relativeTo: this._activatedRoute
+          });
+        }
+      });
   }
 
   getRoutePrice() {
-    return this.kmPrice * this.currentMapRoute.distance.value;
+    return Math.ceil(
+      this.kmPrice * (this.currentMapRoute.distance.value / 1000)
+    );
   }
   onMapReady(event) {
     this.mapView = event.object as MapView;
     this.mapView.setStyle(mapStyle as any);
+    Loader.default.hide();
   }
 
   onMarkerEvent(args) {

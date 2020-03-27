@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IHistoryListItem } from '~/app/models/history';
+import { IHistoryListItem, IHistory } from '~/app/models/history';
 import { ActivatedRoute } from '@angular/router';
 import { HistoryService } from '~/app/features/history/history.service';
+import { PaginatedData } from '@apps.common/models';
+import { RouterExtensions } from 'nativescript-angular/router';
+import { GlobalStoreService } from '@apps.common/services';
 
 @Component({
   selector: 'history-list',
@@ -11,16 +14,18 @@ import { HistoryService } from '~/app/features/history/history.service';
 export class HistoryListComponent implements OnInit {
   histories: IHistoryListItem[] = [];
   type: string;
+  pagination: {};
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _historyService: HistoryService
+    private _router: RouterExtensions,
+    private _historyService: HistoryService,
+    private _store: GlobalStoreService
   ) {}
 
   ngOnInit() {
     this._activatedRoute.data.subscribe({
-      next: (data: { histories: IHistoryListItem[] }) => {
-        console.log(data.histories);
-        this.histories = data.histories;
+      next: (data: { histories: PaginatedData<IHistory> }) => {
+        this.histories = data.histories.data;
       }
     });
     this._activatedRoute.parent.params.subscribe({
@@ -31,7 +36,21 @@ export class HistoryListComponent implements OnInit {
   }
   loadHistories(paging = 1) {
     this._historyService.getHistories(this.type, paging).subscribe({
-      next: res => (this.histories = res)
+      next: res => {
+        this.histories = res.data;
+        this.pagination = res.pagination;
+      }
     });
+  }
+  openDetails(item: IHistory) {
+    this._store.set('current-history-item', item);
+    this._router.navigate(
+      [`app-shell/history/${this.type}/details/${item.id}`],
+      {
+        transition: {
+          name: 'slide'
+        }
+      }
+    );
   }
 }

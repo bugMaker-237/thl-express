@@ -59,6 +59,7 @@
               *ngIf="!item.validated"
               class="btn btn-accent text-white btn-flat"
               height="48"
+              (tap)="update(item)"
               margin="0"
               style="text-align: center;"
               text="MODIFIER"

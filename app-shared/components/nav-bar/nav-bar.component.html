@@ -21,19 +21,14 @@
     >
     </core-ui-icon>
   </StackLayout>
-  <StackLayout
+  <Label
+    class="h4"
+    [text]="text"
+    textWrap="true"
     col="1"
-    horizontalAlignment="center"
     verticalAlignment="center"
-    width="80%"
-  >
-    <Label
-      class="h4"
-      [text]="text"
-      textWrap="true"
-      horizontalAlignment="center"
-    ></Label>
-  </StackLayout>
+    horizontalAlignment="center"
+  ></Label>
   <StackLayout col="2" verticalAlignment="center">
     <ng-content select="[actions]"></ng-content>
   </StackLayout>

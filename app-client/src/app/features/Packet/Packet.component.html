@@ -15,8 +15,8 @@
         customTextFieldClass="no-border p-10"
       ></core-ui-tf>
       <core-ui-tf
-        hint="Nom du receveur"
-        [(ngModel)]="packet.receiverName"
+        hint="Poids en Kg"
+        [(ngModel)]="packet.weight"
         required="true"
         keyboardType="number"
         [editable]="!formDisabled"
@@ -25,9 +25,18 @@
         customTextFieldClass="no-border p-10"
       ></core-ui-tf>
       <core-ui-tf
+        hint="Nom du receveur"
+        [(ngModel)]="packet.receiver_name"
+        required="true"
+        [editable]="!formDisabled"
+        autocorrect="false"
+        customClass="m-b-20 m-t-10 text-field-outline"
+        customTextFieldClass="no-border p-10"
+      ></core-ui-tf>
+      <core-ui-tf
         keyboardType="phone"
         hint="Telephone du receveur"
-        [(ngModel)]="packet.receiverName"
+        [(ngModel)]="packet.receiver_phone"
         required="true"
         keyboardType="number"
         [editable]="!formDisabled"

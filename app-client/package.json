@@ -28,6 +28,7 @@
     "@nstudio/nativescript-loading-indicator": "^3.0.3",
     "nativescript-angular": "^8.2.2",
     "nativescript-cardview": "^3.2.0",
+    "nativescript-email": "^1.6.0",
     "nativescript-google-maps-sdk": "^2.9.1",
     "nativescript-linearprogressbar": "^1.0.4",
     "nativescript-localstorage": "^2.0.1",

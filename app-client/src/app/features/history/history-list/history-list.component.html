@@ -68,8 +68,7 @@
               class="btn btn-accent btn-flat text-white"
               height="48"
               margin="0"
-              [nsRouterLink]="['/app-shell/history/details', item.id]"
-              pageTransition="fade"
+              (tap)="openDetails(item)"
               style="text-align: center;"
               text="DETAILS"
             ></Button>

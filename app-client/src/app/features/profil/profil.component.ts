@@ -1,30 +1,49 @@
 import { Component, OnInit } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { AuthService } from '@app.shared/services';
 import { IUser } from '@app.shared/models';
+import { ProfilService } from './profil.service';
+import { ToastService } from '@apps.common/services';
 @Component({
   selector: 'profil',
   moduleId: module.id,
   templateUrl: './profil.component.html',
-  styleUrls: ['./profil.component.scss']
+  styleUrls: ['./profil.component.scss'],
+  providers: [ProfilService]
 })
 export class ProfilComponent implements OnInit {
-  user: IUser = {
-    email: '',
-    image: '',
-    name: '',
-    username: ''
-  } as any;
+  user: IUser = {} as any;
+  userToUpdate: any = {};
   formDisabled = false;
-  viewPassword = false;
-  constructor(private page: Page) {}
+  toComplete: string;
+  constructor(
+    private _authService: AuthService,
+    private _profilService: ProfilService,
+    private _toasService: ToastService
+  ) {}
 
   ngOnInit(): void {
-    this.user = {
-      name: 'Etienne Yamsi',
-      image: 'https://etienneyamsi.com/images/jn-pp.png',
-      email: 'yamsietienne@gmail.com',
-      token: 'token'
-    } as any;
+    this.user = this._authService.connectedUser;
+    this.userToUpdate = {
+      name: this.user.name
+    };
   }
-  onReturnPress(event) {}
+  update() {
+    this._profilService.updateProfil(this.userToUpdate).subscribe({
+      next: (res: IUser) => {
+        this.user = res;
+        this.userToUpdate.name = this.user.name;
+        this._toasService.push({
+          text: 'Enregistrement effectué!',
+          data: {
+            backgroundColor: 'primary'
+          }
+        });
+        this._authService.setUserInfos(
+          this.user.name,
+          this.user.phone,
+          this.user.email
+        );
+      }
+    });
+  }
 }

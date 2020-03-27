@@ -28,13 +28,13 @@
       <Label
         style="text-align: center;"
         class="m-t-10"
-        text="Nous venons juste d'envoyer un SMS de vérification sur votre mobile"
+        text="Nous venons juste d'envoyer un message de vérification sur votre mobile"
         textWrap="true"
         horizontalAlignment="center"
       ></Label>
       <Label
         class="m-t-10"
-        text="+237 697825762"
+        [text]="connectedUser.phone || connectedUser.email"
         horizontalAlignment="center"
         textWrap="true"
       ></Label>
@@ -59,7 +59,12 @@
       >
         <Label text="Vous n'avez pas reçu le code ? " textWrap="true"></Label>
 
-        <Label class="text-primary" (tap)="resend()" text=" Renvoyer" textWrap="true"></Label>
+        <Label
+          class="text-primary"
+          (tap)="resend()"
+          text=" Renvoyer"
+          textWrap="true"
+        ></Label>
       </StackLayout>
 
       <Button

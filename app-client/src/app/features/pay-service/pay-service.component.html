@@ -27,6 +27,7 @@
             class="p-l-10 p-r-10 m-b-5"
             orientation="horizontal"
             columns="50, *"
+            *ngIf="service.origin.name"
           >
             <StackLayout col="0">
               <core-ui-icon rotate="180" name="navigation" size="16">
@@ -45,6 +46,7 @@
             orientation="horizontal"
             verticalAlignment="center"
             columns="50, *"
+            *ngIf="service.destination.name"
           >
             <StackLayout col="0">
               <Label class="dotted" text="" textWrap="true"></Label>
@@ -112,7 +114,7 @@
           height="64"
           margin="0"
           text="Payer"
-          (tap)="(null)"
+          (tap)="pay()"
         ></Button>
       </StackLayout>
     </StackLayout>

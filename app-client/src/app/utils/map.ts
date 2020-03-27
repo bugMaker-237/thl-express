@@ -72,20 +72,21 @@ export async function drawMarker(
   // this.mapView.
 }
 
-export function doZoom(mapView: MapView) {
+export function doZoom(mapView: MapView, padding = 20) {
   const builder = new (com.google
     .android as any).gms.maps.model.LatLngBounds.Builder();
   mapView.findMarker(marker => {
+    // console.log(marker);
     builder.include(marker.android.getPosition());
     return false;
   });
 
   const bounds = builder.build();
-  const padding = 200;
   const cu = (com.google
     .android as any).gms.maps.CameraUpdateFactory.newLatLngBounds(
     bounds,
     padding
   );
+  // console.log(cu);
   mapView.gMap.animateCamera(cu);
 }

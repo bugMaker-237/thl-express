@@ -77,20 +77,11 @@
         ></Button>
       </StackLayout>
       <StackLayout class="p-l-10 p-r-10">
-        <GridLayout
-          class="m-t-20 m-b-20 m-l-10 m-r-10 p-b-10 b-b-1 b-thin"
-          columns="*, auto"
-        >
+        <GridLayout class="m-t-20 m-l-10 m-r-10 b-b-1 b-thin" columns="*, auto">
           <label text="Prix" row="0" col="0" class="h4"></label>
-        </GridLayout>
-        <GridLayout
-          class="m-l-10 m-r-10 m-b-5 p-b-5 b-b-1 b-thin"
-          columns="*, auto"
-        >
-          <label [text]="history.paimentMethod" row="0" col="0"></label>
           <label [text]="history.price + ' FCFA'" row="0" col="1"></label>
         </GridLayout>
-        <GridLayout rows="auto,auto" columns="*,auto" class="m-b-20 p-10">
+        <GridLayout rows="auto,auto" columns="*,auto" class="p-t-0 p-10">
           <StackLayout
             class="m-b-10"
             orientation="horizontal"
@@ -107,7 +98,7 @@
             <StackLayout margin="20" maxWidth="60">
               <Label
                 class="h4"
-                [text]="history.driver.name"
+                [text]="history.driver.user.name"
                 textWrap="true"
               ></Label>
             </StackLayout>
@@ -124,6 +115,39 @@
             <Label [text]="history.transportType" textWrap="true"></Label>
           </StackLayout>
         </GridLayout>
+        <label
+          text="Description"
+          *ngIf="history.transportType !== 'PERSONNE'"
+          class="h4 m-t-20 m-l-10 p-b-5 m-r-10 b-b-1 b-thin"
+        ></label>
+        <StackLayout class="p-10" *ngIf="history.transportType === 'COLIS'">
+          <StackLayout orientation="horizontal" class="m-b-5">
+            <Label text="Poids: " textWrap="true"></Label>
+            <Label [text]="history.packet.weight" textWrap="true"></Label>
+          </StackLayout>
+          <StackLayout orientation="horizontal" class="m-b-5">
+            <Label text="Nature: " textWrap="true"></Label>
+            <Label [text]="history.packet.nature" textWrap="true"></Label>
+          </StackLayout>
+          <StackLayout orientation="horizontal" class="m-b-5">
+            <Label text="Valeur: " textWrap="true"></Label>
+            <Label [text]="history.packet.value" textWrap="true"></Label>
+          </StackLayout>
+          <StackLayout orientation="horizontal" class="m-b-5">
+            <Label text="Nom du recepteur: " textWrap="true"></Label>
+            <Label
+              [text]="history.packet.receiver_name"
+              textWrap="true"
+            ></Label>
+          </StackLayout>
+          <StackLayout orientation="horizontal" class="m-b-5">
+            <Label text="Numéro du recepteur: " textWrap="true"></Label>
+            <Label
+              [text]="history.packet.receiver_phone"
+              textWrap="true"
+            ></Label>
+          </StackLayout>
+        </StackLayout>
       </StackLayout>
       <StackLayout class="bg-accent">
         <Button

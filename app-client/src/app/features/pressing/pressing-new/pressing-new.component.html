@@ -42,7 +42,7 @@
         <StackLayout padding="10">
           <GridLayout
             class="p-b-5 m-b-5"
-            columns="*, auto"
+            columns="auto, *, auto"
             verticalAlignment="center"
           >
             <StackLayout col="0" horizontalAlignment="left">
@@ -50,17 +50,28 @@
                 verticalAlignment="center"
                 horizontalAlignment="left"
                 name="close"
-                size="28"
+                size="24"
                 (tapAction)="removeItem(item)"
               >
               </core-ui-icon>
             </StackLayout>
             <label
               verticalAlignment="center"
+              horizontalAlignment="center"
               class="m-r-5"
               [text]="item.price + ' FCFA'"
               col="1"
             ></label>
+            <StackLayout col="2" horizontalAlignment="right">
+              <core-ui-icon
+                verticalAlignment="center"
+                horizontalAlignment="right"
+                name="edit"
+                size="24"
+                (tapAction)="editItem(item)"
+              >
+              </core-ui-icon>
+            </StackLayout>
           </GridLayout>
           <GridLayout class="p-t-5 p-b-5 m-b-5 b-b-1 b-t-1" columns="*, auto">
             <label

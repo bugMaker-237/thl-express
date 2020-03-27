@@ -11,6 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Color } from 'tns-core-modules/color/color';
 import { Loader } from '@apps.common/services';
 import { drawRoute, drawMarker, doZoom } from '~/app/utils/map';
+import { GlobalStoreService } from '@apps.common/services';
+import { default as mapStyle } from '../../map/map-style.json';
 
 @Component({
   selector: 'history-details',
@@ -19,7 +21,15 @@ import { drawRoute, drawMarker, doZoom } from '~/app/utils/map';
 })
 export class HistoryDetailsComponent implements OnInit {
   history: IHistory = {
-    driver: {}
+    driver: {
+      user: {}
+    },
+    packet: {},
+    pressing: {},
+    originPosition: {
+      latitude: 4.049862,
+      longitude: 9.695213
+    }
   } as any;
 
   constructor(private _activatedRoute: ActivatedRoute) {}
@@ -30,19 +40,24 @@ export class HistoryDetailsComponent implements OnInit {
 
   onMapReady(event) {
     const mapView = event.object as MapView;
+    mapView.setStyle(mapStyle as any);
     this._activatedRoute.data.subscribe({
-      next: (data: {
+      next: async (data: {
         itemAndMapRoute: { item: IHistory; mapRoute: IMapRoute[] };
       }) => {
         const { item, mapRoute } = data.itemAndMapRoute;
+        item.packet = item.packet || ({} as any);
+        item.pressing = item.pressing || ({} as any);
         this.history = item;
-        drawMarker(mapView, item.originPosition, 0);
-        drawMarker(mapView, item.destinationPosition, 0);
-        drawRoute(mapView, mapRoute);
-
-        doZoom(mapView);
-
-        Loader.default.hide();
+        // console.log(item);
+        await Promise.all([
+          drawMarker(mapView, item.originPosition, 0, '', null, true),
+          drawMarker(mapView, item.destinationPosition, 1, '', null, true)
+        ]).then(_ => {
+          drawRoute(mapView, mapRoute);
+          doZoom(mapView, 20);
+          Loader.default.hide();
+        });
       }
     });
   }

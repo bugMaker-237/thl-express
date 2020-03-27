@@ -1,22 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { IPlace } from '@apps.common/models';
 import { AuthService } from '@app.shared/services';
-import { RouterExtensions } from 'nativescript-angular/router';
+import {
+  GlobalStoreService,
+  ToastService,
+  Loader
+} from '@apps.common/services';
+import { IOngoingPayment } from './payment.model';
+import { PaymentService } from './pay-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { GlobalStoreService } from '@apps.common/services';
+import { RouterExtensions } from 'nativescript-angular/router';
+import { repeat, take } from 'rxjs/operators';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'pay-service',
   templateUrl: 'pay-service.component.html',
-  styleUrls: ['pay-service.component.scss']
+  styleUrls: ['pay-service.component.scss'],
+  providers: [PaymentService]
 })
 export class PayServiceComponent implements OnInit {
   formDisabled = false;
-  service: {
-    origin: IPlace;
-    destination: IPlace;
-    price: number;
-  } = { origin: {}, destination: {}, price: 0 } as any;
+  service: IOngoingPayment = { origin: {}, destination: {}, price: 0 } as any;
   buyer = {
     lastName: '',
     firstName: '',
@@ -24,16 +28,54 @@ export class PayServiceComponent implements OnInit {
   };
   constructor(
     private _authService: AuthService,
-    private _route: ActivatedRoute,
-    private _store: GlobalStoreService
+    private _payService: PaymentService,
+    private _activatedRoute: ActivatedRoute,
+    private _router: RouterExtensions,
+    private _store: GlobalStoreService,
+    private _toasService: ToastService
   ) {}
   ngOnInit() {
-    this.service = this._store.get('ongoing-payment') as any;
+    this.service = this._store.STORE.ONGOING_PAYMENT as IOngoingPayment;
     const user = this._authService.connectedUser;
     this.buyer = {
       lastName: user.name.split(' ')[0],
       firstName: user.name.split(' ')[1],
       phone: user.phone
     };
+  }
+  pay() {
+    this._payService.pay(this.service, this.buyer).subscribe({
+      next: res => {
+        this._toasService.push({
+          text: res.message,
+          data: {
+            backgroundColor: 'primary'
+          }
+        });
+        const code = res.code;
+        if (res.code) {
+          const intervalSubscription = interval(2000)
+            .pipe(take(90))
+            .subscribe({
+              next: () => this._payService.checkTransaction(code)
+            });
+
+          this._payService.checkTransaction(code).subscribe({
+            next: res2 => {
+              console.log(res2);
+              if (res2.status === 200) {
+                intervalSubscription.unsubscribe();
+                this._router.navigate([this.service.redirectUrl], {
+                  transition: {
+                    name: 'slide'
+                  },
+                  relativeTo: this._activatedRoute
+                });
+              }
+            }
+          });
+        }
+      }
+    });
   }
 }

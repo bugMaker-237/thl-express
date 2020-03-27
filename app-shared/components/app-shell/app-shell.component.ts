@@ -103,18 +103,20 @@ export class AppShellComponent implements AfterViewInit, OnInit {
     this.toggleDrawer(false);
     if (m.link === '#action') {
       this._authService.signOut().subscribe({
-        next: () =>
-          this._router.navigate(['auth/sign-in'], {
+        next: () => {
+          // console.log('signed out');
+          this._router.navigate(['/auth/sign-in'], {
             transition: {
               name: 'slide'
             },
             clearHistory: true
-          })
+          });
+        }
       });
     } else {
       this._router.navigate([m.link], {
         transition: {
-          name: 'slide'
+          name: 'slideLeft'
         },
         clearHistory: event.index === 0
       });

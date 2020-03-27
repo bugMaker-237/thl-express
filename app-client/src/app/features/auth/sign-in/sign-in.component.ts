@@ -28,6 +28,12 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {}
   login() {
+    if (!this.username || !this.password) {
+      this._dialogService.alert(
+        "Veillez entrer l'email ou le numéro de téléphone et le mot de passe"
+      );
+      return;
+    }
     this._authService
       .signIn({
         email: this.username,
@@ -42,7 +48,7 @@ export class SignInComponent implements OnInit {
     if (u.suspend || u.delete) {
       this._dialogService.alert('Votre compte à été suspendu ou supprimé!');
     } else {
-      let toNavigate = 'app-shell/map';
+      let toNavigate = '/';
       let hasToVerify = false;
       if (!u.active) {
         toNavigate = '../verify-code';

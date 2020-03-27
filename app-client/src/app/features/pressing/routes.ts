@@ -18,7 +18,10 @@ export const pressingRoutes = {
     },
     {
       path: 'new',
-      component: PressingNewComponent
+      component: PressingNewComponent,
+      resolve: {
+        clothTypes: PressingListClothsResolver
+      }
     },
     { path: '', redirectTo: 'list', pathMatch: 'full' }
   ]

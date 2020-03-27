@@ -20,5 +20,5 @@ export interface IUser {
   updated_at: string;
   image: string;
   code_expire?: Date;
-  verify_code?: string;
+  verify_code?: number;
 }

@@ -35,6 +35,7 @@ export class AuthService extends BaseService {
   public signIn(credentials: {
     email: string;
     password: string;
+    code?: number | string;
   }): Observable<{ user: IUser }> {
     return this.post<{ user: IUser }>('/login', credentials).pipe(
       map(this.saveUser.bind(this))
@@ -47,23 +48,29 @@ export class AuthService extends BaseService {
     );
   }
 
-  resendCode() {
-    return this.post<{ code: string; codeExpires: Date }>(
+  public resendCode() {
+    return this.post<{ code: number | string; codeExpires: Date }>(
       `/resend/${this._user.id}`
     ).pipe(
       map(codeInfo => {
-        this._user.verify_code = codeInfo.code;
+        this._user.verify_code = codeInfo.code as number;
         this._user.code_expire = codeInfo.codeExpires;
         this.storage.set(this.localStorageKey, this._user);
       })
     );
   }
 
-  public signOut(): Observable<void> {
-    this.storage.remove(this.localStorageKey);
-    this._user = null;
-    return of<void>();
+  public signOut(): Observable<{}> {
+    return this.get<{ user: IUser }>('/logout').pipe(
+      map(res => {
+        this.storage.remove(this.localStorageKey);
+        this._user = null;
+        return res;
+      })
+    );
   }
+
+  public setUserInfos(name: string, phone: string, email: string) {}
 
   public get connectedUser(): IUser {
     this._user =
@@ -73,12 +80,28 @@ export class AuthService extends BaseService {
 
   public get token(): string {
     const user = this.storage.getObject<IUser>(this.localStorageKey);
+    // console.log(user);
     return user ? user.token : '';
   }
+  public async getUser(): Promise<IUser> {
+    if (this._user) {
+      return this._user;
+    }
 
+    return await this.storage.getObjectAsync<IUser>(this.localStorageKey);
+  }
   private saveUser(data: { user: IUser }) {
-    this._user = data.user;
-    this.storage.set(this.localStorageKey, data.user);
-    return data;
+    if (!data.user) {
+      this.toastService.push({
+        text: 'Compte ou mot de passe incorrect',
+        persist: true,
+        timeout: 5000
+      });
+      throw new Error('Compte ou mot de passe incorrect');
+    } else {
+      this._user = data.user;
+      this.storage.set(this.localStorageKey, data.user);
+      return data;
+    }
   }
 }

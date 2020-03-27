@@ -2,8 +2,10 @@ import { Component, Inject } from '@angular/core';
 import {
   setDefaultLoader,
   OnlineService,
-  ToastService
+  ToastService,
+  GlobalStoreService
 } from '@apps.common/services';
+import { SettingsService } from '@app.shared/services';
 import {
   IAppTheme,
   APP_THEME,
@@ -21,35 +23,37 @@ export class AppComponent {
     @Inject(APP_THEME) _theme: IAppTheme,
     @Inject(APP_CONFIG) _config: IAppConfig,
     _onlineService: OnlineService,
-    toastService: ToastService
+    toastService: ToastService,
+    _settings: SettingsService,
+    _store: GlobalStoreService
   ) {
     setDefaultLoader({
       indicatorColor: _theme.primaryColor,
       backgroudColor: _theme.primaryForeColor
     });
-    console.log(knownFolders.documents().path);
-    const folder = Folder.fromPath('/storage/emulated/0/thl-config');
-    if (folder) {
-      const file = folder.getFile('app.config.json');
-      if (file) {
-        file
-          .readText()
-          .then(val => {
-            if (val.length > 0) {
-              const conf = JSON.parse(val) as IAppConfig;
-              _config.apiEndpoints = conf.apiEndpoints;
-              _config.authorization = conf.authorization;
-              console.log(_config);
-            }
-          })
-          .catch(console.log);
-      }
-    }
+    // // console.log(knownFolders.documents().path);
+    // const folder = Folder.fromPath('/storage/emulated/0/thl-config');
+    // if (folder) {
+    //   const file = folder.getFile('app.config.json');
+    //   if (file) {
+    //     file
+    //       .readText()
+    //       .then(val => {
+    //         if (val.length > 0) {
+    //           const conf = JSON.parse(val) as IAppConfig;
+    //           _config.apiEndpoints = conf.apiEndpoints;
+    //           _config.authorization = conf.authorization;
+    //           // console.log(_config);
+    //         }
+    //       })
+    //       .catch(// console.log);
+    //   }
+    // }
 
     _onlineService.isOnline().subscribe({
       next(val) {
         const options = {
-          backgroundColor: _theme.accentColor,
+          backgroundColor: 'accent',
           position: 'bottom',
           tapToDismiss: true,
           textColor: _theme.accentForeColor,
@@ -68,6 +72,11 @@ export class AppComponent {
             data: options
           });
         }
+      }
+    });
+    _settings.getSettings().subscribe({
+      next: settings => {
+        _store.set('settings', settings);
       }
     });
   }
