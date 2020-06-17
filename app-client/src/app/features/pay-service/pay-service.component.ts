@@ -3,7 +3,7 @@ import { AuthService } from '@app.shared/services';
 import {
   GlobalStoreService,
   ToastService,
-  Loader
+  Loader,
 } from '@apps.common/services';
 import { IOngoingPayment } from './payment.model';
 import { PaymentService } from './pay-service.service';
@@ -16,7 +16,7 @@ import { interval } from 'rxjs';
   selector: 'pay-service',
   templateUrl: 'pay-service.component.html',
   styleUrls: ['pay-service.component.scss'],
-  providers: [PaymentService]
+  providers: [PaymentService],
 })
 export class PayServiceComponent implements OnInit {
   formDisabled = false;
@@ -24,7 +24,7 @@ export class PayServiceComponent implements OnInit {
   buyer = {
     lastName: '',
     firstName: '',
-    phone: ''
+    phone: '',
   };
   constructor(
     private _authService: AuthService,
@@ -40,42 +40,57 @@ export class PayServiceComponent implements OnInit {
     this.buyer = {
       lastName: user.name.split(' ')[0],
       firstName: user.name.split(' ')[1],
-      phone: user.phone
+      phone: user.phone,
     };
   }
   pay() {
+    if (this.buyer.phone.length < 9) {
+      this._toasService.push({
+        text: 'Numéro de téléphone incorrect',
+        data: {
+          backgroundColor: 'primary',
+        },
+      });
+      return;
+    }
+    if (!/(\+)?237/.test(this.buyer.phone)) {
+      this.buyer.phone = '+237' + this.buyer.phone;
+    }
+    if (!this.buyer.phone.startsWith('+')) {
+      this.buyer.phone = '+' + this.buyer.phone;
+    }
     this._payService.pay(this.service, this.buyer).subscribe({
-      next: res => {
+      next: (res) => {
         this._toasService.push({
           text: res.message,
           data: {
-            backgroundColor: 'primary'
-          }
+            backgroundColor: 'primary',
+          },
         });
         const code = res.code;
         if (res.code) {
           const intervalSubscription = interval(2000)
             .pipe(take(90))
             .subscribe({
-              next: () => this._payService.checkTransaction(code)
+              next: () => this._payService.checkTransaction(code),
             });
 
           this._payService.checkTransaction(code).subscribe({
-            next: res2 => {
+            next: (res2) => {
               console.log(res2);
               if (res2.status === 200) {
                 intervalSubscription.unsubscribe();
                 this._router.navigate([this.service.redirectUrl], {
                   transition: {
-                    name: 'slide'
+                    name: 'slide',
                   },
-                  relativeTo: this._activatedRoute
+                  relativeTo: this._activatedRoute,
                 });
               }
-            }
+            },
           });
         }
-      }
+      },
     });
   }
 }

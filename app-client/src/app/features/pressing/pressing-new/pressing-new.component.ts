@@ -12,7 +12,7 @@ import { GlobalStoreService } from '@apps.common/services';
   moduleId: module.id,
   templateUrl: './pressing-new.component.html',
   styleUrls: ['./pressing-new.component.scss'],
-  providers: [PressingService]
+  providers: [PressingService],
 })
 export class PressingNewComponent implements OnInit {
   currentPressingItem: IPressingListItem;
@@ -40,10 +40,10 @@ export class PressingNewComponent implements OnInit {
         this.currentPressingItem =
           this._storeService.get('current-pressing-item') || ({} as any);
         const clothsToAdd = this.currentPressingItem.cloths || [];
-        this.addedCloths = clothsToAdd.map(c => {
+        this.addedCloths = clothsToAdd.map((c) => {
           return this.convertTypeToId(c, c.type);
         });
-      }
+      },
     });
   }
   onReturnPress(event: any) {}
@@ -52,10 +52,10 @@ export class PressingNewComponent implements OnInit {
       title: 'Séléction',
       message: 'Choisir un vêtement',
       cancelButtonText: 'Annuler',
-      actions: this.clothTypes.map(c => c.name)
+      actions: this.clothTypes.map((c) => c.name),
     };
 
-    action(options).then(result => {
+    action(options).then((result) => {
       if (result.toLowerCase() !== 'annuler') {
         this.selectedCloth = result;
       }
@@ -69,17 +69,17 @@ export class PressingNewComponent implements OnInit {
     this.pressingRequest.price =
       this.getUnitPrice(this.pressingRequest.type) *
       this.pressingRequest.quantity;
-    const obj = Object.assign({}, this.pressingRequest);
+    const obj = Object.assign({ details: '' }, this.pressingRequest);
     this.addedCloths.push(obj);
     this.pressingRequest = {} as any;
     this.selectedCloth = 'Choisir le vêtement';
   }
   convertTypeToId(pressingCloth, clothName) {
-    pressingCloth.type = this.clothTypes.find(c => c.name === clothName).id;
+    pressingCloth.type = this.clothTypes.find((c) => c.name === clothName).id;
     return pressingCloth;
   }
   removeItem(item: any) {
-    this.addedCloths = this.addedCloths.filter(x => x !== item);
+    this.addedCloths = this.addedCloths.filter((x) => x !== item);
   }
   editItem(item) {
     this.pressingRequest = item;
@@ -87,11 +87,11 @@ export class PressingNewComponent implements OnInit {
     this.removeItem(item);
   }
   getUnitPrice(id: any) {
-    const res = this.clothTypes.find(c => c.id === id) || ({} as any);
+    const res = this.clothTypes.find((c) => c.id === id) || ({} as any);
     return res.price;
   }
   getClothName(id: string) {
-    const res = this.clothTypes.find(c => c.id === id) || ({} as any);
+    const res = this.clothTypes.find((c) => c.id === id) || ({} as any);
     return res.name;
   }
   save() {
@@ -99,13 +99,13 @@ export class PressingNewComponent implements OnInit {
       next: () => {
         this._router.navigate(['../list'], {
           transition: {
-            name: 'slideRight'
+            name: 'slideRight',
           },
-          relativeTo: this._activatedRoute
+          relativeTo: this._activatedRoute,
         });
         this.addedCloths = [];
         this.pressingRequest = {} as any;
-      }
+      },
     });
   }
 }

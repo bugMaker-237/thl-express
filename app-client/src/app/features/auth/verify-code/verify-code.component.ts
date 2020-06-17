@@ -8,13 +8,13 @@ import {
   Loader,
   DialogService,
   LocalStorageService,
-  ToastService
+  ToastService,
 } from '@apps.common/services';
 @Component({
   selector: 'verify-code',
   moduleId: module.id,
   templateUrl: './verify-code.component.html',
-  styleUrls: ['./verify-code.component.scss']
+  styleUrls: ['./verify-code.component.scss'],
 })
 export class VerifyCodeComponent implements OnInit {
   verificationCode: number;
@@ -38,10 +38,10 @@ export class VerifyCodeComponent implements OnInit {
         this._toastService.push({
           text: 'Message renvoyé',
           data: {
-            backgroundColor: 'accent'
-          }
+            backgroundColor: 'accent',
+          },
         });
-      }
+      },
     });
   }
 
@@ -64,21 +64,30 @@ export class VerifyCodeComponent implements OnInit {
         userCon.code = this.verificationCode.toString().trim();
         console.log(userCon);
         this._authService.signIn(userCon).subscribe({
-          next: _ => {
+          next: (_) => {
             Loader.default.show();
             this._router
               .navigate(['app-shell/map/VIP'], {
                 transition: {
-                  name: 'slide'
+                  name: 'slide',
                 },
-                clearHistory: true
+                clearHistory: true,
               })
-              .then(__ => Loader.default.hide());
-          }
+              .then((__) => Loader.default.hide());
+          },
         });
       } else {
         this._dialogService.alert('Code de vérification incorrect!');
       }
     }
+  }
+  cancel() {
+    this._authService.clearUser();
+    this._router.navigate(['auth/sign-in'], {
+      transition: {
+        name: 'slide',
+      },
+      clearHistory: true,
+    });
   }
 }

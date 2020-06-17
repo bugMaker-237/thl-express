@@ -1,0 +1,97 @@
+<StackLayout class="page-block docs-block">
+  <nav-bar
+    showDrawerButton="true"
+    text="Documents conducteur"
+  >
+  </nav-bar>
+  <Tabs selectedIndex="0">
+
+    <TabStrip class="tab-view highlight-primary">
+      <TabStripItem>
+        <Label text="CNI"></Label>
+      </TabStripItem>
+      <TabStripItem class="special">
+        <Label text="PERMIS"></Label>
+      </TabStripItem>
+    </TabStrip>
+
+    <TabContentItem>
+      <ScrollView>
+        <StackLayout>
+          <StackPanel>
+            <Image
+              src="https://m.dw.com/image/6213470_101.jpg"
+              stretch="fill"
+              width="100%"
+            ></Image>
+            <GridLayout
+              columns="*,auto"
+              verticalAlignment="center"
+              height="56"
+              class="b-b-1 p-10"
+            >
+              <Label
+                col="0"
+                verticalAlignment="center"
+                text="Vue avant (Publié le: 25/11/2019)"
+                class="h4"
+              ></Label>
+              <core-ui-icon
+                col="1"
+                class="pull-right"
+                name="edit"
+                size="28"
+              >
+              </core-ui-icon>
+
+            </GridLayout>
+
+          </StackPanel>
+          <StackPanel>
+
+            <Image
+              src="https://m.dw.com/image/6213470_101.jpg"
+              stretch="fill"
+              width="100%"
+            ></Image>
+            <GridLayout
+              columns="*,auto"
+              verticalAlignment="center"
+              height="56"
+              class="b-b-1 p-10"
+            >
+              <Label
+                col="0"
+                verticalAlignment="center"
+                text="Vue arrière (Publié le: 25/11/2019)"
+                class="h4"
+              ></Label>
+              <core-ui-icon
+                col="1"
+                class="pull-right"
+                name="edit"
+                size="28"
+              >
+              </core-ui-icon>
+
+            </GridLayout>
+
+          </StackPanel>
+
+          <Button
+            text="Enregistrer"
+            class="btn m-t-2 btn-accent"
+          ></Button>
+        </StackLayout>
+      </ScrollView>
+    </TabContentItem>
+    <TabContentItem>
+      <GridLayout>
+        <Label
+          text="PERMIS"
+          class="h2 text-center"
+        ></Label>
+      </GridLayout>
+    </TabContentItem>
+  </Tabs>
+</StackLayout>

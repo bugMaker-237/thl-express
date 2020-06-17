@@ -2,6 +2,6 @@
 <resources>
     <color name="ns_primary">#FFD300</color>
 	<color name="ns_primaryDark">#b89900</color>
-	<color name="ns_accent">#4771BA</color>
+	<color name="ns_accent">#FAFAFA</color>
     <color name="ns_blue">#272734</color>
 </resources>

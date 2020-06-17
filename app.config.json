@@ -7,14 +7,13 @@
     "faq": "contact@thl-express.com"
   },
   "authorization": {
-    "appDomains": ["thl.sellamgo.com"],
+    "appDomains": ["thl-express.com"],
     "authorizationHeaderName": "Authorization",
     "authorizationScheme": "Bearer ",
     "throwNoTokenError": true,
     "continueIfTokenExpired": false,
     "anonymousRoutes": [
       "/api/login",
-      "/api/logout",
       "/api/register",
       "/api/validate",
       "/api/resend",
@@ -23,15 +22,21 @@
   },
   "apiEndpoints": {
     "only": {
-      "serviceHost": "http://thl.sellamgo.com",
+      "serviceHost": "https://thl-express.com",
       "serviceName": "only",
-      "servicePath": "http://thl.sellamgo.com/api",
+      "servicePath": "https://thl-express.com/api",
       "version": "0.0.1"
     },
     "client": {
-      "serviceHost": "http://thl.sellamgo.com",
+      "serviceHost": "https://thl-express.com",
       "serviceName": "client",
-      "servicePath": "http://thl.sellamgo.com/api/client",
+      "servicePath": "https://thl-express.com/api/client",
+      "version": "0.0.1"
+    },
+    "driver": {
+      "serviceHost": "https://thl-express.com",
+      "serviceName": "driver",
+      "servicePath": "https://thl-express.com/api/driver",
       "version": "0.0.1"
     }
   },

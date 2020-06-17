@@ -2,7 +2,7 @@ import { NgModule, NO_ERRORS_SCHEMA, Inject } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { NativeScriptUIAutoCompleteTextViewModule } from 'nativescript-ui-autocomplete/angular';
-import { AppComponent } from './app.component';
+import { AppComponent } from '@app.shared/components';
 
 import { CommonModule } from '@apps.common/modules';
 import { AppSharedModule } from '@app.shared/app-shared.module';
@@ -16,10 +16,10 @@ import { pages, resolvers, providers } from './features';
     AppSharedModule,
     CommonModule,
     AppRoutingModule,
-    NativeScriptUIAutoCompleteTextViewModule
+    NativeScriptUIAutoCompleteTextViewModule,
   ],
   declarations: [AppComponent, AppShellComponent, ...pages],
   providers: [...resolvers, ...providers],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class AppModule {}

@@ -34,5 +34,5 @@
     }
   },
   "exclude": ["node_modules", "platforms"],
-  "include": ["src/**/*.ts", "reference.d.ts"]
+  "include": ["src/**/*.ts", "reference.d.ts", "../app-shared/services/profil.service.ts"]
 }

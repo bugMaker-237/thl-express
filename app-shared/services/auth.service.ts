@@ -52,7 +52,7 @@ export class AuthService extends BaseService {
     return this.post<{ code: number | string; codeExpires: Date }>(
       `/resend/${this._user.id}`
     ).pipe(
-      map(codeInfo => {
+      map((codeInfo) => {
         this._user.verify_code = codeInfo.code as number;
         this._user.code_expire = codeInfo.codeExpires;
         this.storage.set(this.localStorageKey, this._user);
@@ -62,7 +62,7 @@ export class AuthService extends BaseService {
 
   public signOut(): Observable<{}> {
     return this.get<{ user: IUser }>('/logout').pipe(
-      map(res => {
+      map((res) => {
         this.storage.remove(this.localStorageKey);
         this._user = null;
         return res;
@@ -70,7 +70,14 @@ export class AuthService extends BaseService {
     );
   }
 
-  public setUserInfos(name: string, phone: string, email: string) {}
+  public setUserInfos(name: string, phone: string, email: string) {
+    const user = this.connectedUser;
+    user.name = name;
+    user.phone = phone;
+    user.email = email;
+    this.storage.set(this.localStorageKey, user);
+    this._user = user;
+  }
 
   public get connectedUser(): IUser {
     this._user =
@@ -90,12 +97,17 @@ export class AuthService extends BaseService {
 
     return await this.storage.getObjectAsync<IUser>(this.localStorageKey);
   }
+
+  public clearUser(): void {
+    return this.storage.remove(this.localStorageKey);
+  }
+
   private saveUser(data: { user: IUser }) {
     if (!data.user) {
       this.toastService.push({
         text: 'Compte ou mot de passe incorrect',
         persist: true,
-        timeout: 5000
+        timeout: 5000,
       });
       throw new Error('Compte ou mot de passe incorrect');
     } else {

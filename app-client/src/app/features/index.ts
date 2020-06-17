@@ -11,7 +11,7 @@ import { Routes } from '@angular/router';
 import { HistoryComponent } from './history/history.component';
 import { HistoryListComponent } from './history/history-list/history-list.component';
 import { HistoryDetailsComponent } from './history/history-details/history-details.component';
-import { ComplainComponent } from './complain/complain.component';
+import { ComplainComponent } from '@app.shared/components';
 import { PayServiceComponent } from './pay-service/pay-service.component';
 import { PacketComponent } from './Packet/Packet.component';
 import { historyRoute, historyResolvers } from './history/routes';
@@ -33,37 +33,37 @@ export const pages = [
   HistoryListComponent,
   ComplainComponent,
   PayServiceComponent,
-  PacketComponent
+  PacketComponent,
 ];
 export const resolvers = [...historyResolvers, ...pressingResolvers];
 export const providers = [HistoryService, PressingService];
 export const authRoutes: Routes = [
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
-  { path: 'verify-code', component: VerifyCodeComponent }
+  { path: 'verify-code', component: VerifyCodeComponent },
 ];
 
 export const appRoutes: Routes = [
   {
     path: 'map/:type',
-    component: MapComponent
+    component: MapComponent,
   },
   {
     path: 'profil',
-    component: ProfilComponent
+    component: ProfilComponent,
   },
   {
     path: 'complain',
-    component: ComplainComponent
+    component: ComplainComponent,
   },
   {
     path: 'pay-service',
-    component: PayServiceComponent
+    component: PayServiceComponent,
   },
   {
     path: 'packet',
-    component: PacketComponent
+    component: PacketComponent,
   },
   pressingRoutes,
-  historyRoute
+  historyRoute,
 ];

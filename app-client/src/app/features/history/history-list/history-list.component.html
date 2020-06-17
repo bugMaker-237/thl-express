@@ -1,6 +1,12 @@
 <StackLayout class="page-block">
-  <nav-bar [text]="'Historique - ' + type" showDrawerButton="true"> </nav-bar>
-  <ScrollView class="history-list" height="100%">
+  <nav-bar
+    [text]="'Historique ' + (type === 'JOURNEY' ? 'des courses' : 'pressing')"
+    showDrawerButton="true"
+  > </nav-bar>
+  <ScrollView
+    class="history-list"
+    height="100%"
+  >
     <StackLayout>
       <CardView
         *ngFor="let item of histories"
@@ -33,9 +39,17 @@
             columns="50, *"
           >
             <StackLayout col="0">
-              <core-ui-icon rotate="180" name="navigation" size="16">
+              <core-ui-icon
+                rotate="180"
+                name="navigation"
+                size="16"
+              >
               </core-ui-icon>
-              <Label class="dotted" text="" textWrap="true"></Label>
+              <Label
+                class="dotted"
+                text=""
+                textWrap="true"
+              ></Label>
             </StackLayout>
 
             <label
@@ -51,7 +65,11 @@
             columns="50, *"
           >
             <StackLayout col="0">
-              <Label class="dotted" text="" textWrap="true"></Label>
+              <Label
+                class="dotted"
+                text=""
+                textWrap="true"
+              ></Label>
               <core-ui-icon
                 name="panorama_fish_eye"
                 backColor="primary"
@@ -60,7 +78,11 @@
               </core-ui-icon>
             </StackLayout>
 
-            <label class="p-t-5" col="1" [text]="item.destination"></label>
+            <label
+              class="p-t-5"
+              col="1"
+              [text]="item.destination"
+            ></label>
           </GridLayout>
           <StackLayout class="bg-accent">
             <Button

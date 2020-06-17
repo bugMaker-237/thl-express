@@ -3,20 +3,20 @@ import {
   OnInit,
   ElementRef,
   ViewChild,
-  Inject
+  Inject,
 } from '@angular/core';
 import { Page, View } from 'tns-core-modules/ui/page/page';
 import {
   Button,
   StackLayout,
   AnimationDefinition,
-  AbsoluteLayout
+  AbsoluteLayout,
 } from 'tns-core-modules/ui';
 import {
   MapView,
   Marker,
   Position,
-  Polyline
+  Polyline,
 } from 'nativescript-google-maps-sdk';
 import { getNativeApplication } from 'tns-core-modules/application/application';
 import { ad } from 'tns-core-modules/utils/utils';
@@ -28,14 +28,14 @@ import {
   DialogService,
   MailService,
   PlatformService,
-  Loader
+  Loader,
 } from '@apps.common/services';
 import {
   IPlacePredilection,
   IPlace,
   IMapRoute,
   IPosition,
-  ViewState
+  ViewState,
 } from '@apps.common/models';
 
 import { RadAutoCompleteTextViewComponent } from 'nativescript-ui-autocomplete/angular';
@@ -67,7 +67,7 @@ interface TAnimation {
   moduleId: module.id,
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  providers: [JourneyService]
+  providers: [JourneyService],
 })
 export class MapComponent implements OnInit {
   @ViewChild('autocomplete1', { static: true })
@@ -112,11 +112,13 @@ export class MapComponent implements OnInit {
   private curRt: IMapRoute = {
     distance: {},
     bounds: {},
-    duration: {}
+    duration: {},
   } as any;
   private kmPrice = 0;
   private isPacketTransportation: boolean;
   private packet: IPacket;
+  kmMinPriceChange: number;
+  kmExtraPrice: number;
 
   set currentMapRoute(value: IMapRoute) {
     this.curRt = value;
@@ -153,7 +155,7 @@ export class MapComponent implements OnInit {
   }
   initialise() {
     this._activatedRoute.params.subscribe({
-      next: params => {
+      next: (params) => {
         this.type = params.type;
         this.toggleState(0);
         clearMap(this.mapView);
@@ -162,23 +164,23 @@ export class MapComponent implements OnInit {
         this.autocomplete1.nativeElement.focus();
         this.origin = null;
         this.destination = null;
-      }
+      },
     });
     this._activatedRoute.queryParams.subscribe({
-      next: queryParams => {
+      next: (queryParams) => {
         this.isPacketTransportation = queryParams.isPacketTransportation;
-        this.packet = this._store.get('current-packet-packet');
+        this.packet = this._store.get('current-packet-item');
         const settings = this._settingsService.settings;
-        if (this.isPacketTransportation) {
-          if (this.packet.nature === 'PLIS') {
-            this.kmPrice = settings.plisfermeprice;
-          } else {
-            this.kmPrice = settings.autrecolisprice;
-          }
+        console.log(settings);
+        if (this.isPacketTransportation && this.packet) {
+          this.kmPrice =
+            settings.colisprice + settings.colispercentage * this.packet.value;
         } else {
           this.kmPrice = settings.kmprice;
+          this.kmMinPriceChange = settings.kmmin;
+          this.kmExtraPrice = settings.kmextraprice;
         }
-      }
+      },
     });
   }
 
@@ -187,8 +189,8 @@ export class MapComponent implements OnInit {
     // the start of debuging during hot reloading
     // so we instead use a fonction that returns the list of view-states
 
-    this.viewStates = getViewStates().map(vs => {
-      vs.animations.forEach(a => {
+    this.viewStates = getViewStates().map((vs) => {
+      vs.animations.forEach((a) => {
         a.view = this[a.view].nativeElement;
       });
       return vs as any;
@@ -200,14 +202,14 @@ export class MapComponent implements OnInit {
       if (text.length > 3) {
         return await this.gp
           .search(text, 'CM')
-          .then(res =>
-            res.map(p => {
+          .then((res) =>
+            res.map((p) => {
               const t = new TokenModel(p.description, undefined);
               t['data'] = p;
               return t;
             })
           )
-          .catch(err => this._dialogService.alert(err ? err.message : err));
+          .catch((err) => this._dialogService.alert(err ? err.message : err));
       } else {
         return Promise.resolve([]);
       }
@@ -234,22 +236,22 @@ export class MapComponent implements OnInit {
   setBikePositions() {
     this._driverService
       .getAvailableDrivers(this.type, this.origin)
-      .subscribe(res => {
+      .subscribe((res) => {
         if (res.length === 0) {
           this._dialogService.alert(
-            "Aucun transporteur disponible dans cette zone pour l'instant, patientez, puis réessayé"
+            `Aucun transporteur disponible dans cette zone pour l'instant, patientez, puis réessayé`
           );
         } else {
           const driverMarkersPromises = [];
-          res.forEach(d => {
+          res.forEach((d) => {
             driverMarkersPromises.push(
-              drawMarker(this.mapView, d.location, 3, 'Transporteur', {
+              drawMarker(this.mapView, d.location, 3, d.user.name, {
                 isDriver: true,
-                driver: d
+                driver: d,
               })
             );
           });
-          Promise.all(driverMarkersPromises).then(markers => {
+          Promise.all(driverMarkersPromises).then((markers) => {
             this.toggleState(3);
           });
         }
@@ -285,30 +287,32 @@ export class MapComponent implements OnInit {
         this.toggleState(1);
       }
     } catch (e) {
-      this._dialogService.confirm(e.message, 'REPORT', 'CONTINUE').then(res => {
-        if (res) {
-          let error = this._platformService.getAllDeviceInfo();
-          error += e.stack || '';
-          this._mailService.compose({
-            subjectSuffix: 'MAP - ISSUE',
-            attachments: [
-              {
-                fileName: 'Platform & error details',
-                mimeType: 'text/plain',
-                path: 'base64://' + error
-              }
-            ],
-            body: e.message,
-            to: this._appConfig.contacts.issue
-          });
-        }
-      });
+      this._dialogService
+        .confirm(e.message, 'REPORT', 'CONTINUE')
+        .then((res) => {
+          if (res) {
+            let error = this._platformService.getAllDeviceInfo();
+            error += e.stack || '';
+            this._mailService.compose({
+              subjectSuffix: 'MAP - ISSUE',
+              attachments: [
+                {
+                  fileName: 'Platform & error details',
+                  mimeType: 'text/plain',
+                  path: 'base64://' + error,
+                },
+              ],
+              body: e.message,
+              to: this._appConfig.contacts.issue,
+            });
+          }
+        });
     }
   }
   toggleState(stateOrder: number) {
-    this.currentViewState = this.viewStates.find(x => x.order === stateOrder);
+    this.currentViewState = this.viewStates.find((x) => x.order === stateOrder);
     if (!!this.currentViewState && this.currentViewState.animations) {
-      this.currentViewState.animations.forEach(a =>
+      this.currentViewState.animations.forEach((a) =>
         a.view.animate(a.definition)
       );
     }
@@ -325,29 +329,32 @@ export class MapComponent implements OnInit {
         this.packet
       )
       .subscribe({
-        next: res => {
+        next: (res) => {
           this._store.set('ONGOING_PAYMENT', {
             type: 'journey',
             journeyId: res.id,
             origin: this.origin,
             destination: this.destination,
             price: this.getRoutePrice(),
-            redirectUrl: '../history/JOURNEY'
+            redirectUrl: '../history/JOURNEY',
           });
           this._router.navigate(['../../pay-service'], {
             transition: {
-              name: 'slide'
+              name: 'slide',
             },
-            relativeTo: this._activatedRoute
+            relativeTo: this._activatedRoute,
           });
-        }
+        },
       });
   }
 
   getRoutePrice() {
-    return Math.ceil(
-      this.kmPrice * (this.currentMapRoute.distance.value / 1000)
+    const km = Number.parseFloat(
+      (this.currentMapRoute.distance.value / 1000).toFixed(1)
     );
+    return this.isPacketTransportation || km <= this.kmMinPriceChange
+      ? this.kmPrice
+      : km * this.kmExtraPrice;
   }
   onMapReady(event) {
     this.mapView = event.object as MapView;

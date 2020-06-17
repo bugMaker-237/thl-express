@@ -42,6 +42,7 @@ export class SettingsService extends BaseService {
   getSettings(): Observable<Settings> {
     return this.get<Settings>('/settings').pipe(
       map(s => {
+        this.storage.remove(this.localStorageKey);
         this.storage.set(this.localStorageKey, s);
         return s;
       })

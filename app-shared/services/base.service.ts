@@ -13,7 +13,7 @@ export abstract class BaseService extends HttpService {
   ) {
     super(http, storage, localStorageKey, messager, baseUrl);
     this.resultMapper = <T>(res) => res.data as T;
-    this.errorDetector = res => {
+    this.errorDetector = (res) => {
       if (!res.data && res.status !== 200) {
         throw this.errorParser(res);
       } else {
@@ -23,6 +23,9 @@ export abstract class BaseService extends HttpService {
   }
 
   protected errorParser(response: any): Error[] {
+    if (response.status === 0) {
+      return [new Error(`Vous n'êtes pas connecté`)];
+    }
     if (response.message && !response.error) {
       return [new Error(response.message)];
     } else if (typeof response.error === 'string') {
@@ -34,7 +37,7 @@ export abstract class BaseService extends HttpService {
         for (const key in error.errors) {
           if (error.errors.hasOwnProperty(key)) {
             const err = error.errors[key];
-            allErrors.push(...err.map(e => new Error(e)));
+            allErrors.push(...err.map((e) => new Error(e)));
           }
         }
         return allErrors;

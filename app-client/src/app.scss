@@ -11,24 +11,22 @@ refer to http://docs.nativescript.org/ui/theme.
 */
 @import '~nativescript-theme-core/css/core.light.css';
 $primary-dark: #b89900;
-$primary: #FFD300;
-$accent: #4771BA;
-$warn: #a07534;
+$primary: #ffd300;
+$accent: #4771ba;
 $warn: #942e2e;
 
 @import '../../submodules/apps-common/custom.scss';
 
-
 .page-block {
-    background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
 }
 
 .dotted {
-    border-width: 0 1 0 0;
-    border-style: dashed;
-    border-color: #333;
-    height: 6;
-    width: 2;
-    background: linear-gradient(to right, #888, #888, #888);
-    // background-size: 1px 0px, 1px 1px;
+  border-width: 0 1 0 0;
+  border-style: dashed;
+  border-color: #333;
+  height: 6;
+  width: 2;
+  background: linear-gradient(to right, #888, #888, #888);
+  // background-size: 1px 0px, 1px 1px;
 }

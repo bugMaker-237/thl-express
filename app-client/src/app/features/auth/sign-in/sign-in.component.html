@@ -1,7 +1,14 @@
 <StackLayout class="page-block">
   <nav-bar text="Se connecter"></nav-bar>
-  <ScrollView height="100%" class="sign-in-block">
-    <StackLayout class="stack" padding="20" maxWidth="400">
+  <ScrollView
+    height="100%"
+    class="sign-in-block"
+  >
+    <StackLayout
+      class="stack"
+      padding="20"
+      maxWidth="400"
+    >
       <StackLayout #stack>
         <Image
           width="400"
@@ -10,7 +17,7 @@
           alignSelf="center"
         ></Image>
         <core-ui-tf
-          hint="Identifiant"
+          hint="Email ou Téléphone"
           keyboardType="email"
           required="true"
           [editable]="!formDisabled"

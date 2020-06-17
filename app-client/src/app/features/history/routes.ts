@@ -1,7 +1,7 @@
 import { HistoryComponent } from './history.component';
 import { HistoryListComponent } from './history-list/history-list.component';
 import { HistoryDetailsComponent } from './history-details/history-details.component';
-import { ComplainComponent } from '../complain/complain.component';
+import { ComplainComponent } from '@app.shared/components';
 import { Route } from '@angular/router';
 import { HistoryListResolver } from './history-list/history-list.resolver';
 import { HistoryDetailsResolver } from './history-details/history-details.resolver';
@@ -14,24 +14,24 @@ export const historyRoute = {
       path: 'list',
       component: HistoryListComponent,
       resolve: {
-        histories: HistoryListResolver
+        histories: HistoryListResolver,
       },
-      runGuardsAndResolvers: 'always'
+      runGuardsAndResolvers: 'always',
     },
     {
       path: 'details/:id',
       component: HistoryDetailsComponent,
       resolve: {
-        itemAndMapRoute: HistoryDetailsResolver
-      }
+        itemAndMapRoute: HistoryDetailsResolver,
+      },
     },
     {
       path: 'complain',
       data: { isFragment: true },
-      component: ComplainComponent
+      component: ComplainComponent,
     },
-    { path: '', redirectTo: 'list', pathMatch: 'full' }
-  ]
+    { path: '', redirectTo: 'list', pathMatch: 'full' },
+  ],
 } as Route;
 
 export const historyResolvers = [HistoryListResolver, HistoryDetailsResolver];

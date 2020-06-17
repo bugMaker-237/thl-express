@@ -1,0 +1,32 @@
+/*
+In NativeScript, the app.css file is where you place CSS rules that
+you would like to apply to your entire application. Check out
+http://docs.nativescript.org/ui/styling for a full list of the CSS
+selectors and properties you can use to style UI components.
+
+/*
+In many cases you may want to use the NativeScript core theme instead
+of writing your own CSS rules. For a full list of class names in the theme
+refer to http://docs.nativescript.org/ui/theme.
+*/
+@import '~nativescript-theme-core/css/core.light.css';
+$primary-dark: #b89900;
+$primary: #ffd300;
+$accent: #4771ba;
+$warn: #942e2e;
+
+@import '../../submodules/apps-common/custom.scss';
+
+.page-block {
+  background-color: rgb(255, 255, 255);
+}
+
+.dotted {
+  border-width: 0 1 0 0;
+  border-style: dashed;
+  border-color: #333;
+  height: 6;
+  width: 2;
+  background: linear-gradient(to right, #888, #888, #888);
+  // background-size: 1px 0px, 1px 1px;
+}

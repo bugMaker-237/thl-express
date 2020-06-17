@@ -21,7 +21,7 @@
       ></Label>
       <Label
         class="m-t-10"
-        text="SVP, vérifiez vos SMS"
+        [text]="'SVP, vérifiez vos ' +  !connectedUser.phone ? 'emails' : 'SMS'"
         textWrap="true"
         horizontalAlignment="center"
       ></Label>
@@ -57,7 +57,10 @@
         class="m-b-20"
         horizontalAlignment="center"
       >
-        <Label text="Vous n'avez pas reçu le code ? " textWrap="true"></Label>
+        <Label
+          text="Vous n'avez pas reçu le code ? "
+          textWrap="true"
+        ></Label>
 
         <Label
           class="text-primary"
@@ -73,6 +76,14 @@
         margin="0"
         text="VERIFIER"
         (tap)="verifyCode()"
+      ></Button>
+
+      <Button
+        class="btn btn-warn m-t-2 text-white"
+        height="64"
+        margin="0"
+        text="ANNULER"
+        (tap)="cancel()"
       ></Button>
     </StackLayout>
   </ScrollView>
