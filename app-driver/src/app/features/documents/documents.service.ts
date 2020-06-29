@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { BaseService } from '@app.shared/services';
+import { BaseService, AuthService } from '@app.shared/services';
 import { HttpClient } from '@angular/common/http';
 import {
   LocalStorageService,
@@ -15,6 +15,7 @@ export class DocumentsService extends BaseService {
     protected http: HttpClient,
     protected storage: LocalStorageService,
     protected toastService: ToastService,
+    private _authService: AuthService,
     @Inject(APP_CONFIG) private config: IAppConfig
   ) {
     super(
@@ -28,5 +29,17 @@ export class DocumentsService extends BaseService {
 
   protected get loader(): Loader {
     return Loader.default;
+  }
+  public updateID(cni: { face: string; back: string }) {
+    return this.post(`/driver/${this._authService.connectedUser.id}`, {
+      id_face: cni.face,
+      id_back: cni.back,
+    });
+  }
+  public updateLicense(lic: { face: string; back: string }) {
+    return this.post(`/driver/${this._authService.connectedUser.id}`, {
+      licence_face: lic.face,
+      licence_back: lic.back,
+    });
   }
 }

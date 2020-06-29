@@ -21,7 +21,6 @@ export abstract class BaseService extends HttpService {
       }
     };
   }
-
   protected errorParser(response: any): Error[] {
     if (response.status === 0) {
       return [new Error(`Vous n'êtes pas connecté`)];

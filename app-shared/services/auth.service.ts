@@ -28,6 +28,9 @@ export class AuthService extends BaseService {
     );
   }
 
+  public getFullUrl(part: string) {
+    return this.config.apiEndpoints.only.serviceHost + part;
+  }
   protected get loader(): Loader {
     return this.loaderRegistry.get('auth-loader');
   }
@@ -70,13 +73,14 @@ export class AuthService extends BaseService {
     );
   }
 
-  public setUserInfos(name: string, phone: string, email: string) {
-    const user = this.connectedUser;
-    user.name = name;
-    user.phone = phone;
-    user.email = email;
+  public setUserInfos(newInfos: any) {
+    console.log(newInfos);
+    const { token, ...infos } = newInfos;
+    let user = this.connectedUser;
+    user = Object.assign(user, infos);
     this.storage.set(this.localStorageKey, user);
     this._user = user;
+    console.log(JSON.stringify(user, null, 2));
   }
 
   public get connectedUser(): IUser {

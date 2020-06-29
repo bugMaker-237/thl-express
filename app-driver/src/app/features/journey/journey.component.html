@@ -12,4 +12,89 @@
       </core-ui-icon>
     </StackLayout>
   </nav-bar>
+  <ScrollView
+    class="history-list"
+    height="100%"
+  >
+    <StackLayout>
+      <CardView
+        *ngFor="let item of journeys"
+        class="m-l-20 m-r-20 m-t-5 m-b-5"
+        elevation="20"
+      >
+        <StackLayout>
+          <GridLayout
+            class="m-t-20 m-b-20 m-l-10 m-r-10 p-b-10 b-b-1 b-thin"
+            columns="*, auto"
+          >
+            <label
+              verticalAlignment="center"
+              class="h4"
+              [text]="item.created_at | date"
+              row="0"
+              col="0"
+            ></label>
+            <label
+              verticalAlignment="center"
+              [text]="item.price + ' FCFA'"
+              row="0"
+              col="1"
+            ></label>
+          </GridLayout>
+
+          <GridLayout
+            class="p-l-10 p-r-10 m-b-5"
+            orientation="horizontal"
+            columns="50, *"
+          >
+            <StackLayout col="0">
+              <core-ui-icon
+                rotate="180"
+                name="navigation"
+                size="16"
+              >
+              </core-ui-icon>
+              <Label
+                class="dotted"
+                text=""
+                textWrap="true"
+              ></Label>
+            </StackLayout>
+
+            <label
+              col="1"
+              [text]="item.from"
+              class="p-b-5 b-b-1 b-thin"
+            ></label>
+          </GridLayout>
+          <GridLayout
+            class="p-l-10 p-r-10 p-b-5 m-b-5"
+            orientation="horizontal"
+            verticalAlignment="center"
+            columns="50, *"
+          >
+            <StackLayout col="0">
+              <Label
+                class="dotted"
+                text=""
+                textWrap="true"
+              ></Label>
+              <core-ui-icon
+                name="panorama_fish_eye"
+                backColor="primary"
+                size="16"
+              >
+              </core-ui-icon>
+            </StackLayout>
+
+            <label
+              class="p-t-5"
+              col="1"
+              [text]="item.to"
+            ></label>
+          </GridLayout>
+        </StackLayout>
+      </CardView>
+    </StackLayout>
+  </ScrollView>
 </StackLayout>

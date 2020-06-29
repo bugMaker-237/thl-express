@@ -6,7 +6,7 @@ import {
   GlobalStoreService,
   GenericSubjects,
 } from '@apps.common/services';
-import { SettingsService } from '../services';
+import { SettingsService, ProfilService, AuthService } from '../services';
 import {
   IAppTheme,
   APP_THEME,
@@ -18,8 +18,17 @@ import { knownFolders, Folder } from 'tns-core-modules/file-system';
   selector: 'app-root',
   moduleId: module.id,
   template: '<page-router-outlet></page-router-outlet>',
+  providers: [AuthService],
 })
 export class AppComponent {
+  private static _appType: 'client' | 'driver';
+  public static forType(val: 'client' | 'driver') {
+    AppComponent._appType = val;
+    return this;
+  }
+  public static get appType() {
+    return AppComponent._appType;
+  }
   constructor(
     @Inject(APP_THEME) _theme: IAppTheme,
     @Inject(APP_CONFIG) _config: IAppConfig,
@@ -27,7 +36,9 @@ export class AppComponent {
     toastService: ToastService,
     _settings: SettingsService,
     _store: GlobalStoreService,
-    _genSubjects: GenericSubjects
+    _genSubjects: GenericSubjects,
+    _profilService: ProfilService,
+    _authService: AuthService
   ) {
     setDefaultLoader({
       indicatorColor: _theme.primaryColor,

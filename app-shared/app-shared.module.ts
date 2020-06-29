@@ -1,7 +1,7 @@
 import { NgModule, NO_ERRORS_SCHEMA, Inject } from '@angular/core';
 
 import { APP_CONFIG, IAppConfig } from '@apps.common/config';
-import { AuthService, SupportService } from './services';
+import { AuthService, SupportService, ProfilService } from './services';
 import { components } from './components';
 
 import { CommonModule } from '@apps.common/modules';
@@ -19,7 +19,7 @@ registerElement(
   imports: [NativeScriptModule, CommonModule],
   declarations: [...components],
   exports: [...components],
-  providers: [AuthService, DriverService, SupportService],
+  providers: [AuthService, ProfilService, DriverService, SupportService],
   schemas: [NO_ERRORS_SCHEMA],
 })
 export class AppSharedModule {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@app.shared/services';
 import { IUser } from '@app.shared/models';
-import { ProfilService } from './profil.service';
+import { ProfilService } from '@app.shared/services';
 import { ToastService, Loader } from '@apps.common/services';
 import { RadImagepicker } from '@nstudio/nativescript-rad-imagepicker';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
@@ -14,7 +14,6 @@ import { ImageSource } from 'tns-core-modules/image-source';
   providers: [ProfilService],
 })
 export class ProfilComponent implements OnInit {
-  user = {} as any;
   userToUpdate: any = {};
   formDisabled = false;
   toComplete: string;
@@ -28,14 +27,23 @@ export class ProfilComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.user = this._authService.connectedUser;
+    console.log(this._authService.connectedUser);
+    const { token, ...user } = this._authService.connectedUser as any;
+    user.driver = user.driver || {};
     this.userToUpdate = {
-      name: this.user.name,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      cni: user.driver.id_number,
+      driving: user.driver.licence_id,
+      experience: user.driver.experience,
     };
-    console.log(this.user);
-    this.selectedImage = await ImageSource.fromAsset(
-      new ImageAsset('~/assets/camera.png')
-    );
+    console.log(user.driver.picture);
+    this.selectedImage = !user.driver.picture
+      ? await ImageSource.fromAsset(new ImageAsset('~/assets/camera.png'))
+      : await ImageSource.fromUrl(
+          this._authService.getFullUrl(user.driver.picture)
+        );
   }
   public async startSelection() {
     const radImagepicker = new RadImagepicker();
@@ -53,31 +61,21 @@ export class ProfilComponent implements OnInit {
     }
     Loader.default.hide();
 
-    this._profilService.updateProfil(this.userToUpdate).subscribe({
+    this._profilService.updateDriverProfil(this.userToUpdate).subscribe({
       next: (res: IUser) => {
-        this.user = res;
-        this.userToUpdate.name = this.user.name;
         this._toasService.push({
           text: 'Enregistrement effectué!',
           data: {
             backgroundColor: 'primary',
           },
         });
-        this._authService.setUserInfos(
-          this.user.name,
-          this.user.phone,
-          this.user.email
-        );
+        this._authService.setUserInfos(this.userToUpdate);
       },
     });
   }
-  async getPicture(): Promise<Blob> {
+  async getPicture(): Promise<string> {
     return new Promise((res, rej) => {
-      res(
-        new Blob([this.selectedImage.toBase64String('jpeg', 90)], {
-          type: 'image/jpeg',
-        })
-      );
+      res(this.selectedImage.toBase64String('jpeg', 20));
     });
   }
 }

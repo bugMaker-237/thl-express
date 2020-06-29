@@ -29,7 +29,7 @@ export const authRoutes: Routes = [
 
 export const appRoutes: Routes = [
   {
-    path: 'map/:type',
+    path: 'journey',
     component: JourneyComponent,
   },
   {

@@ -6,7 +6,7 @@ import { authRoutes, appRoutes } from './features';
 import { AuthGuard } from './features/auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/app-shell/map/VIP', pathMatch: 'full' },
+  { path: '', redirectTo: '/app-shell/journey', pathMatch: 'full' },
   {
     path: 'auth',
     // canActivate:

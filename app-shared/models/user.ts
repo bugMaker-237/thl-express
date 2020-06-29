@@ -21,4 +21,5 @@ export interface IUser {
   image: string;
   code_expire?: Date;
   verify_code?: number;
+  driver?: any;
 }

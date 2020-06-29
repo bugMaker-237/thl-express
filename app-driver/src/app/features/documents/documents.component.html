@@ -20,7 +20,7 @@
         <StackLayout>
           <StackPanel>
             <Image
-              src="https://m.dw.com/image/6213470_101.jpg"
+              [src]="id.front"
               stretch="fill"
               width="100%"
             ></Image>
@@ -33,7 +33,7 @@
               <Label
                 col="0"
                 verticalAlignment="center"
-                text="Vue avant (Publié le: 25/11/2019)"
+                text="Vue avant"
                 class="h4"
               ></Label>
               <core-ui-icon
@@ -41,6 +41,7 @@
                 class="pull-right"
                 name="edit"
                 size="28"
+                (tapAction)="setImage('id', 'front')"
               >
               </core-ui-icon>
 
@@ -50,7 +51,7 @@
           <StackPanel>
 
             <Image
-              src="https://m.dw.com/image/6213470_101.jpg"
+              [src]="id.back"
               stretch="fill"
               width="100%"
             ></Image>
@@ -63,7 +64,7 @@
               <Label
                 col="0"
                 verticalAlignment="center"
-                text="Vue arrière (Publié le: 25/11/2019)"
+                text="Vue arrière"
                 class="h4"
               ></Label>
               <core-ui-icon
@@ -71,6 +72,7 @@
                 class="pull-right"
                 name="edit"
                 size="28"
+                (tapAction)="setImage('id', 'back')"
               >
               </core-ui-icon>
 
@@ -86,12 +88,76 @@
       </ScrollView>
     </TabContentItem>
     <TabContentItem>
-      <GridLayout>
-        <Label
-          text="PERMIS"
-          class="h2 text-center"
-        ></Label>
-      </GridLayout>
+      <ScrollView>
+        <StackLayout>
+          <StackPanel>
+            <Image
+              [src]="license.front"
+              stretch="fill"
+              width="100%"
+            ></Image>
+            <GridLayout
+              columns="*,auto"
+              verticalAlignment="center"
+              height="56"
+              class="b-b-1 p-10"
+            >
+              <Label
+                col="0"
+                verticalAlignment="center"
+                text="Vue avant"
+                class="h4"
+              ></Label>
+              <core-ui-icon
+                col="1"
+                class="pull-right"
+                name="edit"
+                size="28"
+                (tapAction)="setImage('license', 'front')"
+              >
+              </core-ui-icon>
+
+            </GridLayout>
+
+          </StackPanel>
+          <StackPanel>
+
+            <Image
+              [src]="license.back"
+              stretch="fill"
+              width="100%"
+            ></Image>
+            <GridLayout
+              columns="*,auto"
+              verticalAlignment="center"
+              height="56"
+              class="b-b-1 p-10"
+            >
+              <Label
+                col="0"
+                verticalAlignment="center"
+                text="Vue arrière"
+                class="h4"
+              ></Label>
+              <core-ui-icon
+                col="1"
+                class="pull-right"
+                name="edit"
+                size="28"
+                (tapAction)="setImage('license', 'back')"
+              >
+              </core-ui-icon>
+
+            </GridLayout>
+
+          </StackPanel>
+
+          <Button
+            text="Enregistrer"
+            class="btn m-t-2 btn-accent"
+          ></Button>
+        </StackLayout>
+      </ScrollView>
     </TabContentItem>
   </Tabs>
 </StackLayout>

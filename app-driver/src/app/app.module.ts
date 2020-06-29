@@ -10,7 +10,7 @@ import { AppShellComponent } from '@app.shared/components';
 import { pages, resolvers, providers } from './features';
 
 @NgModule({
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent.forType('driver')],
   imports: [
     NativeScriptModule,
     AppSharedModule,

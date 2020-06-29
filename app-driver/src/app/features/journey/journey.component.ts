@@ -9,6 +9,7 @@ import { JourneyService } from './journey.service';
   providers: [JourneyService],
 })
 export class JourneyComponent implements OnInit {
+  journeys: [];
   constructor(private _journeyService: JourneyService) {}
 
   ngOnInit() {
@@ -17,6 +18,7 @@ export class JourneyComponent implements OnInit {
   refresh() {
     this._journeyService.getCurrentDrives().subscribe({
       next: (journeys) => {
+        this.journeys = journeys;
         console.log(journeys);
       },
     });

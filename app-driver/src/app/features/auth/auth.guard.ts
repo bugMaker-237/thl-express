@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from '@angular/router';
 import { AuthService } from '@app.shared/services';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const user = this._authService.connectedUser;
     // console.log(user);
-    let toNavigate = 'app-shell/map';
+    let toNavigate = 'app-shell/journey';
     let res = true;
     if (!user) {
       toNavigate = 'auth/sign-in';
@@ -29,11 +29,6 @@ export class AuthGuard implements CanActivate {
         this._dialogService.alert('Votre compte à été suspendu ou supprimé!');
         toNavigate = 'auth/sign-in';
         res = false;
-      } else {
-        if (!user.active) {
-          toNavigate = 'auth/verify-code';
-          res = false;
-        }
       }
     }
     if (!res) {

@@ -11,7 +11,8 @@ import { RadSideDrawerComponent } from 'nativescript-ui-sidedrawer/angular';
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 import { GenericSubjects } from '@apps.common/services';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { AuthService } from '../../services';
+import { AuthService, ProfilService } from '../../services';
+import { AppComponent } from '../app.component';
 // import { AuthService } from '@app.shared/services';
 @Component({
   selector: 'app-shell',
@@ -100,11 +101,6 @@ export class AppShellComponent implements AfterViewInit, OnInit {
       link: '/app-shell/history/PRESSING',
     },
     {
-      name: 'Se plaindre',
-      icon: 'error_outline',
-      link: '/app-shell/complain',
-    },
-    {
       name: 'Déconnexion',
       icon: 'exit_to_app',
       link: '#action',
@@ -121,7 +117,8 @@ export class AppShellComponent implements AfterViewInit, OnInit {
     private _genSubjects: GenericSubjects,
     private _router: RouterExtensions,
     private _activeRoute: ActivatedRoute,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _profilService: ProfilService
   ) {}
 
   ngAfterViewInit() {
@@ -144,6 +141,19 @@ export class AppShellComponent implements AfterViewInit, OnInit {
     this._genSubjects
       .get('demandDrawer$', true)
       .subscribe(this.toggleDrawer.bind(this));
+    if (typeof AppComponent.appType === 'undefined') {
+      throw new Error('AppType not set');
+    }
+    this._profilService.getProfil(AppComponent.appType).subscribe({
+      next: (res) => {
+        this._authService.setUserInfos(res);
+      },
+    });
+    this._profilService.profilUpdated$.subscribe({
+      next: (res) => {
+        this.user = res;
+      },
+    });
   }
 
   toggleDrawer(toogleDrawer: boolean) {

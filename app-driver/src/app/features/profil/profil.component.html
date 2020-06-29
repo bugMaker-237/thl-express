@@ -26,17 +26,17 @@
       ></Image>
       <label
         horizontalAlignment="center"
-        [text]="user.name"
+        [text]="userToUpdate.name"
         class="m-b-5"
       ></label>
       <label
         horizontalAlignment="center"
-        [text]="user.email"
+        [text]="userToUpdate.email"
         class="m-b-5"
       ></label>
       <label
         horizontalAlignment="center"
-        [text]="user.phone"
+        [text]="userToUpdate.phone"
         class="m-b-20"
       ></label>
 
@@ -44,7 +44,7 @@
         hint="Nom"
         required="true"
         returnKeyType="done"
-        [(ngModel)]="user.name"
+        [(ngModel)]="userToUpdate.name"
         autocorrect="false"
         customClass="m-b-20 m-t-10 text-field-outline"
         iconPrefix="person"
@@ -52,11 +52,11 @@
       ></core-ui-tf>
       <core-ui-tf
         hint="Numéro de téléphone"
-        *ngIf="!user.phone"
+        *ngIf="!userToUpdate.phone"
         keyboardType="phone"
         required="true"
         returnKeyType="done"
-        [(ngModel)]="user.phone"
+        [(ngModel)]="userToUpdate.phone"
         autocorrect="false"
         customClass="m-b-20 m-t-10 text-field-outline"
         iconPrefix="phone"
@@ -64,11 +64,11 @@
       ></core-ui-tf>
       <core-ui-tf
         hint="Email"
-        *ngIf="!user.email"
+        *ngIf="!userToUpdate.email"
         keyboardType="email"
         required="true"
         returnKeyType="done"
-        [(ngModel)]="user.email"
+        [(ngModel)]="userToUpdate.email"
         autocorrect="false"
         customClass="m-b-20 m-t-10 text-field-outline"
         iconPrefix="email"
@@ -79,7 +79,7 @@
         keyboardType="number"
         required="true"
         returnKeyType="done"
-        [(ngModel)]="user.cni"
+        [(ngModel)]="userToUpdate.cni"
         autocorrect="false"
         customClass="m-b-20 m-t-10 text-field-outline"
         iconPrefix="branding_watermark"
@@ -90,7 +90,7 @@
         keyboardType="number"
         required="true"
         returnKeyType="done"
-        [(ngModel)]="user.driving"
+        [(ngModel)]="userToUpdate.driving"
         autocorrect="false"
         customClass="m-b-20 m-t-10 text-field-outline"
         iconPrefix="branding_watermark"
@@ -101,7 +101,7 @@
         keyboardType="number"
         required="true"
         returnKeyType="done"
-        [(ngModel)]="user.experience"
+        [(ngModel)]="userToUpdate.experience"
         autocorrect="false"
         customClass="m-b-20 m-t-10 text-field-outline"
         iconPrefix="history"
