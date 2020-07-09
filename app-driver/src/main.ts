@@ -12,12 +12,14 @@ import {
   exitEvent,
   lowMemoryEvent,
   uncaughtErrorEvent,
-  ApplicationEventData
+  ApplicationEventData,
 } from 'tns-core-modules/application';
 import { enableProdMode } from '@angular/core';
+// const TnsOneSignal = require('nativescript-onesignal-sdk').TnsOneSignal;
 
 applicationOn(launchEvent, (args: ApplicationEventData) => {
   if (args.android) {
+    // TnsOneSignal.startInit(args.android.context).init();
     // For Android applications, args.android is an android.content.Intent class.
     console.log(
       'Launched Android application with the following intent: ' +
@@ -92,4 +94,4 @@ applicationOn(uncaughtErrorEvent, (args: ApplicationEventData) => {
 // so we provide a wrapper platform object, platformNativeScriptDynamic,
 // that sets up a NativeScript application and can bootstrap the Angular framework.
 platformNativeScriptDynamic().bootstrapModule(AppModule);
-// enableProdMode();
+enableProdMode();

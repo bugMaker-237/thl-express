@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="__PACKAGE__"
 	android:versionCode="1"
-	android:versionName="1.0">
+	android:versionName="1.0"
+	xmlns:tools="http://schemas.android.com/tools">
 
 	<supports-screens
 		android:smallScreens="true"
@@ -25,6 +26,17 @@
 		<meta-data
 			android:name="com.google.android.geo.API_KEY"
 			android:value="@string/nativescript_google_maps_api_key" />
+			
+		<meta-data
+				tools:replace="android:value"
+        android:name="onesignal_app_id"
+        android:value="@string/onesignal_app_id"/>
+
+		<meta-data
+        tools:replace="android:value"
+        android:name="onesignal_google_project_number"
+        android:value="@string/onesignal_google_project_number"/>
+			
 		<activity
 			android:name="com.tns.NativeScriptActivity"
 			android:label="@string/title_activity_kimera"

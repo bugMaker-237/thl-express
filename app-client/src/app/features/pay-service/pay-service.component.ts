@@ -69,8 +69,8 @@ export class PayServiceComponent implements OnInit {
         });
         const code = res.code;
         if (res.code) {
-          const intervalSubscription = interval(2000)
-            .pipe(take(90))
+          const intervalSubscription = interval(2 * 60 * 60)
+            .pipe(take(5))
             .subscribe({
               next: () => this._payService.checkTransaction(code),
             });

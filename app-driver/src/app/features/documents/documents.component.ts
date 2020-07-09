@@ -38,7 +38,7 @@ export class DocumentsComponent implements OnInit {
     return !!imagePath
       ? await ImageSource.fromUrl(this._authService.getFullUrl(imagePath))
       : await ImageSource.fromAsset(
-          new ImageAsset(`~/assets/placeholder-${side}.jpg`)
+          new ImageAsset(`~/assets/id-placeholder-${side}.png`)
         );
   }
   public async setImage(type: 'id' | 'license', side: 'front' | 'back') {

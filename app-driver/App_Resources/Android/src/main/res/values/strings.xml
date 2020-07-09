@@ -2,4 +2,6 @@
     <resources>
     <string name="app_name">THL EXPRESS Chauffeur</string>
     <string name="title_activity_kimera">THL EXPRESS Chauffeur</string>
+    <string name="onesignal_app_id">f66f05aa-c1b2-4063-bda4-38e42aff04f3</string>
+    <string name="onesignal_google_project_number">437086174160</string>
 </resources>
