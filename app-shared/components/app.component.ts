@@ -71,6 +71,7 @@ export class AppComponent {
     });
     _settings.getSettings().subscribe({
       next: (settings) => {
+        console.log(settings);
         _store.set('settings', settings);
       },
     });

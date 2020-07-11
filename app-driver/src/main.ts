@@ -13,13 +13,13 @@ import {
   lowMemoryEvent,
   uncaughtErrorEvent,
   ApplicationEventData,
+  android,
 } from 'tns-core-modules/application';
 import { enableProdMode } from '@angular/core';
-// const TnsOneSignal = require('nativescript-onesignal-sdk').TnsOneSignal;
+import { getOneSignalInstance } from './one-signal';
 
 applicationOn(launchEvent, (args: ApplicationEventData) => {
   if (args.android) {
-    // TnsOneSignal.startInit(args.android.context).init();
     // For Android applications, args.android is an android.content.Intent class.
     console.log(
       'Launched Android application with the following intent: ' +

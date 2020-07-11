@@ -4,6 +4,7 @@ import { AuthService } from '@app.shared/services';
 import { RadImagepicker } from '@nstudio/nativescript-rad-imagepicker';
 import { ImageSource } from 'tns-core-modules/image-source';
 import { ImageAsset } from 'tns-core-modules/image-asset';
+import { ToastService } from '@apps.common/services';
 
 @Component({
   selector: 'map',
@@ -23,7 +24,8 @@ export class DocumentsComponent implements OnInit {
   } = {} as any;
   constructor(
     private _docsService: DocumentsService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _toastService: ToastService
   ) {}
 
   async ngOnInit() {
@@ -48,6 +50,34 @@ export class DocumentsComponent implements OnInit {
     } else if (type === 'license') {
       const img = await this.startSelection();
       this.license[side] = img;
+    }
+  }
+
+  public save(type: 'id' | 'license') {
+    const next = {
+      next: () => {
+        this._toastService.push({
+          text: 'Enregistrement effectué avec succès',
+          data: {
+            backgroundColor: 'primary',
+          },
+        });
+      },
+    };
+    if (type === 'id') {
+      this._docsService
+        .updateID({
+          face: this.id.front.toBase64String('jpeg', 20),
+          back: this.id.back.toBase64String('jpeg', 20),
+        })
+        .subscribe(next);
+    } else {
+      this._docsService
+        .updateLicense({
+          face: this.license.front.toBase64String('jpeg', 20),
+          back: this.license.back.toBase64String('jpeg', 20),
+        })
+        .subscribe(next);
     }
   }
 

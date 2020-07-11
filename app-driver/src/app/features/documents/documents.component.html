@@ -82,7 +82,8 @@
 
           <Button
             text="Enregistrer"
-            class="btn m-t-2 btn-accent"
+            (tap)="save('id')"
+            class="btn m-t-2 btn-accent text-white"
           ></Button>
         </StackLayout>
       </ScrollView>
@@ -154,7 +155,8 @@
 
           <Button
             text="Enregistrer"
-            class="btn m-t-2 btn-accent"
+            (tap)="save('license')"
+            class="btn m-t-2 btn-accent text-white"
           ></Button>
         </StackLayout>
       </ScrollView>

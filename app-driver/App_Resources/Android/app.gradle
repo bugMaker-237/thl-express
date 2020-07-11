@@ -8,19 +8,19 @@
 // If you want to add something to be applied before applying plugins' include.gradle files
 // e.g. project.ext.googlePlayServicesVersion = "15.0.1"
 // create a file named before-plugins.gradle in the current directory and place it there
-
 android {
-  defaultConfig {
-    minSdkVersion 17
-    generatedDensities = []
-  }
   aaptOptions {
     additionalParameters "--no-version-vectors"
   }
+  
   project.ext {
     googlePlayServicesVersion = "+"
   }
   defaultConfig { 
+    minSdkVersion 17
+    generatedDensities = []
+    manifestPlaceholders = [onesignal_app_id: "f66f05aa-c1b2-4063-bda4-38e42aff04f3",
+                                onesignal_google_project_number: '437086174160']
     //override supported platforms
     ndk {
       //abiFilters.clear()
