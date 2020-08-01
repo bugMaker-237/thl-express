@@ -1,0 +1,350 @@
+:root {
+  --primary-dark: $primary-dark;
+  --primary: $primary;
+  --accent: $accent;
+  --warn: $warn;
+}
+
+$border-color: rgba(105, 105, 105, 0.493);
+$border-color-light: rgba(192, 192, 192, 0.664);
+
+Button {
+  background-color: $primary-dark;
+  color: white;
+}
+
+
+*[fxShow],
+*[fxShow]::after,
+*[fxShow]::before {
+  transition: all linear 0.3ms;
+}
+
+.rounded-circle {
+  border-radius: 50%;
+}
+
+.raduis-5 {
+  border-radius: 5;
+}
+
+.text-primary-dark {
+  color: $primary-dark;
+}
+
+.button-wrapper {
+  z-index: 0;
+  border-width: 0.1;
+  background-color: transparent;
+}
+
+.bg-white {
+  background-color: white;
+}
+
+.icon-primary {
+  color: $primary;
+  width: auto;
+  height: auto;
+}
+
+.icon-accent {
+  color: $accent;
+}
+
+.icon-warn {
+  color: $warn;
+}
+
+.action-bar {
+  color: #ffffff;
+}
+
+.action-bar {
+  background-color: $primary;
+}
+
+.page {
+  background-color: #f8f8f8;
+}
+
+.list-group,
+.list-group-item {
+  // background-color: #f8f8f8;
+}
+
+.page label,
+.tab-view label {
+  color: #000000;
+}
+
+.segmented-bar {
+  selected-background-color: $primary;
+}
+
+.segmented-bar {
+  color: $primary;
+}
+
+.segmented-bar {
+  background-color: #ffffff;
+}
+
+.switch[checked='true'] {
+  color: #ffffff;
+}
+
+.switch[checked='true'] {
+  background-color: $primary;
+}
+
+.activity-indicator {
+  color: $primary;
+}
+
+.slider {
+  color: #ffffff;
+}
+
+.slider {
+  background-color: $primary;
+}
+
+.progress {
+  color: $primary;
+}
+
+.progress-accent {
+  color: $accent;
+}
+
+.img-circle {
+  border-radius: 20;
+}
+
+.list-group-item-heading {
+  font-size: 16;
+}
+
+.list-group-item-text {
+  font-size: 14;
+}
+
+.img-rounded {
+  border-radius: 5;
+}
+
+.body {
+  font-size: 14;
+}
+
+.h1 {
+  font-size: 36;
+}
+
+.h2 {
+  font-size: 30;
+}
+
+.h3 {
+  font-size: 24;
+}
+
+.h4 {
+  font-size: 18;
+}
+
+.h5 {
+  font-size: 14;
+}
+
+.h6 {
+  font-size: 12;
+}
+
+.page label.text-primary,
+.tab-view label.text-primary {
+  color: $primary;
+}
+
+.page label.bg-primary,
+.tab-view label.bg-primary {
+  background-color: $primary;
+}
+
+.page label.text-danger,
+.tab-view label.text-danger {
+  color: #d9534f;
+}
+
+.page label.bg-danger,
+.tab-view label.bg-danger {
+  background-color: #d9534f;
+}
+
+.page label.text-muted,
+.tab-view label.text-muted {
+  color: #a2a2a2;
+}
+
+.btn {
+  color: $primary;
+}
+
+.btn-primary {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+.btn-accent {
+  background-color: $accent;
+  border-color: $accent;
+}
+
+.btn-warn {
+  background-color: $warn;
+  border-color: $warn;
+}
+
+.btn-primary {
+  color: #f8f8f8;
+}
+
+.btn-outline {
+  border-color: $primary;
+}
+
+.btn-outline {
+  background-color: transparent;
+}
+
+.btn-outline {
+  border-width: 1;
+}
+
+.btn-outline {
+  color: $primary;
+}
+
+.btn[isEnabled='false'] {
+  background-color: $border-color-light;
+  border-color: $border-color-light;
+  color: #333;
+}
+
+.btn-flat {
+  android-elevation: 0;
+  android-dynamic-elevation-offset: 0;
+}
+
+.btn-rounded-sm {
+  border-radius: 4;
+}
+
+.btn-rounded-lg {
+  border-radius: 20;
+}
+
+.label {
+  font-size: 16;
+}
+
+.input {
+  font-size: 14;
+}
+
+.input-rounded {
+  border-radius: 30;
+}
+
+.tab-view {
+  selected-tab-text-color: #ffffff;
+}
+
+.tab-view {
+  tab-text-color: #ffffff;
+}
+
+.tab-view {
+  background-color: $primary;
+  highlight-color: $accent;
+}
+
+.tab-view.highlight-primary {
+  highlight-color: $primary;
+}
+
+.tab-view {
+  android-selected-tab-highlight-color: #f8f8f8;
+}
+
+.sidedrawer-header {
+  background-color: #f8f8f8;
+}
+
+.sidedrawer-header-brand {
+  color: #ffffff;
+}
+
+.sidedrawer-content {
+  background-color: #ffffff;
+}
+
+.sidedrawer-list-item {
+  color: #000000;
+}
+
+.sidedrawer-list-item.active {
+  background-color: #ffffff;
+}
+
+.sidedrawer-list-item.active {
+  color: #000000;
+}
+
+.text-field-outline {
+  border-width: 2px;
+  border-color: $border-color;
+  border-radius: 24px;
+}
+
+.no-border,
+.no-border:focus {
+  border-width: 0.5px;
+  border-color: transparent;
+}
+
+.text-white {
+  color: white;
+}
+
+.text-black {
+  color: black;
+}
+
+.b-b-1 {
+  border-width: 0 0 1 0;
+  border-color: $border-color;
+}
+
+.b-t-1 {
+  border-width: 1 0 0 0;
+  border-color: $border-color;
+}
+
+.b-b-primary {
+  border-width: 0 0 10 0;
+  border-color: $primary;
+}
+
+.b-thin {
+  border-color: $border-color-light;
+}
+
+.bg-accent {
+  background-color: $accent;
+}
+
+.bg-primary {
+  background-color: $primary;
+}

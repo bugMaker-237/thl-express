@@ -15,7 +15,7 @@
     "lib": ["es2018", "dom"],
     "paths": {
       "*": ["./app-client/node_modules/*"],
-      "@root/*": ["./submodules/apps-common/*"]
+      "@root/*": ["./common-modules/apps-common/*"]
     },
     "typeRoots": ["./app-client/node_modules/@types"]
   }

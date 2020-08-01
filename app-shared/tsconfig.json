@@ -17,15 +17,17 @@
     "baseUrl": "./",
     "paths": {
       "*": ["../app-client/node_modules/*"],
-      "@apps.common/services": ["../submodules/apps-common/services/index.ts"],
-      "@apps.common/services/storage/interfaces": [
-        "../submodules/apps-common/services/storage/interfaces/index.ts"
+      "@apps.common/services": [
+        "../common-modules/apps-common/services/index.ts"
       ],
-      "@apps.common/models": ["../submodules/apps-common/models/index.ts"],
-      "@apps.common/config": ["../submodules/apps-common/config/index.ts"],
+      "@apps.common/services/storage/interfaces": [
+        "../common-modules/apps-common/services/storage/interfaces/index.ts"
+      ],
+      "@apps.common/models": ["../common-modules/apps-common/models/index.ts"],
+      "@apps.common/config": ["../common-modules/apps-common/config/index.ts"],
       "@app.shared/models": ["../app-shared/models/index.ts"],
       "@apps.common/modules": [
-        "../submodules/apps-common/modules/mobile/index.ts"
+        "../common-modules/apps-common/modules/mobile/index.ts"
       ]
     },
     "typeRoots": ["../app-client/node_modules/@types"]

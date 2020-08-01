@@ -1,0 +1,85 @@
+{
+  "geocoded_waypoints": [
+    {
+      "geocoder_status": "OK",
+      "place_id": "ChIJga8XdSUMYRARUE7XtLUWbms",
+      "types": ["establishment", "point_of_interest", "university"]
+    },
+    {
+      "geocoder_status": "OK",
+      "place_id": "ChIJMcbHb18SYRARSF-kAHET4vg",
+      "types": ["establishment", "point_of_interest", "shopping_mall"]
+    }
+  ],
+  "routes": [
+    {
+      "bounds": {
+        "northeast": {
+          "lat": 4.0869761,
+          "lng": 9.7803018
+        },
+        "southwest": {
+          "lat": 4.0504608,
+          "lng": 9.697079
+        }
+      },
+      "copyrights": "Map data ©2020",
+      "legs": [
+        {
+          "distance": {
+            "text": "12.2 km",
+            "value": 12224
+          },
+          "duration": {
+            "text": "28 mins",
+            "value": 1702
+          },
+          "end_address": "Rue, Douala, Cameroon",
+          "end_location": {
+            "lat": 4.0527957,
+            "lng": 9.6972814
+          },
+          "start_address": "3001, Douala, Cameroon",
+          "start_location": {
+            "lat": 4.083197699999999,
+            "lng": 9.7803018
+          },
+          "steps": [
+            {
+              "distance": {
+                "text": "25 m",
+                "value": 25
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 6
+              },
+              "end_location": {
+                "lat": 4.0831024,
+                "lng": 9.780101199999999
+              },
+              "html_instructions": "Head \u003cb\u003esouthwest\u003c/b\u003e",
+              "polyline": {
+                "points": "_o|W{euz@NPBT"
+              },
+              "start_location": {
+                "lat": 4.083197699999999,
+                "lng": 9.7803018
+              },
+              "travel_mode": "DRIVING"
+            }
+          ],
+          "traffic_speed_entry": [],
+          "via_waypoint": []
+        }
+      ],
+      "overview_polyline": {
+        "points": "_o|W{euz@NPBTd@@|DRQrCKrAa@`CSr@QXeAx@YZOVKd@OhASlA[bB?TBj@FTZb@jEzGtGrKaL`HgLdHeAr@eAz@gApAk@x@[n@g@lA[hAOz@SlBE~@JpCHtATpFLz@F`@TXH`@^jCtAfT\\xBNn@Pl@fArCfBfD@x@iCzBqBjBc@x@EV@hBBRo@b@[\\I\\ElBGfD@XDRV^vKzLzA|APr@RtGD`@Nh@z@xAgAlA{@jBK`@o@tB?hG?vEBfALV@pGApRKxAIh@[dAc@x@m@t@i@f@QLa@N]JI?YDSJQVGV?LDVPZJFZH`@ATIFGb@X~AvAjB~Av@t@r@x@p@v@h@x@d@dAl@tBRnAf@lDZXXj@dFrLdCxFpBjDnAx@t@^pA`AnDdC`FjDtJzGzBbAz@T`Cb@~@Nv@Rl@Tr@d@~@dAtBlCDRFJ`BtBl@p@dAp@~ChB~@^vBd@tBb@v@NRLzA|ApA~AZZj@`@bHrB`Bf@tBd@bBd@xBp@fC`AfB~@rBtArAbA~@z@r@p@nAxACHAJ@JJLRFJ?DA|@`AfHzIlD~DlGjHfC|ChArApAzAbA`AtJpHdBpAd@d@HN?D@HJPRFk@rByBlHcDtK]lAg@nAO^KGg@_@"
+      },
+      "summary": "Boulevard de la République",
+      "warnings": [],
+      "waypoint_order": []
+    }
+  ],
+  "status": "OK"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "codeplement.common",
+  "version": "0.0.1",
+  "description": "A library containing cross platform commonly used features for Angular/Angular material and nativescript prjects ",
+  "main": "prepare.js",
+  "scripts": {
+    "test": "echo 'Error: no test specified' && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeplement/codeplement.common.git"
+  },
+  "keywords": [
+    "common",
+    "lib",
+    "angular",
+    "nativescript"
+  ],
+  "author": "Codeplement",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codeplement/codeplement.common/issues"
+  },
+  "homepage": "https://github.com/codeplement/codeplement.common#readme"
+}
