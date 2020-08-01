@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const user = this._authService.connectedUser;
-    // console.log(user);
+    // // console.log(user);
     let toNavigate = 'app-shell/journey';
     let res = true;
     if (!user) {

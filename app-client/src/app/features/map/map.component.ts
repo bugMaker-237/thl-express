@@ -171,7 +171,7 @@ export class MapComponent implements OnInit {
         this.isPacketTransportation = queryParams.isPacketTransportation;
         this.packet = this._store.get('current-packet-item');
         const settings = this._settingsService.settings;
-        console.log(settings);
+        // console.log(settings);
         if (this.isPacketTransportation && this.packet) {
           this.kmPrice =
             settings.colisprice + settings.colispercentage * this.packet.value;

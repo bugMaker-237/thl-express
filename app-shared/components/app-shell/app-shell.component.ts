@@ -14,6 +14,10 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { AuthService, ProfilService } from '../../services';
 import { AppComponent } from '../app.component';
 // import { AuthService } from '@app.shared/services';
+import { ImageSource } from 'tns-core-modules/image-source';
+import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
+import { ImageItem } from '../../models/image-item';
+
 @Component({
   selector: 'app-shell',
   moduleId: module.id,
@@ -111,6 +115,7 @@ export class AppShellComponent implements AfterViewInit, OnInit {
   public drawerComponent: RadSideDrawerComponent;
   private drawer: RadSideDrawer;
   isDriver: boolean;
+  profilPicture: ImageSource;
 
   constructor(
     private _changeDetectionRef: ChangeDetectorRef,
@@ -137,23 +142,50 @@ export class AppShellComponent implements AfterViewInit, OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this._genSubjects
       .get('demandDrawer$', true)
       .subscribe(this.toggleDrawer.bind(this));
     if (typeof AppComponent.appType === 'undefined') {
       throw new Error('AppType not set');
     }
+    if (AppComponent.appType === 'driver') {
+      AppComponent.oneSignalTagPush(
+        'user',
+        this._authService.connectedUser.id.toString()
+      );
+      console.log('tag ok');
+    }
     this._profilService.getProfil(AppComponent.appType).subscribe({
-      next: (res) => {
+      next: async (res) => {
         this._authService.setUserInfos(res);
+        this.user = this._authService.connectedUser;
+        await this.setProfilePicture();
       },
     });
     this._profilService.profilUpdated$.subscribe({
-      next: (res) => {
-        this.user = res;
+      next: async (res) => {
+        this._authService.setUserInfos(res);
+        this.user = this._authService.connectedUser;
+        await this.setProfilePicture();
       },
     });
+  }
+
+  private async setProfilePicture() {
+    const user = this.user;
+    console.log(user.image);
+    if (user.image) {
+      const img = new ImageItem(this._authService.getFullUrl(user.image));
+      img.imageLoadCompleted = (imgSrc) => {
+        this.profilPicture = imgSrc;
+      };
+      this.profilPicture = img.imageSrc;
+    } else {
+      this.profilPicture = await ImageSource.fromAsset(
+        new ImageAsset('~/assets/avatar.jpg')
+      );
+    }
   }
 
   toggleDrawer(toogleDrawer: boolean) {

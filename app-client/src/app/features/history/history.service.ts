@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   LocalStorageService,
   ToastService,
-  Loader
+  Loader,
 } from '@apps.common/services';
 import { IAppConfig, APP_CONFIG } from '@apps.common/config';
 import { PaginatedData } from '@apps.common/models';
@@ -40,10 +40,10 @@ export class HistoryService extends BaseService {
     paging = 1
   ): Observable<PaginatedData<IHistory>> {
     return this.get<any>(`/history?type=${type}&page=${paging}`).pipe(
-      map(data => {
-        // console.log(data);
+      map((data) => {
+        // // console.log(data);
         return {
-          data: data.history.map(d => ({
+          data: data.history.map((d) => ({
             id: d.id,
             date: d.createdat,
             price: d.price,
@@ -51,11 +51,11 @@ export class HistoryService extends BaseService {
             destination: d.to,
             originPosition: {
               latitude: d.latfrom,
-              longitude: d.lngfrom
+              longitude: d.lngfrom,
             },
             destinationPosition: {
               latitude: d.latto,
-              longitude: d.lngto
+              longitude: d.lngto,
             },
             state: d.status,
             transportType: d.type,
@@ -69,11 +69,11 @@ export class HistoryService extends BaseService {
                 d.driver.driver.picture,
               user: {
                 id: d.driver.driver.id,
-                name: d.driver.name
-              }
-            }
+                name: d.driver.name,
+              },
+            },
           })),
-          pagination: data.pagination
+          pagination: data.pagination,
         };
       })
     );

@@ -33,4 +33,8 @@ export class JourneyService extends BaseService {
   getCurrentDrives(): Observable<any> {
     return this.get('/journey');
   }
+
+  closeJourney(id: any) {
+    return this.get(`/journey/${id}/close`);
+  }
 }

@@ -7,12 +7,14 @@
     height="100%"
     hideActionBar
   >
+
     <StackLayout
       #stack
       class="stack"
       padding="20"
       maxWidth="400"
     >
+
       <Image
         (tap)="startSelection()"
         [src]="selectedImage"
@@ -25,17 +27,17 @@
       ></Image>
       <label
         horizontalAlignment="center"
-        [text]="user.name"
+        [text]="userToUpdate.name"
         class="m-b-5"
       ></label>
       <label
         horizontalAlignment="center"
-        [text]="user.email"
+        [text]="userToUpdate.email"
         class="m-b-5"
       ></label>
       <label
         horizontalAlignment="center"
-        [text]="user.phone"
+        [text]="userToUpdate.phone"
         class="m-b-20"
       ></label>
       <core-ui-tf
@@ -50,7 +52,7 @@
       ></core-ui-tf>
       <core-ui-tf
         hint="Numéro de téléphone"
-        *ngIf="!user.phone"
+        *ngIf="!userToUpdate.phone"
         keyboardType="phone"
         required="true"
         returnKeyType="done"
@@ -62,7 +64,7 @@
       ></core-ui-tf>
       <core-ui-tf
         hint="Email"
-        *ngIf="!user.email"
+        *ngIf="!userToUpdate.email"
         keyboardType="email"
         required="true"
         returnKeyType="done"

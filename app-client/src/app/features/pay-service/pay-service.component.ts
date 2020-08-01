@@ -9,8 +9,8 @@ import { IOngoingPayment } from './payment.model';
 import { PaymentService } from './pay-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { repeat, take } from 'rxjs/operators';
-import { interval } from 'rxjs';
+import { repeat, take, catchError } from 'rxjs/operators';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'pay-service',
@@ -24,7 +24,7 @@ export class PayServiceComponent implements OnInit {
   buyer = {
     lastName: '',
     firstName: '',
-    phone: '',
+    phone: '+237',
   };
   constructor(
     private _authService: AuthService,
@@ -59,35 +59,68 @@ export class PayServiceComponent implements OnInit {
     if (!this.buyer.phone.startsWith('+')) {
       this.buyer.phone = '+' + this.buyer.phone;
     }
+
     this._payService.pay(this.service, this.buyer).subscribe({
       next: (res) => {
-        this._toasService.push({
-          text: res.message,
-          data: {
-            backgroundColor: 'primary',
-          },
-        });
+        // console.log(res);
         const code = res.code;
-        if (res.code) {
-          const intervalSubscription = interval(2 * 60 * 60)
-            .pipe(take(5))
+        if (res.code && res.status === 200) {
+          let intervalSubscription: Subscription;
+
+          const paySubscription = this._payService
+            .checkTransaction(code)
+            .pipe(
+              catchError((_) => {
+                if (intervalSubscription) {
+                  intervalSubscription.unsubscribe();
+                }
+                return _;
+              })
+            )
             .subscribe({
-              next: () => this._payService.checkTransaction(code),
+              next: (res2) => {
+                // console.log(res2);
+                this._toasService.push({
+                  text: res2.message,
+                  data: {
+                    backgroundColor:
+                      res2.status === 400
+                        ? 'danger'
+                        : res2.status === 600
+                        ? 'accent'
+                        : 'primary',
+                  },
+                });
+                if (res2.status === 200) {
+                  if (intervalSubscription) {
+                    intervalSubscription.unsubscribe();
+                  }
+                  this._router.navigate([this.service.redirectUrl], {
+                    transition: {
+                      name: 'slide',
+                    },
+                    relativeTo: this._activatedRoute,
+                  });
+                } else if (res2.status === 400) {
+                  this._router.navigateByUrl('', {
+                    transition: {
+                      name: 'slide',
+                    },
+                  });
+                }
+              },
             });
 
-          this._payService.checkTransaction(code).subscribe({
-            next: (res2) => {
-              console.log(res2);
-              if (res2.status === 200) {
-                intervalSubscription.unsubscribe();
-                this._router.navigate([this.service.redirectUrl], {
-                  transition: {
-                    name: 'slide',
-                  },
-                  relativeTo: this._activatedRoute,
-                });
-              }
-            },
+          intervalSubscription = interval(5 * 60 * 60 * 1000)
+            .pipe(take(5))
+            .subscribe({
+              next: () => {
+                this._payService.checkTransaction(code);
+              },
+            });
+        } else {
+          this._toasService.push({
+            text: res.message,
           });
         }
       },

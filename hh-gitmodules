@@ -1,0 +1,3 @@
+[submodule "submodules/apps-common"]
+	path = submodules/apps-common
+	url = https://github.com/codeplement/codeplement.common.git

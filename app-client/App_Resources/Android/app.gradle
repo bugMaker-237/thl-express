@@ -23,7 +23,7 @@ android {
   defaultConfig { 
     //override supported platforms
     ndk {
-      //abiFilters.clear()
+      // abiFilters.clear()
     }
   } 
   splits {

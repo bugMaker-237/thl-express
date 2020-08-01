@@ -2,7 +2,7 @@ import {
   MapView,
   Polyline,
   Marker,
-  Position
+  Position,
 } from 'nativescript-google-maps-sdk';
 import { IMapRoute, IPosition } from '@apps.common/models';
 import { Color } from 'tns-core-modules/color/color';
@@ -17,11 +17,13 @@ export function clearMap(mapView: MapView) {
 }
 export function drawRoute(mapView: MapView, dirs: IMapRoute[]) {
   const lines: Polyline[] = [];
-  dirs.forEach(r => {
+  dirs.forEach((r) => {
     const polyline = new Polyline();
     // const point = Position.positionFromLatLng(startPlace.latitude, startPlace.longitude);
     polyline.addPoints(
-      r.polyline.map(p => Position.positionFromLatLng(p.latitude, p.longitude))
+      r.polyline.map((p) =>
+        Position.positionFromLatLng(p.latitude, p.longitude)
+      )
     );
     polyline.visible = true;
     polyline.width = 20;
@@ -29,7 +31,7 @@ export function drawRoute(mapView: MapView, dirs: IMapRoute[]) {
     polyline.geodesic = true;
     lines.push(polyline);
   });
-  lines.forEach(l => mapView.addPolyline(l));
+  lines.forEach((l) => mapView.addPolyline(l));
 }
 export async function drawMarker(
   mapView: MapView,
@@ -75,8 +77,8 @@ export async function drawMarker(
 export function doZoom(mapView: MapView, padding = 20) {
   const builder = new (com.google
     .android as any).gms.maps.model.LatLngBounds.Builder();
-  mapView.findMarker(marker => {
-    // console.log(marker);
+  mapView.findMarker((marker) => {
+    // // console.log(marker);
     builder.include(marker.android.getPosition());
     return false;
   });
@@ -87,6 +89,6 @@ export function doZoom(mapView: MapView, padding = 20) {
     bounds,
     padding
   );
-  // console.log(cu);
+  // // console.log(cu);
   mapView.gMap.animateCamera(cu);
 }

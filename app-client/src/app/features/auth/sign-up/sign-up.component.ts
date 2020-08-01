@@ -33,7 +33,7 @@ export class SignUpComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // console.log(this._authService.connectedUser);
+    // // console.log(this._authService.connectedUser);
   }
   onReturnPress(event) {}
   register() {
@@ -69,14 +69,14 @@ export class SignUpComponent implements OnInit {
     } else {
       delete this.user.phone;
     }
-    // console.log(this.user);
+    // // console.log(this.user);
     this._authService.register(this.user).subscribe({
       next: () => {
         this._storage.set('willing-user', {
           email,
           password: this.user.password,
         });
-        // console.log('in here...');
+        // // console.log('in here...');
         this._router.navigate(['auth/verify-code'], {
           transition: {
             name: 'slide',

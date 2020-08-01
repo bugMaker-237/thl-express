@@ -47,22 +47,22 @@ export class VerifyCodeComponent implements OnInit {
 
   verifyCode() {
     const user = this._authService.connectedUser;
-    // console.log(user);
+    // // console.log(user);
     const expireDate = new Date(user.code_expire.toString());
     if (expireDate.getTime() < new Date().getTime()) {
       this._dialogService.alert(
         'Votre code de vérification a expiré, essayez de le renvoyer.'
       );
     } else {
-      // console.log(this.verificationCode);
-      // console.log(user.verify_code);
+      // // console.log(this.verificationCode);
+      // // console.log(user.verify_code);
       if (
         this.verificationCode.toString().trim() ===
         user.verify_code.toString().trim()
       ) {
         const userCon = this._storage.getObject('willing-user') as any;
         userCon.code = this.verificationCode.toString().trim();
-        console.log(userCon);
+        // console.log(userCon);
         this._authService.signIn(userCon).subscribe({
           next: (_) => {
             Loader.default.show();

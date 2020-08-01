@@ -4,7 +4,7 @@ import {
   MapView,
   Marker,
   Position,
-  Polyline
+  Polyline,
 } from 'nativescript-google-maps-sdk';
 import { IHistory } from '~/app/models/history';
 import { ActivatedRoute } from '@angular/router';
@@ -17,19 +17,19 @@ import { default as mapStyle } from '@app.shared/map-style.json';
 @Component({
   selector: 'history-details',
   templateUrl: 'history-details.component.html',
-  styleUrls: ['history-details.component.scss']
+  styleUrls: ['history-details.component.scss'],
 })
 export class HistoryDetailsComponent implements OnInit {
   history: IHistory = {
     driver: {
-      user: {}
+      user: {},
     },
     packet: {},
     pressing: {},
     originPosition: {
       latitude: 4.049862,
-      longitude: 9.695213
-    }
+      longitude: 9.695213,
+    },
   } as any;
 
   constructor(private _activatedRoute: ActivatedRoute) {}
@@ -49,16 +49,16 @@ export class HistoryDetailsComponent implements OnInit {
         item.packet = item.packet || ({} as any);
         item.pressing = item.pressing || ({} as any);
         this.history = item;
-        // console.log(item);
+        // // console.log(item);
         await Promise.all([
           drawMarker(mapView, item.originPosition, 0, '', null, true),
-          drawMarker(mapView, item.destinationPosition, 1, '', null, true)
-        ]).then(_ => {
+          drawMarker(mapView, item.destinationPosition, 1, '', null, true),
+        ]).then((_) => {
           drawRoute(mapView, mapRoute);
           doZoom(mapView, 20);
           Loader.default.hide();
         });
-      }
+      },
     });
   }
 }

@@ -41,7 +41,7 @@ export class HistoryService extends BaseService {
   ): Observable<PaginatedData<IHistory>> {
     return this.get<any>(`/history?type=${type}&page=${paging}`).pipe(
       map((data) => {
-        // console.log(data);
+        // // console.log(data);
         return {
           data: data.history.map((d) => ({
             id: d.id,

@@ -30,3 +30,7 @@ $warn: #942e2e;
   background: linear-gradient(to right, #888, #888, #888);
   // background-size: 1px 0px, 1px 1px;
 }
+
+.bg-warn {
+  background-color: $warn;
+}

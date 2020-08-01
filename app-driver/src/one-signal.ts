@@ -19,7 +19,9 @@ class OneSignalClass {
   private static parseJson(json: org.json.JSONObject) {
     return json ? JSON.parse(json.toString()) : json;
   }
-
+  sendTag(key: string, value: string) {
+    com.onesignal.OneSignal.sendTag(key, value);
+  }
   init(nativeApp: android.app.Application) {
     com.onesignal.OneSignal.startInit(nativeApp)
       .autoPromptLocation(false)
@@ -59,7 +61,7 @@ class OneSignalClass {
       )
 
       .init();
-    console.log('init done');
+    // console.log('init done');
     com.onesignal.OneSignal.idsAvailable(
       new com.onesignal.OneSignal.IdsAvailableHandler({
         idsAvailable: this.onIdsCalled,
@@ -84,6 +86,7 @@ class OneSignalClass {
   }
 }
 
+const onesignal = new OneSignalClass();
 export function getOneSignalInstance({
   received = null,
   opened = null,
@@ -93,9 +96,8 @@ export function getOneSignalInstance({
   opened?: (notification: OneSignalOpenedNotification) => void;
   idsHandler?: (p1: string, p2: string) => void;
 } = {}): OneSignalClass {
-  const onesignal = new OneSignalClass();
-  onesignal.received = received;
-  onesignal.opened = opened;
-  onesignal.idsHandler = idsHandler;
+  onesignal.received = received || onesignal.received;
+  onesignal.opened = opened || onesignal.opened;
+  onesignal.idsHandler = idsHandler || onesignal.idsHandler;
   return onesignal;
 }

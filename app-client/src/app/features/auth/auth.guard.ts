@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from '@angular/router';
 import { AuthService } from '@app.shared/services';
 import { RouterExtensions } from 'nativescript-angular/router';
@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const user = this._authService.connectedUser;
-    // console.log(user);
+    // // console.log(user);
     let toNavigate = 'app-shell/map';
     let res = true;
     if (!user) {

@@ -19,16 +19,16 @@ android {
   defaultConfig { 
     minSdkVersion 17
     generatedDensities = []
-    manifestPlaceholders = [onesignal_app_id: "f66f05aa-c1b2-4063-bda4-38e42aff04f3",
-                                onesignal_google_project_number: '437086174160']
+    manifestPlaceholders = [onesignal_app_id: "dca41656-e361-4e63-8db5-7ea64c11a144",
+                                onesignal_google_project_number: '62955553941']
     //override supported platforms
     ndk {
-      //abiFilters.clear()
+      // abiFilters.clear()
     }
   } 
   splits {
     abi {
-      // enable true //enables the ABIs split mechanism
+      //  enable true //enables the ABIs split mechanism
       // reset() //reset the list of ABIs to be included to an empty string
       // //include 'arm64-v8a', 'armeabi-v7a', "x86", "x86_64"
       include 'x86', 'x86_64' , 'arm64-v8a', 'armeabi-v7a'

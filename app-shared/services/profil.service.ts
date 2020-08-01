@@ -13,6 +13,7 @@ import { HttpOptions } from '@apps.common/models';
 import { IUser } from '../models';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { RouterExtensions } from 'nativescript-angular/router';
 @Injectable()
 export class ProfilService extends BaseService {
   profilUpdated$: Subject<IUser>;
@@ -20,6 +21,7 @@ export class ProfilService extends BaseService {
     protected http: HttpClient,
     protected storage: LocalStorageService,
     protected toastService: ToastService,
+    protected router: RouterExtensions,
     private _genSubject: GenericSubjects,
     @Inject(APP_CONFIG) private config: IAppConfig
   ) {
@@ -31,6 +33,9 @@ export class ProfilService extends BaseService {
       config.apiEndpoints.only.servicePath
     );
     this.profilUpdated$ = _genSubject.add<IUser>('profilUpdated$');
+    this.redirectUnauthorised = () => {
+      this.router.navigate(['auth/sign-in']);
+    };
   }
 
   protected get loader(): Loader {
@@ -49,17 +54,8 @@ export class ProfilService extends BaseService {
   }) {
     return this.post<any>('/client/profile', userData).pipe(
       map((res) => {
-        this.runMap('client');
+        this.profilUpdated$.next(res);
         return res;
-      })
-    );
-  }
-
-  private runMap(type: 'client' | 'driver') {
-    this.getProfil(type).pipe(
-      map((user) => {
-        this.profilUpdated$.next(user);
-        return user;
       })
     );
   }
@@ -67,7 +63,7 @@ export class ProfilService extends BaseService {
   public updateDriverProfil(userData: any) {
     return this.post<any>('/driver/profile', userData).pipe(
       map((res) => {
-        this.runMap('driver');
+        this.profilUpdated$.next(res);
         return res;
       })
     );

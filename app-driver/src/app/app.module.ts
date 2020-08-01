@@ -12,8 +12,10 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import { getOneSignalInstance } from '~/one-signal';
 import { android } from 'tns-core-modules/application';
 
+AppComponent.forType('driver');
+
 @NgModule({
-  bootstrap: [AppComponent.forType('driver')],
+  bootstrap: [AppComponent],
   imports: [
     NativeScriptModule,
     AppSharedModule,
@@ -30,16 +32,20 @@ export class AppModule {
     try {
       const onesignal = getOneSignalInstance({
         received: (notif) => {
-          console.log(notif);
+          // console.log(notif);
         },
         opened: (notif) => {
-          console.log(notif);
+          // console.log(notif);
+          // if((android.nativeApp as android.app.Application).getBaseContext)
           this.ngZone
             .run(() => this.router.navigate(['app-shell/journey']))
             .then();
         },
       });
       onesignal.init(android.nativeApp);
+      AppComponent.oneSignalTagPush = (key: string, value: string) => {
+        onesignal.sendTag(key, value);
+      };
     } catch (error) {
       console.error(error);
     }

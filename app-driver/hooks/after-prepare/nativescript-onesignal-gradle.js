@@ -5,7 +5,6 @@ module.exports = function ($logger, $projectData, hookArgs) {
     hookArgs.platform ||
     (hookArgs.prepareData && hookArgs.prepareData.platform)
   ).toLowerCase();
-
   function updateAppGradleScript(file) {
     var appBuildGradleContent = fs.readFileSync(file).toString();
     if (!appBuildGradleContent.match(/.*onesignal.*/)) {

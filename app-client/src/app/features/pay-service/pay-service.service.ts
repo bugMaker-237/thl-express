@@ -4,13 +4,16 @@ import { HttpClient } from '@angular/common/http';
 import {
   LocalStorageService,
   ToastService,
-  Loader
+  Loader,
 } from '@apps.common/services';
 import { IAppConfig, APP_CONFIG } from '@apps.common/config';
 import { IPaymentRequest, IOngoingPayment } from './payment.model';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PaymentService extends BaseService {
+  checkState$ = new Subject<any>();
   constructor(
     protected http: HttpClient,
     protected storage: LocalStorageService,
@@ -40,11 +43,20 @@ export class PaymentService extends BaseService {
       lastname: buyer.lastName,
       name: buyer.firstName,
       phone: buyer.phone,
-      type: ongoingPayment.type
+      type: ongoingPayment.type,
     };
-    return this.post<{message:string; status:number;code:string;}>('/pay', payment);
+    return this.post<{ message: string; status: number; code: string }>(
+      '/pay',
+      payment
+    );
   }
   checkTransaction(code: string) {
-    return this.post<any>(`/check/${code}`);
+    const checkSubscription = this.get<any>(`/check/${code}`).subscribe({
+      next: (val) => {
+        checkSubscription.unsubscribe();
+        this.checkState$.next(val);
+      },
+    });
+    return this.checkState$.asObservable();
   }
 }

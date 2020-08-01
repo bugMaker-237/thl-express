@@ -21,11 +21,6 @@ import { knownFolders, Folder } from 'tns-core-modules/file-system';
   providers: [AuthService],
 })
 export class AppComponent {
-  private static _appType: 'client' | 'driver';
-  public static forType(val: 'client' | 'driver') {
-    AppComponent._appType = val;
-    return this;
-  }
   public static get appType() {
     return AppComponent._appType;
   }
@@ -91,5 +86,12 @@ export class AppComponent {
         });
       },
     });
+  }
+
+  private static _appType: 'client' | 'driver';
+  static oneSignalTagPush: (key: string, value: string) => void = () => {};
+  public static forType(val: 'client' | 'driver') {
+    AppComponent._appType = val;
+    return this;
   }
 }

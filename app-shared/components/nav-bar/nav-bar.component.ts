@@ -8,13 +8,15 @@ import { RouterExtensions } from 'nativescript-angular/router';
   selector: 'nav-bar',
   moduleId: module.id,
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss']
+  styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit, AfterViewInit {
   drawerSubject: Subject<boolean>;
   canGoBack: boolean = false;
   @Input()
   text: string;
+  @Input()
+  cancelBack: boolean;
   @Input()
   showDrawerButton: boolean;
   constructor(
@@ -23,7 +25,11 @@ export class NavBarComponent implements OnInit, AfterViewInit {
     private _changeDetector: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
-    this.canGoBack = this._router.canGoBack();
+    console.log(this.cancelBack);
+    this.canGoBack =
+      typeof this.cancelBack !== 'undefined'
+        ? !this.cancelBack
+        : this._router.canGoBack();
     this._changeDetector.detectChanges();
   }
   ngAfterViewInit() {

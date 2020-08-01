@@ -6,6 +6,7 @@ import { ToastService, Loader } from '@apps.common/services';
 import { RadImagepicker } from '@nstudio/nativescript-rad-imagepicker';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
 import { ImageSource } from 'tns-core-modules/image-source';
+import { ImageItem } from '@app.shared/models/image-item';
 @Component({
   selector: 'profil',
   moduleId: module.id,
@@ -27,7 +28,7 @@ export class ProfilComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    console.log(this._authService.connectedUser);
+    // console.log(this._authService.connectedUser);
     const { token, ...user } = this._authService.connectedUser as any;
     user.driver = user.driver || {};
     this.userToUpdate = {
@@ -38,26 +39,35 @@ export class ProfilComponent implements OnInit {
       driving: user.driver.licence_id,
       experience: user.driver.experience,
     };
-    console.log(user.driver.picture);
-    this.selectedImage = !user.driver.picture
-      ? await ImageSource.fromAsset(new ImageAsset('~/assets/camera.png'))
-      : await ImageSource.fromUrl(
-          this._authService.getFullUrl(user.driver.picture)
-        );
+
+    if (user.image) {
+      const img = new ImageItem(this._authService.getFullUrl(user.image));
+      img.imageLoadCompleted = (imgSrc) => {
+        this.selectedImage = imgSrc;
+      };
+      this.selectedImage = img.imageSrc;
+    } else {
+      this.selectedImage = await ImageSource.fromAsset(
+        new ImageAsset('~/assets/camera.png')
+      );
+    }
   }
   public async startSelection() {
     const radImagepicker = new RadImagepicker();
+    Loader.default.show();
     this.selectedImage = (
       await radImagepicker.pick({
         imageLimit: 1,
       })
     )[0];
     this.imageSelected = !!this.selectedImage;
+    Loader.default.hide();
   }
   async update() {
     Loader.default.show();
     if (this.imageSelected) {
-      this.userToUpdate.picture = await this.getPicture();
+      this.userToUpdate.photo = await this.getPicture();
+      // console.log(this.userToUpdate.photo);
     }
     Loader.default.hide();
 
@@ -75,7 +85,7 @@ export class ProfilComponent implements OnInit {
   }
   async getPicture(): Promise<string> {
     return new Promise((res, rej) => {
-      res(this.selectedImage.toBase64String('jpeg', 20));
+      res(this.selectedImage.toBase64String('jpg', 20));
     });
   }
 }

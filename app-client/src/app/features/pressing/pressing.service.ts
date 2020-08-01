@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   LocalStorageService,
   ToastService,
-  Loader
+  Loader,
 } from '@apps.common/services';
 import { IAppConfig, APP_CONFIG } from '@apps.common/config';
 import { IPressingListItem, ICloth } from '../../models/pressing';
@@ -37,25 +37,25 @@ export class PressingService extends BaseService {
 
   public getPressings(page = 1): Observable<PaginatedData<IPressingListItem>> {
     return this.get<any>(`/pressing?page=${page}`).pipe(
-      map(data => {
-        // console.log(data);
+      map((data) => {
+        // // console.log(data);
         return {
-          data: data.history.map(h => ({
+          data: data.history.map((h) => ({
             id: h.id,
             price: h.price,
             status: h.status,
             date: h.createdat,
-            cloths: h.pressings.map(p => ({
+            cloths: h.pressings.map((p) => ({
               id: p.clothe.id,
               type: p.clothe.type,
               price: p.clothe.price,
               commandId: p.command,
               quantity: p.quantity,
               details: p.observation,
-              isValidated: p.is_validated
-            }))
+              isValidated: p.is_validated,
+            })),
           })),
-          pagination: data.pagination
+          pagination: data.pagination,
         };
       })
     );
@@ -63,11 +63,11 @@ export class PressingService extends BaseService {
 
   public getClothTypes(): Observable<ICloth[]> {
     return this.get<any[]>(`/pressing/clothes-type`).pipe(
-      map(data =>
-        data.map(d => ({
+      map((data) =>
+        data.map((d) => ({
           name: d.type,
           id: d.id,
-          price: d.price
+          price: d.price,
         }))
       )
     );

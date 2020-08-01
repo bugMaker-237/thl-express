@@ -14,22 +14,26 @@ export abstract class BaseService extends HttpService {
     super(http, storage, localStorageKey, messager, baseUrl);
     this.resultMapper = <T>(res) => res.data as T;
     this.errorDetector = (res) => {
-      if (!res.data && res.status !== 200) {
+      if (!res.data && res.status !== 200 && res.status !== 201) {
         throw this.errorParser(res);
       } else {
         return res;
       }
     };
   }
+  protected redirectUnauthorised = () => {};
+
   protected errorParser(response: any): Error[] {
     if (response.status === 0) {
       return [new Error(`Vous n'êtes pas connecté`)];
     }
-    if (response.message && !response.error) {
-      return [new Error(response.message)];
-    } else if (typeof response.error === 'string') {
+    if (response.status === 401) {
+      this.redirectUnauthorised();
+    }
+    if (typeof response.error === 'string') {
       return [new Error(response.error)];
     } else if (response.error) {
+      console.log('this response');
       const allErrors = [];
       const error = response.error;
       if (error.errors) {
@@ -41,8 +45,10 @@ export abstract class BaseService extends HttpService {
         }
         return allErrors;
       } else {
-        return [new Error(error.message)];
+        return [new Error(error.message || error.data)];
       }
+    } else if (response.message && !response.error) {
+      return [new Error(response.message)];
     }
   }
 }

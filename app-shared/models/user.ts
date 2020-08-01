@@ -6,6 +6,7 @@ export interface IUserRequest {
   confirmPassword: string;
 }
 export interface IUser {
+  client?: any;
   id: number;
   name: string;
   phone: string;

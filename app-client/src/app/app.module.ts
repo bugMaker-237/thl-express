@@ -9,6 +9,8 @@ import { AppSharedModule } from '@app.shared/app-shared.module';
 import { AppShellComponent } from '@app.shared/components';
 import { pages, resolvers, providers } from './features';
 
+AppComponent.forType('client');
+
 @NgModule({
   bootstrap: [AppComponent],
   imports: [

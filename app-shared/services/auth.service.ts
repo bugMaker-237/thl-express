@@ -29,6 +29,9 @@ export class AuthService extends BaseService {
   }
 
   public getFullUrl(part: string) {
+    if (!part.startsWith('/')) {
+      part = '/' + part;
+    }
     return this.config.apiEndpoints.only.serviceHost + part;
   }
   protected get loader(): Loader {
@@ -74,10 +77,10 @@ export class AuthService extends BaseService {
   }
 
   public setUserInfos(newInfos: any) {
-    console.log(newInfos);
     const { token, ...infos } = newInfos;
     let user = this.connectedUser;
     user = Object.assign(user, infos);
+    user.image = (user.driver || {}).picture || (user.client || {}).picture;
     this.storage.set(this.localStorageKey, user);
     this._user = user;
     console.log(JSON.stringify(user, null, 2));
