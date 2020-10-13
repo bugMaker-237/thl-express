@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^8.2.14",
     "@angular/router": "^8.2.14",
     "@angular/service-worker": "^8.2.14",
+    "@ngx-translate/core": "^13.0.0",
     "@nstudio/nativescript-loading-indicator": "^3.0.3",
     "@nstudio/nativescript-rad-imagepicker": "^2.0.5",
     "nativescript-angular": "^8.2.2",

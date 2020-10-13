@@ -17,7 +17,11 @@
       "/api/register",
       "/api/validate",
       "/api/resend",
-      "/api/settings"
+      "/api/settings",
+      "/api/client/languages/en",
+      "/api/client/languages/fr",
+      "/api/driver/languages/en",
+      "/api/driver/languages/fr"
     ]
   },
   "apiEndpoints": {

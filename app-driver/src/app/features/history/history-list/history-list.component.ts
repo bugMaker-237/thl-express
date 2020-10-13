@@ -9,7 +9,7 @@ import { GlobalStoreService } from '@apps.common/services';
 @Component({
   selector: 'history-list',
   styleUrls: ['history-list.component.scss'],
-  templateUrl: 'history-list.component.html'
+  templateUrl: 'history-list.component.html',
 })
 export class HistoryListComponent implements OnInit {
   histories: IHistoryListItem[] = [];
@@ -26,20 +26,20 @@ export class HistoryListComponent implements OnInit {
     this._activatedRoute.data.subscribe({
       next: (data: { histories: PaginatedData<IHistory> }) => {
         this.histories = data.histories.data;
-      }
+      },
     });
     this._activatedRoute.parent.params.subscribe({
-      next: params => {
+      next: (params) => {
         this.type = params.type;
-      }
+      },
     });
   }
   loadHistories(paging = 1) {
     this._historyService.getHistories(this.type, paging).subscribe({
-      next: res => {
+      next: (res) => {
         this.histories = res.data;
         this.pagination = res.pagination;
-      }
+      },
     });
   }
   openDetails(item: IHistory) {
@@ -48,10 +48,9 @@ export class HistoryListComponent implements OnInit {
       [`app-shell/history/${this.type}/details/${item.id}`],
       {
         transition: {
-          name: 'slide'
-        }
+          name: 'slide',
+        },
       }
     );
   }
 }
-1

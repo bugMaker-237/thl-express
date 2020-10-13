@@ -25,7 +25,6 @@ export class NavBarComponent implements OnInit, AfterViewInit {
     private _changeDetector: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
-    console.log(this.cancelBack);
     this.canGoBack =
       typeof this.cancelBack !== 'undefined'
         ? !this.cancelBack

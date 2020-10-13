@@ -1,8 +1,14 @@
 <StackLayout class="pay-service page-block">
-  <nav-bar text="Payer le service"> </nav-bar>
-  <ScrollView class="history-list" height="100%">
+  <nav-bar [text]="'Views.Pay.Header'| translate"> </nav-bar>
+  <ScrollView
+    class="history-list"
+    height="100%"
+  >
     <StackLayout>
-      <CardView class="m-t-20 m-l-20 m-r-20 m-b-20 p-b-10" elevation="20">
+      <CardView
+        class="m-t-20 m-l-20 m-r-20 m-b-20 p-b-10"
+        elevation="20"
+      >
         <StackLayout class="p-10">
           <GridLayout
             class="m-t-20 m-b-20 m-l-10 m-r-10 p-b-10 b-b-1 b-thin"
@@ -11,7 +17,7 @@
             <label
               verticalAlignment="center"
               class="h5"
-              text="Information sur le service"
+              [text]="'Views.Pay.ServiceInformation'| translate"
               row="0"
               col="0"
             ></label>
@@ -30,9 +36,17 @@
             *ngIf="service.origin.name"
           >
             <StackLayout col="0">
-              <core-ui-icon rotate="180" name="navigation" size="16">
+              <core-ui-icon
+                rotate="180"
+                name="navigation"
+                size="16"
+              >
               </core-ui-icon>
-              <Label class="dotted" text="" textWrap="true"></Label>
+              <Label
+                class="dotted"
+                text=""
+                textWrap="true"
+              ></Label>
             </StackLayout>
 
             <label
@@ -49,7 +63,11 @@
             *ngIf="service.destination.name"
           >
             <StackLayout col="0">
-              <Label class="dotted" text="" textWrap="true"></Label>
+              <Label
+                class="dotted"
+                text=""
+                textWrap="true"
+              ></Label>
               <core-ui-icon
                 name="panorama_fish_eye"
                 backColor="primary"
@@ -70,12 +88,12 @@
         <label
           verticalAlignment="center"
           class="h4"
-          text="Information sur le payeur"
+          [text]="'Views.Pay.BillerInformation'| translate"
           row="0"
           col="0"
         ></label>
         <core-ui-tf
-          hint="Nom"
+          [hint]="'Views.Pay.NameHint'| translate"
           required="true"
           [editable]="!formDisabled"
           returnKeyType="done"
@@ -86,7 +104,7 @@
           customTextFieldClass="no-border p-10"
         ></core-ui-tf>
         <core-ui-tf
-          hint="Prenom"
+          [text]="'Views.Pay.firstnameHint'| translate"
           required="true"
           [editable]="!formDisabled"
           returnKeyType="done"
@@ -97,7 +115,7 @@
           customTextFieldClass="no-border p-10"
         ></core-ui-tf>
         <core-ui-tf
-          hint="Prenom"
+          [text]="'Views.Pay.PhoneHint'| translate"
           required="true"
           keyboardType="phone"
           [editable]="!formDisabled"
@@ -113,7 +131,7 @@
           class="btn btn-accent text-white"
           height="64"
           margin="0"
-          text="Payer"
+          [text]="'Views.Pay.BtnPay'| translate"
           (tap)="pay()"
         ></Button>
       </StackLayout>

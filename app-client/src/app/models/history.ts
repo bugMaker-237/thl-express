@@ -20,4 +20,5 @@ export interface IHistory extends IHistoryListItem {
   packet: IPacket;
   pressing: IPressingListItem;
   transportType: string; // type de course
+  review: any;
 }

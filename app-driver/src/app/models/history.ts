@@ -21,3 +21,32 @@ export interface IHistory extends IHistoryListItem {
   pressing: IPressingListItem;
   transportType: string; // type de course
 }
+
+export const FromAPIEntity = (d, endpoint: string): IHistory => ({
+  id: d.id,
+  date: d.createdat,
+  price: d.price,
+  origin: d.from,
+  destination: d.to,
+  originPosition: {
+    latitude: d.latfrom,
+    longitude: d.lngfrom,
+  },
+  destinationPosition: {
+    latitude: d.latto,
+    longitude: d.lngto,
+  },
+  state: d.status,
+  transportType: d.type,
+  paimentMethod: null,
+  packet: d.packet || {},
+  pressing: d.pressing || {},
+  driver: {
+    id: d.driver.id,
+    picture: endpoint + d.driver.driver.picture,
+    user: {
+      id: d.driver.driver.id,
+      name: d.driver.name,
+    } as any,
+  },
+});

@@ -1,7 +1,7 @@
 <StackLayout class="page-block ">
   <nav-bar
     [showDrawerButton]="!isFragment"
-    text="Se plaindre"
+    [text]="'Views.Complain.Header' | translate"
   ></nav-bar>
   <ScrollView
     height="100%"
@@ -24,14 +24,14 @@
         alignSelf="center"
       ></Image>
       <Label
-        text="Un soucis avec un conducteur ou autre chose ? faite le nous savoir"
+        [text]="'Views.Complain.SubHeader' | translate"
         textWrap="true"
         horizontalAlignment="center"
         class="p-b-20"
       ></Label>
 
       <core-ui-tf
-        hint="* Numéro du transporteur"
+        [hint]="'Views.Complain.PhoneHint' | translate"
         required="true"
         [editable]="!formDisabled"
         returnKeyType="done"
@@ -43,7 +43,7 @@
       ></core-ui-tf>
       <TextView
         height="100"
-        hint="* Commentaires"
+        [hint]="'Views.Complain.CommentHint' | translate"
         [(ngModel)]="complain.message"
         required="true"
         [editable]="!formDisabled"
@@ -56,7 +56,7 @@
         class="btn btn-primary text-black"
         height="64"
         margin="0"
-        text="Envoyer le message"
+        [text]="'Views.Complain.BtnSend' | translate"
         (tap)="send()"
         pageTransition="slide"
       ></Button>

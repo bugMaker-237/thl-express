@@ -1,6 +1,9 @@
 <StackLayout class="page-block">
-  <nav-bar text="Détails de l'historique"> </nav-bar>
-  <ScrollView class="history-details" height="100%">
+  <nav-bar [text]="'Views.History.Details.Header' | translate"> </nav-bar>
+  <ScrollView
+    class="history-details"
+    height="100%"
+  >
     <StackLayout>
       <GridLayout height="200">
         <MapView
@@ -36,9 +39,17 @@
           columns="50, *"
         >
           <StackLayout col="0">
-            <core-ui-icon rotate="180" name="navigation" size="16">
+            <core-ui-icon
+              rotate="180"
+              name="navigation"
+              size="16"
+            >
             </core-ui-icon>
-            <Label class="dotted" text="" textWrap="true"></Label>
+            <Label
+              class="dotted"
+              text=""
+              textWrap="true"
+            ></Label>
           </StackLayout>
 
           <label
@@ -54,7 +65,11 @@
           columns="50, *"
         >
           <StackLayout col="0">
-            <Label class="dotted" text="" textWrap="true"></Label>
+            <Label
+              class="dotted"
+              text=""
+              textWrap="true"
+            ></Label>
             <core-ui-icon
               name="panorama_fish_eye"
               backColor="primary"
@@ -63,25 +78,70 @@
             </core-ui-icon>
           </StackLayout>
 
-          <label class="p-t-5" col="1" [text]="history.destination"></label>
+          <label
+            class="p-t-5"
+            col="1"
+            [text]="history.destination"
+          ></label>
         </GridLayout>
       </StackLayout>
-      <StackLayout class="bg-primary">
+      <StackLayout
+        class="bg-primary"
+        horizontalAlignment="center"
+      >
+        <Label
+          [text]="note"
+          textWrap="true"
+          class="mb-3"
+          style="font-size: larger;"
+        ></Label>
+        <Slider
+          [minValue]="1"
+          [maxValue]="10"
+          [value]="note"
+          class="slider w-100 p-2 mb-3"
+          *ngIf="showNote"
+        ></Slider>
+        <TextField
+          class="p-2 mb-3"
+          [hint]="'Views.History.Details.CommentHint' | translate"
+          [text]="comment"
+        ></TextField>
+
         <Button
           width="100%"
           class="btn btn-primary text-black btn-flat text-white"
           height="48"
           margin="0"
+          *ngIf="!history.review"
+          (tap)="validateNote()"
           style="text-align: center;"
-          text="NOTER"
+          [text]="(showNote ? 'Views.History.Details.BtnNote' : 'Views.History.Details.BtnValidate') | translate"
         ></Button>
+
       </StackLayout>
       <StackLayout class="p-l-10 p-r-10">
-        <GridLayout class="m-t-20 m-l-10 m-r-10 b-b-1 b-thin" columns="*, auto">
-          <label text="Prix" row="0" col="0" class="h4"></label>
-          <label [text]="history.price + ' FCFA'" row="0" col="1"></label>
+        <GridLayout
+          class="m-t-20 m-l-10 m-r-10 b-b-1 b-thin"
+          columns="*, auto"
+        >
+          <label
+            text="Prix"
+            row="0"
+            col="0"
+            class="h4"
+          ></label>
+          <label
+            [text]="history.price + ' FCFA'"
+            row="0"
+            col="1"
+          ></label>
         </GridLayout>
-        <GridLayout rows="auto,auto" columns="*,auto" class="p-t-0 p-10">
+        <GridLayout
+          rows="auto,auto"
+          columns="*,auto"
+          class="p-t-0 p-10"
+        >
           <StackLayout
             class="m-b-10"
             orientation="horizontal"
@@ -95,7 +155,10 @@
               width="70"
               height="70"
             ></Image>
-            <StackLayout margin="20" maxWidth="60">
+            <StackLayout
+              margin="20"
+              maxWidth="60"
+            >
               <Label
                 class="h4"
                 [text]="history.driver.user.name"
@@ -103,45 +166,102 @@
               ></Label>
             </StackLayout>
           </StackLayout>
-          <StackLayout row="1" col="0">
-            <Label text="Immatriculation: " textWrap="true"></Label>
+          <StackLayout
+            row="1"
+            col="0"
+          >
+            <Label
+              [text]="'Views.History.Details.Immatriculation' | translate"
+              textWrap="true"
+            ></Label>
             <Label
               [text]="history.driver.immatriculation"
               textWrap="true"
             ></Label>
           </StackLayout>
-          <StackLayout row="1" col="1">
-            <Label text="Typde de course: " textWrap="true"></Label>
-            <Label [text]="history.transportType" textWrap="true"></Label>
+          <StackLayout
+            row="1"
+            col="1"
+          >
+            <Label
+              [text]="'Views.History.Details.JourneyType' | translate"
+              textWrap="true"
+            ></Label>
+            <Label
+              [text]="history.transportType"
+              textWrap="true"
+            ></Label>
           </StackLayout>
         </GridLayout>
         <label
-          text="Description"
+          [text]="'Views.History.Details.Description' | translate"
           *ngIf="history.transportType !== 'PERSONNE'"
           class="h4 m-t-20 m-l-10 p-b-5 m-r-10 b-b-1 b-thin"
         ></label>
-        <StackLayout class="p-10" *ngIf="history.transportType === 'COLIS'">
-          <StackLayout orientation="horizontal" class="m-b-5">
-            <Label text="Poids: " textWrap="true"></Label>
-            <Label [text]="history.packet.weight" textWrap="true"></Label>
+        <StackLayout
+          class="p-10"
+          *ngIf="history.transportType === 'COLIS'"
+        >
+          <StackLayout
+            orientation="horizontal"
+            class="m-b-5"
+          >
+            <Label
+              [text]="'Views.History.Details.Weight' | translate "
+              textWrap="true"
+            ></Label>
+            <Label
+              [text]="history.packet.weight"
+              textWrap="true"
+            ></Label>
           </StackLayout>
-          <StackLayout orientation="horizontal" class="m-b-5">
-            <Label text="Nature: " textWrap="true"></Label>
-            <Label [text]="history.packet.nature" textWrap="true"></Label>
+          <StackLayout
+            orientation="horizontal"
+            class="m-b-5"
+          >
+            <Label
+              [text]="'Views.History.Details.Nature' | translate "
+              textWrap="true"
+            ></Label>
+            <Label
+              [text]="history.packet.nature"
+              textWrap="true"
+            ></Label>
           </StackLayout>
-          <StackLayout orientation="horizontal" class="m-b-5">
-            <Label text="Valeur: " textWrap="true"></Label>
-            <Label [text]="history.packet.value" textWrap="true"></Label>
+          <StackLayout
+            orientation="horizontal"
+            class="m-b-5"
+          >
+            <Label
+              [text]="'Views.History.Details.Value' | translate "
+              textWrap="true"
+            ></Label>
+            <Label
+              [text]="history.packet.value"
+              textWrap="true"
+            ></Label>
           </StackLayout>
-          <StackLayout orientation="horizontal" class="m-b-5">
-            <Label text="Nom du recepteur: " textWrap="true"></Label>
+          <StackLayout
+            orientation="horizontal"
+            class="m-b-5"
+          >
+            <Label
+              [text]="'Views.History.Details.Receiver' | translate "
+              textWrap="true"
+            ></Label>
             <Label
               [text]="history.packet.receiver_name"
               textWrap="true"
             ></Label>
           </StackLayout>
-          <StackLayout orientation="horizontal" class="m-b-5">
-            <Label text="Numéro du recepteur: " textWrap="true"></Label>
+          <StackLayout
+            orientation="horizontal"
+            class="m-b-5"
+          >
+            <Label
+              [text]="'Views.History.Details.ReceiverPhone' | translate "
+              textWrap="true"
+            ></Label>
             <Label
               [text]="history.packet.receiver_phone"
               textWrap="true"
@@ -158,7 +278,7 @@
           [nsRouterLink]="['/app-shell/history/complain']"
           pageTransition="fade"
           style="text-align: center;"
-          text="SE PLAINDRE"
+          [text]="'Views.History.Details.BtnComplain' | translate "
         ></Button>
       </StackLayout>
     </StackLayout>

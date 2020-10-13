@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 export abstract class BaseService extends HttpService {
   constructor(
     protected http: HttpClient,
-    protected storage: ILocalStorageService,
+    protected storage: ILocalStorageService | null,
     protected localStorageKey: string | null,
     protected messager: MessageService | null,
     protected baseUrl: string
@@ -33,7 +33,6 @@ export abstract class BaseService extends HttpService {
     if (typeof response.error === 'string') {
       return [new Error(response.error)];
     } else if (response.error) {
-      console.log('this response');
       const allErrors = [];
       const error = response.error;
       if (error.errors) {

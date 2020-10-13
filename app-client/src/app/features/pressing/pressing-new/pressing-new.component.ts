@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PressingService } from '~/app/features/pressing/pressing.service';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { GlobalStoreService } from '@apps.common/services';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'pressing-new',
   moduleId: module.id,
@@ -26,10 +27,12 @@ export class PressingNewComponent implements OnInit {
   addedCloths = [];
   selectedCloth = 'Choisir le vêtement';
   clothTypes: ICloth[] = [];
+  translations: any;
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _pressingService: PressingService,
     private _storeService: GlobalStoreService,
+    private _translateService: TranslateService,
     private _router: RouterExtensions
   ) {}
 
@@ -45,12 +48,18 @@ export class PressingNewComponent implements OnInit {
         });
       },
     });
+    this._translateService.get(['Messages.Pressing.New']).subscribe({
+      next: (msg) => {
+        this.translations = msg;
+        this.selectedCloth = this.translations.SelectedCloth;
+      },
+    });
   }
   onReturnPress(event: any) {}
   chooseCloth() {
     const options = {
-      title: 'Séléction',
-      message: 'Choisir un vêtement',
+      title: this.translations.ChooseClothTitle,
+      message: this.translations.ChooseClothMessage,
       cancelButtonText: 'Annuler',
       actions: this.clothTypes.map((c) => c.name),
     };
@@ -72,7 +81,7 @@ export class PressingNewComponent implements OnInit {
     const obj = Object.assign({ details: '' }, this.pressingRequest);
     this.addedCloths.push(obj);
     this.pressingRequest = {} as any;
-    this.selectedCloth = 'Choisir le vêtement';
+    this.selectedCloth = this.translations.SelectedCloth;
   }
   convertTypeToId(pressingCloth, clothName) {
     pressingCloth.type = this.clothTypes.find((c) => c.name === clothName).id;

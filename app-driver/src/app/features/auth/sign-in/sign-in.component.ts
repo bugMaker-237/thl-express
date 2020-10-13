@@ -8,6 +8,7 @@ import {
   DialogService,
 } from '@apps.common/services';
 import { IUser } from '@app.shared/models';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'sign-in',
@@ -20,9 +21,11 @@ export class SignInComponent implements OnInit {
   password: string;
   formDisabled = false;
   viewPassword = false;
+  isEnglish = false;
   constructor(
     private _authService: AuthService,
     private _dialogService: DialogService,
+    private _translateService: TranslateService,
     private _router: RouterExtensions
   ) {}
 
@@ -42,6 +45,10 @@ export class SignInComponent implements OnInit {
       .subscribe({ next: this.afterLogin.bind(this) });
   }
 
+  langChanged() {
+    this.isEnglish = !this.isEnglish;
+    this._translateService.use(this.isEnglish ? 'en' : 'fr');
+  }
   afterLogin(data: { user: IUser }) {
     const u = data.user;
     Loader.default.show();
@@ -54,6 +61,7 @@ export class SignInComponent implements OnInit {
           transition: {
             name: 'slide',
           },
+          clearHistory: true,
         })
         .then((_) => Loader.default.hide());
     }

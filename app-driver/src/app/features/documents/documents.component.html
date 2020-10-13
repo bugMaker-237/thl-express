@@ -1,17 +1,17 @@
 <StackLayout class="page-block docs-block">
   <nav-bar
     showDrawerButton="true"
-    text="Documents conducteur"
+    [text]="'Views.Docs.Header' | translate"
   >
   </nav-bar>
   <Tabs selectedIndex="0">
 
     <TabStrip class="tab-view highlight-primary">
       <TabStripItem>
-        <Label text="CNI"></Label>
+        <Label [text]="'Views.Docs.ID' | translate"></Label>
       </TabStripItem>
       <TabStripItem class="special">
-        <Label text="PERMIS"></Label>
+        <Label [text]="'Views.Docs.License' | translate"></Label>
       </TabStripItem>
     </TabStrip>
 
@@ -33,7 +33,7 @@
               <Label
                 col="0"
                 verticalAlignment="center"
-                text="Vue avant"
+                [text]="'Views.Docs.FrontVue' | translate"
                 class="h4"
               ></Label>
               <core-ui-icon
@@ -64,7 +64,7 @@
               <Label
                 col="0"
                 verticalAlignment="center"
-                text="Vue arrière"
+                [text]="'Views.Docs.BackVue' | translate"
                 class="h4"
               ></Label>
               <core-ui-icon
@@ -81,7 +81,7 @@
           </StackPanel>
 
           <Button
-            text="Enregistrer"
+            [text]="'Views.Docs.BtnSave' | translate"
             (tap)="save('id')"
             height="64"
             class="btn m-t-2 btn-accent text-white"
@@ -107,7 +107,7 @@
               <Label
                 col="0"
                 verticalAlignment="center"
-                text="Vue avant"
+                [text]="'Views.Docs.FrontVue' | translate"
                 class="h4"
               ></Label>
               <core-ui-icon
@@ -138,7 +138,7 @@
               <Label
                 col="0"
                 verticalAlignment="center"
-                text="Vue arrière"
+                [text]="'Views.Docs.BackVue' | translate"
                 class="h4"
               ></Label>
               <core-ui-icon
@@ -155,7 +155,7 @@
           </StackPanel>
 
           <Button
-            text="Enregistrer"
+            [text]="'Views.Docs.BtnSave' | translate"
             height="64"
             (tap)="save('license')"
             class="btn m-t-2 btn-accent text-white"

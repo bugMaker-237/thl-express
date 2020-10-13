@@ -1,5 +1,5 @@
 <StackLayout class="verify-code-block page-block ">
-  <nav-bar text="Validation"></nav-bar>
+  <nav-bar [text]="'Views.Validation.Header' | translate"></nav-bar>
   <ScrollView height="100%">
     <StackLayout
       #stack
@@ -15,20 +15,20 @@
       ></Image>
       <Label
         class="h3"
-        text="Verification du code"
+        [text]="'Views.Validation.SubHeader' | translate"
         textWrap="true"
         horizontalAlignment="center"
       ></Label>
       <Label
         class="m-t-10"
-        [text]="'SVP, vérifiez vos ' +  !connectedUser.phone ? 'emails' : 'SMS'"
+        [text]="'Views.Validation.AttentionMsg' | translate:  {type:!connectedUser.phone ? 'emails' : 'SMS'}"
         textWrap="true"
         horizontalAlignment="center"
       ></Label>
       <Label
         style="text-align: center;"
         class="m-t-10"
-        text="Nous venons juste d'envoyer un message de vérification sur votre mobile"
+        [text]="'Views.Validation.AttentionMsg2' | translate"
         textWrap="true"
         horizontalAlignment="center"
       ></Label>
@@ -58,14 +58,14 @@
         horizontalAlignment="center"
       >
         <Label
-          text="Vous n'avez pas reçu le code ? "
+          [text]="'Views.Validation.NotSendMsg' | translate"
           textWrap="true"
         ></Label>
 
         <Label
           class="text-primary"
           (tap)="resend()"
-          text=" Renvoyer"
+          [text]="'Views.Validation.LinkResend' | translate"
           textWrap="true"
         ></Label>
       </StackLayout>
@@ -74,7 +74,7 @@
         class="btn btn-primary text-black"
         height="64"
         margin="0"
-        text="VERIFIER"
+        [text]="'Views.Validation.BtnVerify' | translate"
         (tap)="verifyCode()"
       ></Button>
 
@@ -82,7 +82,7 @@
         class="btn btn-warn m-t-2 text-white"
         height="64"
         margin="0"
-        text="ANNULER"
+        [text]="'Views.Validation.BtnCancel' | translate"
         (tap)="cancel()"
       ></Button>
     </StackLayout>

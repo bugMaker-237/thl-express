@@ -9,10 +9,13 @@ import {
 import { IHistory } from '~/app/models/history';
 import { ActivatedRoute } from '@angular/router';
 import { Color } from 'tns-core-modules/color/color';
-import { Loader } from '@apps.common/services';
+import { DialogService, Loader, ToastService } from '@apps.common/services';
 import { drawRoute, drawMarker, doZoom } from '~/app/utils/map';
 import { GlobalStoreService } from '@apps.common/services';
 import { default as mapStyle } from '../../map/map-style.json';
+import { HistoryService } from '../history.service';
+import { TranslateService } from '@ngx-translate/core';
+import { merge } from 'rxjs-compat/operator/merge';
 
 @Component({
   selector: 'history-details',
@@ -30,14 +33,45 @@ export class HistoryDetailsComponent implements OnInit {
       latitude: 4.049862,
       longitude: 9.695213,
     },
+    journey: {},
   } as any;
-
-  constructor(private _activatedRoute: ActivatedRoute) {}
+  note: number;
+  showNote = false;
+  comment: string;
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _histService: HistoryService,
+    private _toastService: ToastService,
+    private _translateService: TranslateService
+  ) {}
 
   ngOnInit() {
     Loader.default.show();
   }
 
+  validateNote() {
+    if (!this.showNote) {
+      this.showNote = true;
+    } else {
+      this._histService
+        .note(this.note, this.comment, this.history.driver.id, this.history.id)
+        .subscribe({
+          next: () => {
+            this._translateService.get('Messages.Common.Saved').subscribe({
+              next: (msg) => {
+                this._toastService.push({
+                  text: msg,
+                  data: {
+                    backgroundColor: 'primary',
+                  },
+                });
+                this.showNote = false;
+              },
+            });
+          },
+        });
+    }
+  }
   onMapReady(event) {
     const mapView = event.object as MapView;
     mapView.setStyle(mapStyle as any);

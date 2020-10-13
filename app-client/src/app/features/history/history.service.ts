@@ -57,6 +57,7 @@ export class HistoryService extends BaseService {
               latitude: d.latto,
               longitude: d.lngto,
             },
+            review: d.review,
             state: d.status,
             transportType: d.type,
             paimentMethod: null,
@@ -79,7 +80,12 @@ export class HistoryService extends BaseService {
     );
   }
 
-  getHistoryDetails(id: any): Observable<IHistory> {
-    return this.get<IHistory>(`/history/${id}`);
+  public note(
+    note: number,
+    comment: string,
+    driverId: any,
+    journeyId: any
+  ): Observable<any> {
+    return this.post(`/note/${driverId}/${journeyId}`, { note, comment });
   }
 }

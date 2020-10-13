@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { JourneyService } from './journey.service';
-import { DialogService } from '@apps.common/services';
+import { DialogService, GlobalStoreService } from '@apps.common/services';
+import { IHistory } from '~/app/models/history';
+import { RouterExtensions } from 'nativescript-angular';
 
 @Component({
   selector: 'map',
@@ -10,10 +12,11 @@ import { DialogService } from '@apps.common/services';
   providers: [JourneyService],
 })
 export class JourneyComponent implements OnInit {
-  journeys: [];
+  journeys: IHistory[];
   constructor(
     private _journeyService: JourneyService,
-    private _dialogService: DialogService
+    private _router: RouterExtensions,
+    private _store: GlobalStoreService
   ) {}
 
   ngOnInit() {
@@ -23,22 +26,19 @@ export class JourneyComponent implements OnInit {
     this._journeyService.getCurrentDrives().subscribe({
       next: (journeys) => {
         this.journeys = journeys;
-        // console.log(journeys);
       },
     });
   }
-  async closeJourney(item) {
-    const res = await this._dialogService.confirm(
-      `Cette action est irréversible.`,
-      'OK',
-      'ANNULER'
-    );
-    if (res) {
-      this._journeyService.closeJourney(item.id).subscribe((_) => ({
-        next: () => {
-          this.refresh();
+
+  openDetails(item: IHistory) {
+    this._store.set('current-history-item', item);
+    this._router.navigate(
+      [`app-shell/history/${item.transportType}/details/${item.id}`],
+      {
+        transition: {
+          name: 'slide',
         },
-      }));
-    }
+      }
+    );
   }
 }

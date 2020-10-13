@@ -1,6 +1,6 @@
 <StackLayout class="page-block">
   <nav-bar
-    [text]="'Historique ' + (type === 'JOURNEY' ? 'des courses' : 'pressing')"
+    [text]="type === 'JOURNEY' ? ('Views.History.List.Header1' | translate) : ('Views.History.List.Header2' | translate)"
     showDrawerButton="true"
   > </nav-bar>
   <ScrollView
@@ -8,6 +8,14 @@
     height="100%"
   >
     <StackLayout>
+      <Label
+        style="text-align:center;"
+        alignContent="center"
+        class="p-5"
+        [text]="'Views.Common.NoData' | translate"
+        *ngIf="histories.length === 0"
+        textWrap="true"
+      ></Label>
       <CardView
         *ngFor="let item of histories"
         class="m-l-20 m-r-20 m-t-5 m-b-5"
@@ -92,7 +100,7 @@
               margin="0"
               (tap)="openDetails(item)"
               style="text-align: center;"
-              text="DETAILS"
+              [text]="'Views.History.List.BtnDetails' | translate"
             ></Button>
           </StackLayout>
         </StackLayout>

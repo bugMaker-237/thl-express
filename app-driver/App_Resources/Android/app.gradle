@@ -9,6 +9,10 @@
 // e.g. project.ext.googlePlayServicesVersion = "15.0.1"
 // create a file named before-plugins.gradle in the current directory and place it there
 android {
+  defaultConfig {
+    minSdkVersion 17
+    generatedDensities = []
+  }
   aaptOptions {
     additionalParameters "--no-version-vectors"
   }
@@ -17,8 +21,6 @@ android {
     googlePlayServicesVersion = "+"
   }
   defaultConfig { 
-    minSdkVersion 17
-    generatedDensities = []
     manifestPlaceholders = [onesignal_app_id: "dca41656-e361-4e63-8db5-7ea64c11a144",
                                 onesignal_google_project_number: '62955553941']
     //override supported platforms

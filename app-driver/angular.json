@@ -6,7 +6,7 @@
     "defaultCollection": "@nativescript/schematics"
   },
   "projects": {
-    "thl-client": {
+    "thl-driver": {
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
@@ -18,5 +18,5 @@
       "prefix": "ns"
     }
   },
-  "defaultProject": "thl-client"
+  "defaultProject": "thl-driver"
 }

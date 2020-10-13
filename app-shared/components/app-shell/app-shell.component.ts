@@ -17,6 +17,7 @@ import { AppComponent } from '../app.component';
 import { ImageSource } from 'tns-core-modules/image-source';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
 import { ImageItem } from '../../models/image-item';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shell',
@@ -116,6 +117,7 @@ export class AppShellComponent implements AfterViewInit, OnInit {
   private drawer: RadSideDrawer;
   isDriver: boolean;
   profilPicture: ImageSource;
+  mnuText: [];
 
   constructor(
     private _changeDetectionRef: ChangeDetectorRef,
@@ -123,7 +125,8 @@ export class AppShellComponent implements AfterViewInit, OnInit {
     private _router: RouterExtensions,
     private _activeRoute: ActivatedRoute,
     private _authService: AuthService,
-    private _profilService: ProfilService
+    private _profilService: ProfilService,
+    private _translate: TranslateService
   ) {}
 
   ngAfterViewInit() {
@@ -133,16 +136,44 @@ export class AppShellComponent implements AfterViewInit, OnInit {
     this._activeRoute.data.subscribe({
       next: (data = {}) => {
         this.isDriver = data.isDriver;
-        if (this.isDriver) {
-          this.menus.push(...this.menusDriver);
-        } else {
-          this.menus.push(...this.menusClient);
-        }
+        this.handleMenu();
       },
     });
   }
+  handleMenu() {
+    const join = (mnu: any[]) => {
+      console.log('menus');
+      console.log(mnu);
+      console.log(mnu.length);
+      console.log(this.mnuText.length);
+      if (mnu.length !== this.mnuText.length) {
+        return;
+      }
+      for (let i = 0; i < mnu.length; i++) {
+        mnu[i].name = this.mnuText[i];
+      }
+      return mnu;
+    };
+    if (this.isDriver) {
+      this.menus = join(this.menusDriver);
+    } else {
+      this.menus = join(this.menusClient);
+    }
+  }
 
   async ngOnInit() {
+    this._translate.get('Menus').subscribe({
+      next: (mnu) => {
+        this.mnuText = mnu;
+        this.handleMenu();
+      },
+    });
+    this._translate.onLangChange.subscribe({
+      next: (event: LangChangeEvent) => {
+        this.mnuText = event.translations['Menus'];
+        this.handleMenu();
+      },
+    });
     this._genSubjects
       .get('demandDrawer$', true)
       .subscribe(this.toggleDrawer.bind(this));
@@ -154,27 +185,21 @@ export class AppShellComponent implements AfterViewInit, OnInit {
         'user',
         this._authService.connectedUser.id.toString()
       );
-      console.log('tag ok');
     }
-    this._profilService.getProfil(AppComponent.appType).subscribe({
+    const callback = {
       next: async (res) => {
         this._authService.setUserInfos(res);
         this.user = this._authService.connectedUser;
+        this._translate.use(this.user.lang || 'fr');
         await this.setProfilePicture();
       },
-    });
-    this._profilService.profilUpdated$.subscribe({
-      next: async (res) => {
-        this._authService.setUserInfos(res);
-        this.user = this._authService.connectedUser;
-        await this.setProfilePicture();
-      },
-    });
+    };
+    this._profilService.getProfil(AppComponent.appType).subscribe(callback);
+    this._profilService.profilUpdated$.subscribe(callback);
   }
 
   private async setProfilePicture() {
     const user = this.user;
-    console.log(user.image);
     if (user.image) {
       const img = new ImageItem(this._authService.getFullUrl(user.image));
       img.imageLoadCompleted = (imgSrc) => {

@@ -4,47 +4,64 @@ import { RouterExtensions } from 'nativescript-angular/router';
 import {
   GlobalStoreService,
   DialogService,
-  ToastService
+  ToastService,
 } from '@apps.common/services';
 import { ActivatedRoute } from '@angular/router';
 import { IPacket } from '~/app/models/packet';
 import { PacketService } from './packet.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'Packet',
   templateUrl: 'Packet.component.html',
   styleUrls: ['Packet.component.scss'],
-  providers: [PacketService]
+  providers: [PacketService],
 })
 export class PacketComponent implements OnInit {
   formDisabled = false;
   selectedType = 'Choisir un type';
   packet: IPacket = {} as any;
   packetTypes: string[];
+  msgs: any[];
   constructor(
     private _router: RouterExtensions,
     private _activeRoute: ActivatedRoute,
     private _storeService: GlobalStoreService,
     private _dialogService: DialogService,
-    private _packetService: PacketService
+    private _packetService: PacketService,
+    private _translateService: TranslateService
   ) {}
   ngOnInit() {
     this._packetService.getPacketType().subscribe({
-      next: data => {
+      next: (data) => {
         this.packetTypes = data;
-      }
+      },
     });
+    this._translateService
+      .get([
+        'Messages.Packet.Select',
+        'Messages.Packet.Choose',
+        'Messages.Packet.Continue',
+        'Views.Common.BtnCancel',
+        'Views.Common.BtnContinue',
+      ])
+      .subscribe({
+        next: (res) => {
+          this.msgs = res;
+          this.selectedType = res[1];
+        },
+      });
   }
   choosePacketType() {
     if (this.packetTypes.length > 0) {
       const options = {
-        title: 'Séléction',
-        message: 'Choisir un type de colis',
-        cancelButtonText: 'Annuler',
-        actions: this.packetTypes
+        title: this.msgs[0],
+        message: this.msgs[1],
+        cancelButtonText: this.msgs[3],
+        actions: this.packetTypes,
       };
 
-      action(options).then(result => {
+      action(options).then((result) => {
         if (result.toLowerCase() !== 'annuler') {
           this.selectedType = result;
         }
@@ -52,17 +69,15 @@ export class PacketComponent implements OnInit {
     }
   }
   save() {
-    this._dialogService.alert(
-      'Vous devez poursuivre avec la commande de votre course.',
-      'Poursuivre'
-    );
+    this._dialogService.alert(this.msgs[2], this.msgs[4]);
+    this.packet.nature = this.selectedType;
     this._storeService.set('current-packet-item', this.packet);
     this._router.navigate(['../map/VIP'], {
       transition: {
-        name: 'slide'
+        name: 'slide',
       },
       queryParams: { isPacketTransportation: true },
-      relativeTo: this._activeRoute
+      relativeTo: this._activeRoute,
     });
   }
 }

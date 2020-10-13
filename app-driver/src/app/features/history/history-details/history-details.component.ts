@@ -9,15 +9,18 @@ import {
 import { IHistory } from '~/app/models/history';
 import { ActivatedRoute } from '@angular/router';
 import { Color } from 'tns-core-modules/color/color';
-import { Loader } from '@apps.common/services';
+import { DialogService, Loader, ToastService } from '@apps.common/services';
 import { drawRoute, drawMarker, doZoom } from '~/app/utils/map';
 import { GlobalStoreService } from '@apps.common/services';
 import { default as mapStyle } from '@app.shared/map-style.json';
+import { JourneyService } from '../../journey/journey.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'history-details',
   templateUrl: 'history-details.component.html',
   styleUrls: ['history-details.component.scss'],
+  providers: [JourneyService],
 })
 export class HistoryDetailsComponent implements OnInit {
   history: IHistory = {
@@ -32,12 +35,40 @@ export class HistoryDetailsComponent implements OnInit {
     },
   } as any;
 
-  constructor(private _activatedRoute: ActivatedRoute) {}
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _journeyService: JourneyService,
+    private _translateService: TranslateService,
+    private _toastService: ToastService,
+    private _dialogService: DialogService
+  ) {}
 
   ngOnInit() {
     Loader.default.show();
   }
 
+  async closeJourney(item) {
+    const res = await this._dialogService.confirm(
+      `Cette action est irréversible.`,
+      'OK',
+      'ANNULER'
+    );
+    if (res) {
+      this._journeyService.closeJourney(item.id).subscribe((_) => ({
+        next: () => {
+          this._translateService.get('Messages.Common.Saved').subscribe({
+            next: (msg) =>
+              this._toastService.push({
+                text: msg,
+                data: {
+                  backgroundColor: 'primary',
+                },
+              }),
+          });
+        },
+      }));
+    }
+  }
   onMapReady(event) {
     const mapView = event.object as MapView;
     mapView.setStyle(mapStyle as any);
@@ -49,7 +80,7 @@ export class HistoryDetailsComponent implements OnInit {
         item.packet = item.packet || ({} as any);
         item.pressing = item.pressing || ({} as any);
         this.history = item;
-        // // console.log(item);
+        console.log(item);
         await Promise.all([
           drawMarker(mapView, item.originPosition, 0, '', null, true),
           drawMarker(mapView, item.destinationPosition, 1, '', null, true),

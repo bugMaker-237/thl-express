@@ -12,7 +12,7 @@ export abstract class HttpService {
 
   constructor(
     protected http: HttpClient,
-    protected storage: ILocalStorageService,
+    protected storage: ILocalStorageService | null,
     protected localStorageKey: string | null,
     protected messager: MessageService | null,
     protected baseUrl: string

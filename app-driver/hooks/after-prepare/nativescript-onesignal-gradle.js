@@ -1,5 +1,5 @@
-var path = require('path');
-var fs = require('fs');
+var path = require("path");
+var fs = require("fs");
 module.exports = function ($logger, $projectData, hookArgs) {
   var platform = (
     hookArgs.platform ||
@@ -8,7 +8,7 @@ module.exports = function ($logger, $projectData, hookArgs) {
   function updateAppGradleScript(file) {
     var appBuildGradleContent = fs.readFileSync(file).toString();
     if (!appBuildGradleContent.match(/.*onesignal.*/)) {
-      $logger.trace('Configuring Onesignal for Android');
+      $logger.trace("Configuring Onesignal for Android");
       var search = -1;
 
       search = appBuildGradleContent.indexOf(
@@ -40,14 +40,14 @@ apply plugin: "com.onesignal.androidsdk.onesignal-gradle-plugin"
       `;
 
       fs.writeFileSync(file, appBuildGradleContent);
-      $logger.trace('Written build.gradle');
+      $logger.trace("Written build.gradle");
     }
   }
 
   function updateGradleScript(file) {
     var buildGradleContent = fs.readFileSync(file).toString();
     if (!buildGradleContent.match(/.*onesignal.*/)) {
-      $logger.trace('Configuring Onesignal for Android');
+      $logger.trace("Configuring Onesignal for Android");
       var search = -1;
 
       var repositories = buildGradleContent.match(/repositories {([^}]+)}/gm);
@@ -66,11 +66,11 @@ apply plugin: "com.onesignal.androidsdk.onesignal-gradle-plugin"
 ` +
         buildGradleContent.substr(search);
 
-      search = buildGradleContent.indexOf('dependencies', search);
+      search = buildGradleContent.indexOf("dependencies", search);
       if (search == -1) {
         return;
       }
-      search = buildGradleContent.indexOf('}', search);
+      search = buildGradleContent.indexOf("}", search);
       if (search == -1) {
         return;
       }
@@ -83,28 +83,28 @@ apply plugin: "com.onesignal.androidsdk.onesignal-gradle-plugin"
         buildGradleContent.substr(search - 1);
 
       fs.writeFileSync(file, buildGradleContent);
-      $logger.trace('Written build.gradle');
+      $logger.trace("Written build.gradle");
     }
   }
 
-  if (platform === 'android') {
+  if (platform === "android") {
     var androidPlatformDir = path.join(
       __dirname,
-      '..',
-      '..',
-      'platforms',
-      'android'
+      "..",
+      "..",
+      "platforms",
+      "android"
     );
     var androidAppPlatformDir = path.join(
       __dirname,
-      '..',
-      '..',
-      'platforms',
-      'android',
-      'app'
+      "..",
+      "..",
+      "platforms",
+      "android",
+      "app"
     );
-    var gradleScript = path.join(androidPlatformDir, 'build.gradle');
-    var gradleAppScript = path.join(androidAppPlatformDir, 'build.gradle');
+    var gradleScript = path.join(androidPlatformDir, "build.gradle");
+    var gradleAppScript = path.join(androidAppPlatformDir, "build.gradle");
 
     if (fs.existsSync(gradleAppScript)) {
       updateAppGradleScript(gradleAppScript);

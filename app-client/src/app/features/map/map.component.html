@@ -1,7 +1,17 @@
 <StackLayout class="page-block home-block">
-  <nav-bar showDrawerButton="true" [text]="'Définir un trajet - ' + type"></nav-bar>
-  <DockLayout height="100%" stretchLastChild="true">
-    <StackLayout dock="bottom" width="100%" class="bg-primary">
+  <nav-bar
+    showDrawerButton="true"
+    [text]="'Views.Map.Header' | translate: {type: type}"
+  ></nav-bar>
+  <DockLayout
+    height="100%"
+    stretchLastChild="true"
+  >
+    <StackLayout
+      dock="bottom"
+      width="100%"
+      class="bg-primary"
+    >
       <Button
         width="100%"
         #state1
@@ -33,7 +43,12 @@
           [text]="selectedDriver.user.name"
           textWrap="true"
         ></Label>
-        <StackLayout horizontalAlignment="left" colSpan="2" col="0" row="1">
+        <StackLayout
+          horizontalAlignment="left"
+          colSpan="2"
+          col="0"
+          row="1"
+        >
           <Image
             margin="30,0,0,0"
             [src]="selectedDriver.picture || '~/assets/avatar.jpg'"
@@ -41,7 +56,10 @@
             width="90"
           ></Image>
         </StackLayout>
-        <StackLayout col="1" row="0">
+        <StackLayout
+          col="1"
+          row="0"
+        >
           <core-ui-icon
             customClass=""
             name="close"
@@ -60,13 +78,19 @@
           class="m-20"
         >
           <StackLayout col="0">
-            <Label text="Téléphone: " textWrap="true"></Label>
+            <Label
+              [text]="'Views.Map.Phone' | translate"
+              textWrap="true"
+            ></Label>
             <Label
               class="h5"
               [text]="selectedDriver.user.phone"
               textWrap="true"
             ></Label>
-            <Label text="Matricule: " textWrap="true"></Label>
+            <Label
+              [text]="'Views.Map.Matricule' | translate"
+              textWrap="true"
+            ></Label>
 
             <Label
               class="h5"
@@ -81,7 +105,7 @@
             margin="0"
             (tap)="toggleState(5)"
             style="text-align: center;"
-            text="Procéder au paiement"
+            [text]="'Views.Map.ProceedPaiement' | translate"
           ></Button>
         </GridLayout>
       </ScrollView>
@@ -98,7 +122,10 @@
         columns="30,*,30"
         class="p-20 b-b-1 b-thin bg-primary"
       >
-        <StackLayout col="0" row="0">
+        <StackLayout
+          col="0"
+          row="0"
+        >
           <core-ui-icon
             customClass=""
             name="arrow_forward"
@@ -112,10 +139,13 @@
           col="1"
           row="0"
           class="m-l-10 h4"
-          text="Mode de paiement"
+          [text]="'Views.Map.PaiementMode' | translate"
           textWrap="true"
         ></Label>
-        <StackLayout col="2" row="0">
+        <StackLayout
+          col="2"
+          row="0"
+        >
           <core-ui-icon
             customClass=""
             name="close"
@@ -134,11 +164,14 @@
             textWrap="true"
           ></Label>
 
-          <StackLayout verticalAlignment="center" orientation="horizontal">
+          <StackLayout
+            verticalAlignment="center"
+            orientation="horizontal"
+          >
             <Label
               verticalAlignment="center"
               class="h4 m-r-10"
-              text="Regler : "
+              [text]="'Views.Map.ToPay' | translate"
               textWrap="true"
             ></Label>
 
@@ -173,7 +206,11 @@
       </StackLayout>
       <ScrollView height="100%">
         <DockLayout stretchLastChild="true">
-          <StackLayout dock="bottom" height="64" class="bg-primary">
+          <StackLayout
+            dock="bottom"
+            height="64"
+            class="bg-primary"
+          >
             <Button
               width="100%"
               class="btn btn-primary btn-flat text-black"
@@ -181,7 +218,7 @@
               margin="0"
               (tap)="setBikePositions()"
               style="text-align: center;"
-              text="Confirmer"
+              [text]="'Views.Map.Confirm' | translate"
             ></Button>
           </StackLayout>
           <StackLayout>
@@ -190,7 +227,10 @@
               orientation="horizontal"
               class="m-t-20 m-b-0"
             >
-              <Label text="Votre course: " textWrap="true"></Label>
+              <Label
+                [text]="'Views.Map.YourJourney' | translate"
+                textWrap="true"
+              ></Label>
 
               <Label
                 class="route-price"
@@ -203,7 +243,7 @@
               ></Label>
             </StackLayout>
             <TextField
-              hint="Vos recommendations"
+              [hint]="'Views.Map.YourWishes' | translate"
               [text]="wishes"
               class="m-20 p-5 text-field-outline"
               editable="true"
@@ -213,8 +253,14 @@
         </DockLayout>
       </ScrollView>
     </StackLayout>
-    <AbsoluteLayout #absoluteLayout height="100%">
-      <GridLayout height="100%" width="100%">
+    <AbsoluteLayout
+      #absoluteLayout
+      height="100%"
+    >
+      <GridLayout
+        height="100%"
+        width="100%"
+      >
         <MapView
           [latitude]="latitude"
           [longitude]="longitude"
@@ -233,13 +279,23 @@
           (markerInfoWindowTapped)="onMarkerEvent($event)"
         ></MapView>
       </GridLayout>
-      <GridLayout width="100%" class="p-5">
-        <CardView class="m-20" elevation="20" raduis="10">
+      <GridLayout
+        width="100%"
+        class="p-5"
+      >
+        <CardView
+          class="m-20"
+          elevation="20"
+          raduis="10"
+        >
           <GridLayout
             class="raduis-5 p-t-10 p-b-10 p-l-5 p-r-5"
             rows="auto,auto"
           >
-            <GridLayout row="0" columns="50, *">
+            <GridLayout
+              row="0"
+              columns="50, *"
+            >
               <StackLayout col="0">
                 <core-ui-icon
                   customClass="m-t-10"
@@ -255,12 +311,15 @@
                   textWrap="true"
                 ></Label>
               </StackLayout>
-              <StackLayout col="1" class="b-b-1">
+              <StackLayout
+                col="1"
+                class="b-b-1"
+              >
                 <RadAutoCompleteTextView
                   #autocomplete1
                   completionMode="Contains"
                   displayMode="plain"
-                  hint="Point de départ"
+                  [hint]="'Views.Map.StartPointHint' | translate"
                   class="no-border"
                   (textChanged)="onTextChanged($event)"
                   (didAutoComplete)="onDidAutoComplete($event, 0)"
@@ -269,22 +328,41 @@
                     tkAutoCompleteSuggestionView
                     suggestionViewHeight="300"
                   >
-                    <ng-template tkSuggestionItemTemplate let-item="item">
-                      <GridLayout columns="30,*" padding="10">
+                    <ng-template
+                      tkSuggestionItemTemplate
+                      let-item="item"
+                    >
+                      <GridLayout
+                        columns="30,*"
+                        padding="10"
+                      >
                         <StackLayout col="0 m-l-10">
-                          <core-ui-icon name="location_on" size="16">
+                          <core-ui-icon
+                            name="location_on"
+                            size="16"
+                          >
                           </core-ui-icon>
                         </StackLayout>
-                        <Label col="1" [text]="item.text"></Label>
+                        <Label
+                          col="1"
+                          [text]="item.text"
+                        ></Label>
                       </GridLayout>
                     </ng-template>
                   </SuggestionView>
                 </RadAutoCompleteTextView>
               </StackLayout>
             </GridLayout>
-            <GridLayout row="1" columns="50, *">
+            <GridLayout
+              row="1"
+              columns="50, *"
+            >
               <StackLayout col="0">
-                <Label class="dotted" text="" textWrap="true"></Label>
+                <Label
+                  class="dotted"
+                  text=""
+                  textWrap="true"
+                ></Label>
                 <core-ui-icon
                   customClass="m-b-10"
                   name="panorama_fish_eye"
@@ -298,7 +376,7 @@
                   #autocomplete2
                   completionMode="Contains"
                   displayMode="plain"
-                  hint="Point d'arrivé"
+                  [hint]="'Views.Map.StopPointHint' | translate"
                   class="no-border"
                   (textChanged)="onTextChanged($event)"
                   (didAutoComplete)="onDidAutoComplete($event, 1)"
@@ -307,13 +385,25 @@
                     tkAutoCompleteSuggestionView
                     suggestionViewHeight="300"
                   >
-                    <ng-template tkSuggestionItemTemplate let-item="item">
-                      <GridLayout columns="30,*" padding="10">
+                    <ng-template
+                      tkSuggestionItemTemplate
+                      let-item="item"
+                    >
+                      <GridLayout
+                        columns="30,*"
+                        padding="10"
+                      >
                         <StackLayout col="0 m-l-10">
-                          <core-ui-icon name="location_on" size="16">
+                          <core-ui-icon
+                            name="location_on"
+                            size="16"
+                          >
                           </core-ui-icon>
                         </StackLayout>
-                        <Label col="1" [text]="item.text"></Label>
+                        <Label
+                          col="1"
+                          [text]="item.text"
+                        ></Label>
                       </GridLayout>
                     </ng-template>
                   </SuggestionView>
@@ -331,12 +421,19 @@
         class="p-5"
         opacity="0"
       >
-        <CardView class="m-20 bg-accent " elevation="20" raduis="10">
-          <StackLayout width="100%" horizontalAlignment="center">
+        <CardView
+          class="m-20 bg-accent "
+          elevation="20"
+          raduis="10"
+        >
+          <StackLayout
+            width="100%"
+            horizontalAlignment="center"
+          >
             <Label
               horizontalAlignment="center"
               class="h4 text-white p-5"
-              text="Sélectionner un transporteur"
+              [hint]="'Views.Map.SelectTransporter' | translate"
               textWrap="true"
             ></Label>
           </StackLayout>

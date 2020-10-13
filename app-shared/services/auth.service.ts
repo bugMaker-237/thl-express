@@ -83,7 +83,6 @@ export class AuthService extends BaseService {
     user.image = (user.driver || {}).picture || (user.client || {}).picture;
     this.storage.set(this.localStorageKey, user);
     this._user = user;
-    console.log(JSON.stringify(user, null, 2));
   }
 
   public get connectedUser(): IUser {
@@ -106,6 +105,7 @@ export class AuthService extends BaseService {
   }
 
   public clearUser(): void {
+    this._user = null;
     return this.storage.remove(this.localStorageKey);
   }
 

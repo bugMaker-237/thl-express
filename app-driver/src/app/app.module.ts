@@ -11,8 +11,11 @@ import { pages, resolvers, providers } from './features';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { getOneSignalInstance } from '~/one-signal';
 import { android } from 'tns-core-modules/application';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { CustomTranslationLoader } from '@app.shared/services';
+import { device } from 'tns-core-modules/platform';
 
-AppComponent.forType('driver');
+AppComponent._appType = CustomTranslationLoader.AppType = 'driver';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -22,6 +25,10 @@ AppComponent.forType('driver');
     CommonModule,
     AppRoutingModule,
     NativeScriptUIAutoCompleteTextViewModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'fr',
+      loader: { provide: TranslateLoader, useClass: CustomTranslationLoader },
+    }),
   ],
   declarations: [AppComponent, AppShellComponent, ...pages],
   providers: [...resolvers, ...providers],

@@ -1,5 +1,5 @@
 <StackLayout class="page-block">
-  <nav-bar text="Détails de l'historique"> </nav-bar>
+  <nav-bar [text]="'Views.History.Details.Header' | translate"> </nav-bar>
   <ScrollView
     class="history-details"
     height="100%"
@@ -85,16 +85,6 @@
           ></label>
         </GridLayout>
       </StackLayout>
-      <StackLayout class="bg-primary">
-        <Button
-          width="100%"
-          class="btn btn-primary text-black btn-flat text-white"
-          height="48"
-          margin="0"
-          style="text-align: center;"
-          text="NOTER"
-        ></Button>
-      </StackLayout>
       <StackLayout class="p-l-10 p-r-10">
         <GridLayout
           class="m-t-20 m-l-10 m-r-10 b-b-1 b-thin"
@@ -146,7 +136,7 @@
             col="0"
           >
             <Label
-              text="Immatriculation: "
+              [text]="'Views.History.Details.Immatriculation' | translate"
               textWrap="true"
             ></Label>
             <Label
@@ -159,7 +149,7 @@
             col="1"
           >
             <Label
-              text="Typde de course: "
+              [text]="'Views.History.Details.JourneyType' | translate"
               textWrap="true"
             ></Label>
             <Label
@@ -169,7 +159,7 @@
           </StackLayout>
         </GridLayout>
         <label
-          text="Description"
+          [text]="'Views.History.Details.Description' | translate"
           *ngIf="history.transportType !== 'PERSONNE'"
           class="h4 m-t-20 m-l-10 p-b-5 m-r-10 b-b-1 b-thin"
         ></label>
@@ -182,7 +172,7 @@
             class="m-b-5"
           >
             <Label
-              text="Poids: "
+              [text]="'Views.History.Details.Weight' | translate "
               textWrap="true"
             ></Label>
             <Label
@@ -195,7 +185,7 @@
             class="m-b-5"
           >
             <Label
-              text="Nature: "
+              [text]="'Views.History.Details.Nature' | translate "
               textWrap="true"
             ></Label>
             <Label
@@ -208,7 +198,7 @@
             class="m-b-5"
           >
             <Label
-              text="Valeur: "
+              [text]="'Views.History.Details.Value' | translate "
               textWrap="true"
             ></Label>
             <Label
@@ -221,7 +211,7 @@
             class="m-b-5"
           >
             <Label
-              text="Nom du recepteur: "
+              [text]="'Views.History.Details.Receiver' | translate "
               textWrap="true"
             ></Label>
             <Label
@@ -234,7 +224,7 @@
             class="m-b-5"
           >
             <Label
-              text="Numéro du recepteur: "
+              [text]="'Views.History.Details.ReceiverPhone' | translate "
               textWrap="true"
             ></Label>
             <Label
@@ -243,6 +233,21 @@
             ></Label>
           </StackLayout>
         </StackLayout>
+      </StackLayout>
+      <StackLayout
+        class="bg-accent"
+        *ngIf="history.state !== 'CLOSED' && history.state !== 'COMPLETE'"
+      >
+        <Button
+          width="100%"
+          class="btn btn-warn btn-flat text-white"
+          height="48"
+          margin="0"
+          (tap)="closeJourney(history)"
+          pageTransition="fade"
+          style="text-align: center;"
+          [text]="'Views.Journey.BtnFinish' | translate"
+        ></Button>
       </StackLayout>
     </StackLayout>
   </ScrollView>

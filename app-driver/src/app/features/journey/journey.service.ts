@@ -8,6 +8,8 @@ import {
 } from '@apps.common/services';
 import { IAppConfig, APP_CONFIG } from '@apps.common/config';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { FromAPIEntity } from '~/app/models/history';
 
 @Injectable()
 export class JourneyService extends BaseService {
@@ -31,7 +33,13 @@ export class JourneyService extends BaseService {
   }
 
   getCurrentDrives(): Observable<any> {
-    return this.get('/journey');
+    return this.get('/journey').pipe(
+      map((data: any) =>
+        data.map((d) =>
+          FromAPIEntity(d, this.config.apiEndpoints.client.serviceHost)
+        )
+      )
+    );
   }
 
   closeJourney(id: any) {

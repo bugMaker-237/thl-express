@@ -1,5 +1,8 @@
 <StackLayout class="page-block">
-  <nav-bar text="Se connecter"></nav-bar>
+  <nav-bar
+    [text]="'Views.SignIn.Header' | translate"
+    cancelBack="true"
+  ></nav-bar>
   <ScrollView
     height="100%"
     class="sign-in-block"
@@ -16,8 +19,27 @@
           margin="0,10,20,10"
           alignSelf="center"
         ></Image>
+        <StackLayout
+          horizontalAlignment="center"
+          verticalAlignment="center"
+          orientation="horizontal"
+        >
+          <label
+            text="Français"
+            verticalAlignment="center"
+          ></label>
+          <Switch
+            [color]="isEnglish ? 'yellow' : 'brown'"
+            (checkedChange)="langChanged()"
+          >
+          </Switch>
+          <label
+            text="English"
+            verticalAlignment="center"
+          ></label>
+        </StackLayout>
         <core-ui-tf
-          hint="Email ou Téléphone"
+          [hint]="'Views.SignIn.EmailHint' | translate"
           keyboardType="email"
           required="true"
           [editable]="!formDisabled"
@@ -30,7 +52,7 @@
         ></core-ui-tf>
 
         <core-ui-tf
-          hint="Mot de passe"
+          [hint]="'Views.SignIn.PassHint' | translate"
           [(ngModel)]="password"
           [secure]="!viewPassword"
           required="true"
@@ -48,7 +70,7 @@
           class="btn btn-primary text-black"
           height="64"
           margin="0"
-          text="Se connecter"
+          [text]="'Views.SignIn.BtnLogin' | translate"
           (tap)="login()"
         ></Button>
       </StackLayout>

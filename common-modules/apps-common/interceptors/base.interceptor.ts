@@ -11,7 +11,7 @@ export abstract class BaseInterceptor {
     // console.log(requestUrl);
     return (
       requestUrl.host === null ||
-      this.appDomains.findIndex(domain =>
+      this.appDomains.findIndex((domain) =>
         typeof domain === 'string'
           ? domain === requestUrl.host
           : domain instanceof RegExp
@@ -24,7 +24,7 @@ export abstract class BaseInterceptor {
   protected isAnonymousRoute(request: HttpRequest<any>): boolean {
     const requestUrl: any = parse(request.url, false, true);
     return (
-      this.anonymousRoutes.findIndex(route =>
+      this.anonymousRoutes.findIndex((route) =>
         typeof route === 'string'
           ? requestUrl.path.startsWith(route)
           : route instanceof RegExp
@@ -37,7 +37,7 @@ export abstract class BaseInterceptor {
   protected isUnCachableRoutes(request: HttpRequest<any>): boolean {
     const requestUrl: any = parse(request.url, false, true);
     return (
-      this.unCachableRoutes.findIndex(route =>
+      this.unCachableRoutes.findIndex((route) =>
         typeof route === 'string'
           ? requestUrl.path.startsWith(route)
           : route instanceof RegExp

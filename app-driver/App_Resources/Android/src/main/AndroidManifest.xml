@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="__PACKAGE__"
 	android:versionCode="1"
-	android:versionName="1.0"
-	xmlns:tools="http://schemas.android.com/tools">
+	android:versionName="1.0">
 
 	<supports-screens
 		android:smallScreens="true"
@@ -18,6 +17,7 @@
 	<uses-permission android:name="android.permission.INTERNET"/>
 
 	<application
+		android:requestLegacyExternalStorage="true"
 		android:name="com.tns.NativeScriptApplication"
 		android:allowBackup="true"
 		android:icon="@drawable/icon"

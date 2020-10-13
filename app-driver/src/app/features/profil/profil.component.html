@@ -1,7 +1,7 @@
 <StackLayout class="page-block ">
   <nav-bar
     showDrawerButton="true"
-    text="Profile"
+    [text]="'Views.Profil.Header' | translate"
   ></nav-bar>
   <ScrollView
     height="100%"
@@ -39,9 +39,27 @@
         [text]="userToUpdate.phone"
         class="m-b-20"
       ></label>
-
+      <StackLayout
+        horizontalAlignment="center"
+        verticalAlignment="center"
+        orientation="horizontal"
+      >
+        <label
+          text="Français"
+          verticalAlignment="center"
+        ></label>
+        <Switch
+          [color]="isEnglish ? 'yellow' : 'brown'"
+          (checkedChange)="langChanged()"
+        >
+        </Switch>
+        <label
+          text="English"
+          verticalAlignment="center"
+        ></label>
+      </StackLayout>
       <core-ui-tf
-        hint="Nom"
+        [hint]="'Views.Profil.NameHint' | translate"
         required="true"
         returnKeyType="done"
         [(ngModel)]="userToUpdate.name"
@@ -51,7 +69,7 @@
         customTextFieldClass="no-border p-10"
       ></core-ui-tf>
       <core-ui-tf
-        hint="Numéro de téléphone"
+        [hint]="'Views.Profil.PhoneHint' | translate"
         keyboardType="phone"
         required="true"
         returnKeyType="done"
@@ -62,7 +80,7 @@
         customTextFieldClass="no-border p-10"
       ></core-ui-tf>
       <core-ui-tf
-        hint="Email"
+        [hint]="'Views.Profil.EmailHint' | translate"
         keyboardType="email"
         required="true"
         returnKeyType="done"
@@ -73,7 +91,7 @@
         customTextFieldClass="no-border p-10"
       ></core-ui-tf>
       <core-ui-tf
-        hint="Numéro de CNI"
+        [hint]="'Views.Profil.ID' | translate"
         keyboardType="number"
         required="true"
         returnKeyType="done"
@@ -84,7 +102,7 @@
         customTextFieldClass="no-border p-10"
       ></core-ui-tf>
       <core-ui-tf
-        hint="Numéro de permis"
+        [hint]="'Views.Profil.License' | translate"
         keyboardType="number"
         required="true"
         returnKeyType="done"
@@ -95,7 +113,7 @@
         customTextFieldClass="no-border p-10"
       ></core-ui-tf>
       <core-ui-tf
-        hint="Année d'expérience"
+        [hint]="'Views.Profil.Experience' | translate"
         keyboardType="number"
         required="true"
         returnKeyType="done"
@@ -110,7 +128,7 @@
         class="btn btn-primary text-black"
         height="64"
         margin="0"
-        text="Enregistrer"
+        [text]="'Views.Profil.BtnSave' | translate"
         (tap)="update()"
       ></Button>
     </StackLayout>

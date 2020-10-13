@@ -13,7 +13,7 @@ import {
   APP_CONFIG,
   IAppConfig,
 } from '@apps.common/config';
-import { knownFolders, Folder } from 'tns-core-modules/file-system';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-root',
   moduleId: module.id,
@@ -33,8 +33,10 @@ export class AppComponent {
     _store: GlobalStoreService,
     _genSubjects: GenericSubjects,
     _profilService: ProfilService,
-    _authService: AuthService
+    _authService: AuthService,
+    _translate: TranslateService
   ) {
+    _store.set('app-type', AppComponent.appType);
     setDefaultLoader({
       indicatorColor: _theme.primaryColor,
       backgroudColor: _theme.primaryForeColor,
@@ -70,6 +72,8 @@ export class AppComponent {
         _store.set('settings', settings);
       },
     });
+    _translate.addLangs(['en', 'fr']);
+    _translate.use('fr');
     _genSubjects.get('randomError$').subscribe({
       next: () => {
         const options = {
@@ -88,7 +92,7 @@ export class AppComponent {
     });
   }
 
-  private static _appType: 'client' | 'driver';
+  public static _appType: 'client' | 'driver';
   static oneSignalTagPush: (key: string, value: string) => void = () => {};
   public static forType(val: 'client' | 'driver') {
     AppComponent._appType = val;

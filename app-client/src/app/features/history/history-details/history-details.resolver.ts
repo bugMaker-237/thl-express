@@ -23,7 +23,7 @@ export class HistoryDetailsResolver
     route: ActivatedRouteSnapshot
   ): Observable<{ item: IHistory; mapRoute: IMapRoute[] }> {
     Loader.default.show();
-    const item = this._store.get('current-history-item');
+    const item = this._store.get<IHistory>('current-history-item');
     return from(
       this.gd.getDirections(
         item.originPosition,
@@ -32,10 +32,10 @@ export class HistoryDetailsResolver
         'DRIVING'
       )
     ).pipe(
-      map(mapRoute => {
+      map((mapRoute) => {
         Loader.default.hide();
         return { item, mapRoute };
       })
-    );
+    ) as any;
   }
 }

@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { repeat, take, catchError } from 'rxjs/operators';
 import { interval, Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'pay-service',
@@ -32,6 +33,7 @@ export class PayServiceComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _router: RouterExtensions,
     private _store: GlobalStoreService,
+    private _translateService: TranslateService,
     private _toasService: ToastService
   ) {}
   ngOnInit() {
@@ -45,11 +47,14 @@ export class PayServiceComponent implements OnInit {
   }
   pay() {
     if (this.buyer.phone.length < 9) {
-      this._toasService.push({
-        text: 'Numéro de téléphone incorrect',
-        data: {
-          backgroundColor: 'primary',
-        },
+      this._translateService.get('Messages.Pay.PhoneIncorrect').subscribe({
+        next: (msg) =>
+          this._toasService.push({
+            text: msg,
+            data: {
+              backgroundColor: 'primary',
+            },
+          }),
       });
       return;
     }

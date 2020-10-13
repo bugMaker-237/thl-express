@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { IAppTheme, APP_THEME } from '@root/config';
-import { alert, confirm } from 'tns-core-modules/ui/dialogs';
+import { alert, confirm, prompt } from 'tns-core-modules/ui/dialogs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DialogService {
   constructor(@Inject(APP_THEME) private _appTheme: IAppTheme) {}
@@ -12,7 +12,7 @@ export class DialogService {
     return alert({
       message: message,
       okButtonText: okButtonText,
-      title: this._appTheme.appDisplayName
+      title: this._appTheme.appDisplayName,
     });
   }
   confirm(
@@ -26,7 +26,7 @@ export class DialogService {
       okButtonText,
       title: this._appTheme.appDisplayName,
       cancelButtonText,
-      neutralButtonText
+      neutralButtonText,
     });
   }
 }

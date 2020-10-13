@@ -7,6 +7,7 @@ import { RadImagepicker } from '@nstudio/nativescript-rad-imagepicker';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
 import { ImageSource } from 'tns-core-modules/image-source';
 import { ImageItem } from '@app.shared/models/image-item';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'profil',
   moduleId: module.id,
@@ -20,11 +21,13 @@ export class ProfilComponent implements OnInit {
   toComplete: string;
   selectedImage: ImageSource;
   imageSelected: boolean;
+  isEnglish: boolean;
 
   constructor(
     private _authService: AuthService,
     private _profilService: ProfilService,
-    private _toasService: ToastService
+    private _toasService: ToastService,
+    private _translateService: TranslateService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -40,6 +43,8 @@ export class ProfilComponent implements OnInit {
       experience: user.driver.experience,
     };
 
+    this.isEnglish = user.lang === 'en';
+
     if (user.image) {
       const img = new ImageItem(this._authService.getFullUrl(user.image));
       img.imageLoadCompleted = (imgSrc) => {
@@ -52,34 +57,39 @@ export class ProfilComponent implements OnInit {
       );
     }
   }
+  langChanged() {
+    this.isEnglish = !this.isEnglish;
+    this._translateService.use(this.isEnglish ? 'en' : 'fr');
+  }
   public async startSelection() {
     const radImagepicker = new RadImagepicker();
-    Loader.default.show();
+    // Loader.default.show();
     this.selectedImage = (
       await radImagepicker.pick({
         imageLimit: 1,
       })
     )[0];
     this.imageSelected = !!this.selectedImage;
-    Loader.default.hide();
+    // Loader.default.hide();
   }
   async update() {
-    Loader.default.show();
     if (this.imageSelected) {
       this.userToUpdate.photo = await this.getPicture();
       // console.log(this.userToUpdate.photo);
     }
-    Loader.default.hide();
+    this.userToUpdate.lang = this.isEnglish ? 'en' : 'fr';
 
     this._profilService.updateDriverProfil(this.userToUpdate).subscribe({
       next: (res: IUser) => {
-        this._toasService.push({
-          text: 'Enregistrement effectué!',
-          data: {
-            backgroundColor: 'primary',
-          },
+        this._translateService.get('Messages.Common.Saved').subscribe({
+          next: (msg) =>
+            this._toasService.push({
+              text: msg,
+              data: {
+                backgroundColor: 'primary',
+              },
+            }),
         });
-        this._authService.setUserInfos(this.userToUpdate);
       },
     });
   }

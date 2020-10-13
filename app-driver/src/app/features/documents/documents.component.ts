@@ -7,6 +7,7 @@ import { Image } from 'tns-core-modules/ui/image';
 import { ImageAsset } from 'tns-core-modules/image-asset';
 import { ToastService, Loader } from '@apps.common/services';
 import { knownFolders, path } from 'tns-core-modules/file-system';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'map',
@@ -29,7 +30,8 @@ export class DocumentsComponent implements OnInit {
   constructor(
     private _docsService: DocumentsService,
     private _authService: AuthService,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private _translateService: TranslateService
   ) {}
 
   async ngOnInit() {
@@ -64,12 +66,14 @@ export class DocumentsComponent implements OnInit {
   public async save(type: 'id' | 'license') {
     const next = {
       next: () => {
-        this._toastService.push({
-          text: 'Enregistrement effectué avec succès',
-          persist: true,
-          data: {
-            backgroundColor: 'primary',
-          },
+        this._translateService.get('Messages.Common.Saved').subscribe({
+          next: (msg) =>
+            this._toastService.push({
+              text: msg,
+              data: {
+                backgroundColor: 'primary',
+              },
+            }),
         });
       },
     };

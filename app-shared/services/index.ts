@@ -4,3 +4,4 @@ export * from './settings.service';
 export * from './support.service';
 export * from './base.service';
 export * from './profil.service';
+export * from './translation.service';
