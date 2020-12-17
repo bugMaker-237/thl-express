@@ -3,8 +3,8 @@ import { AuthService } from '@app.shared/services';
 import { IUser } from '@app.shared/models';
 import { ProfilService } from '@app.shared/services';
 import { ToastService, Loader } from '@apps.common/services';
-import { RadImagepicker } from '@nstudio/nativescript-rad-imagepicker';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
+import { create } from 'nativescript-imagepicker';
 import { ImageSource } from 'tns-core-modules/image-source';
 import { ImageItem } from '@app.shared/models/image-item';
 import { TranslateService } from '@ngx-translate/core';
@@ -62,15 +62,17 @@ export class ProfilComponent implements OnInit {
     this._translateService.use(this.isEnglish ? 'en' : 'fr');
   }
   public async startSelection() {
-    const radImagepicker = new RadImagepicker();
-    // Loader.default.show();
-    this.selectedImage = (
-      await radImagepicker.pick({
-        imageLimit: 1,
-      })
-    )[0];
-    this.imageSelected = !!this.selectedImage;
-    // Loader.default.hide();
+    const context = create({
+      mode: 'single',
+    });
+
+    await context.authorize();
+    const imageAssets = await context.present();
+
+    if (imageAssets && imageAssets.length > 0) {
+      this.selectedImage = await ImageSource.fromAsset(imageAssets[0]);
+      this.imageSelected = !!this.selectedImage;
+    }
   }
   async update() {
     if (this.imageSelected) {

@@ -21,8 +21,8 @@ android {
     googlePlayServicesVersion = "+"
   }
   defaultConfig { 
-    manifestPlaceholders = [onesignal_app_id: "dca41656-e361-4e63-8db5-7ea64c11a144",
-                                onesignal_google_project_number: '62955553941']
+    manifestPlaceholders = [onesignal_app_id: "60c2e900-86f0-4b76-a8ce-dd5918edcc65",
+                                onesignal_google_project_number: '612868070483']
     //override supported platforms
     ndk {
       // abiFilters.clear()

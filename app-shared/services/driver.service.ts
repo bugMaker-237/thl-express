@@ -29,6 +29,12 @@ export class DriverService extends BaseService {
     return Loader.default;
   }
 
+  public getFullUrl(part: string) {
+    if (!part.startsWith('/')) {
+      part = '/' + part;
+    }
+    return this.config.apiEndpoints.only.serviceHost + part;
+  }
   public getAvailableDrivers(
     type: string,
     point: IPosition
@@ -36,18 +42,18 @@ export class DriverService extends BaseService {
     return this.get<any[]>(
       `/drivers?lat=${point.latitude}&lng=${point.longitude}&driver_type=${type}`
     ).pipe(
-      map(drivers => {
-        return drivers.map(d => ({
+      map((drivers) => {
+        return drivers.map((d) => ({
           id: d.id,
           distance: d.distance,
-          picture: this.config.apiEndpoints.client.serviceHost + d.picture,
+          picture: this.getFullUrl(d.picture),
           matricule: d.matricule,
           immatriculation: d.immatriculation,
           user: d.user,
           location: {
             latitude: d.lat,
-            longitude: d.lng
-          }
+            longitude: d.lng,
+          },
         }));
       })
     );

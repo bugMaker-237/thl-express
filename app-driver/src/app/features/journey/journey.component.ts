@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { JourneyService } from './journey.service';
-import { DialogService, GlobalStoreService } from '@apps.common/services';
+import {
+  DialogService,
+  GenericSubjects,
+  GlobalStoreService,
+} from '@apps.common/services';
 import { IHistory } from '~/app/models/history';
 import { RouterExtensions } from 'nativescript-angular';
 
@@ -16,11 +20,13 @@ export class JourneyComponent implements OnInit {
   constructor(
     private _journeyService: JourneyService,
     private _router: RouterExtensions,
+    private genSub: GenericSubjects,
     private _store: GlobalStoreService
   ) {}
 
   ngOnInit() {
     this.refresh();
+    this.genSub.get('$current-journey', true).subscribe(() => this.refresh());
   }
   refresh() {
     this._journeyService.getCurrentDrives().subscribe({

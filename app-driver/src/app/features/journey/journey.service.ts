@@ -36,7 +36,7 @@ export class JourneyService extends BaseService {
     return this.get('/journey').pipe(
       map((data: any) =>
         data.map((d) =>
-          FromAPIEntity(d, this.config.apiEndpoints.client.serviceHost)
+          FromAPIEntity(d, this.config.apiEndpoints.driver.serviceHost)
         )
       )
     );

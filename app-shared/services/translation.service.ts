@@ -12,7 +12,8 @@ import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, IAppConfig } from '@apps.common/config';
 
 @Injectable()
-export class CustomTranslationLoader extends BaseService
+export class CustomTranslationLoader
+  extends BaseService
   implements TranslateLoader {
   public static AppType: string;
 

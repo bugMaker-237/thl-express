@@ -3,7 +3,7 @@ import { AuthService } from '@app.shared/services';
 import { IUser } from '@app.shared/models';
 import { ProfilService } from '../../../../../app-shared/services/profil.service';
 import { ToastService, Loader } from '@apps.common/services';
-import { RadImagepicker } from '@nstudio/nativescript-rad-imagepicker';
+import { create } from 'nativescript-imagepicker';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
 import { ImageSource } from 'tns-core-modules/image-source';
 import { ImageItem } from '@app.shared/models/image-item';
@@ -52,14 +52,17 @@ export class ProfilComponent implements OnInit {
     }
   }
   public async startSelection() {
-    const radImagepicker = new RadImagepicker();
+    const context = create({
+      mode: 'single',
+    });
 
-    this.selectedImage = (
-      await radImagepicker.pick({
-        imageLimit: 1,
-      })
-    )[0];
-    this.imageSelected = !!this.selectedImage;
+    await context.authorize();
+    const imageAssets = await context.present();
+
+    if (imageAssets && imageAssets.length > 0) {
+      this.selectedImage = await ImageSource.fromAsset(imageAssets[0]);
+      this.imageSelected = !!this.selectedImage;
+    }
   }
   langChanged() {
     this.isEnglish = !this.isEnglish;
@@ -70,7 +73,7 @@ export class ProfilComponent implements OnInit {
       this.userToUpdate.photo = await this.getPicture();
     }
     this.userToUpdate.lang = this.isEnglish ? 'en' : 'fr';
-    // console.log('done');
+    console.log(this.userToUpdate);
     this._profilService.updateClientProfil(this.userToUpdate).subscribe({
       next: (res: IUser) => {
         this._translateService.get('Messages.Common.Saved').subscribe({

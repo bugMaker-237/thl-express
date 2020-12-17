@@ -7,14 +7,20 @@ import {
   Polyline,
 } from 'nativescript-google-maps-sdk';
 import { IHistory } from '~/app/models/history';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Color } from 'tns-core-modules/color/color';
-import { DialogService, Loader, ToastService } from '@apps.common/services';
+import {
+  DialogService,
+  GenericSubjects,
+  Loader,
+  ToastService,
+} from '@apps.common/services';
 import { drawRoute, drawMarker, doZoom } from '~/app/utils/map';
 import { GlobalStoreService } from '@apps.common/services';
 import { default as mapStyle } from '@app.shared/map-style.json';
 import { JourneyService } from '../../journey/journey.service';
 import { TranslateService } from '@ngx-translate/core';
+import { RouterExtensions } from 'nativescript-angular';
 
 @Component({
   selector: 'history-details',
@@ -37,6 +43,8 @@ export class HistoryDetailsComponent implements OnInit {
 
   constructor(
     private _activatedRoute: ActivatedRoute,
+    private router: RouterExtensions,
+    private genSub: GenericSubjects,
     private _journeyService: JourneyService,
     private _translateService: TranslateService,
     private _toastService: ToastService,
@@ -57,13 +65,16 @@ export class HistoryDetailsComponent implements OnInit {
       this._journeyService.closeJourney(item.id).subscribe((_) => ({
         next: () => {
           this._translateService.get('Messages.Common.Saved').subscribe({
-            next: (msg) =>
+            next: (msg) => {
               this._toastService.push({
                 text: msg,
                 data: {
                   backgroundColor: 'primary',
                 },
-              }),
+              });
+              this.router.navigate(['app-shell/journey']);
+              this.genSub.get('$current-journey', true).next();
+            },
           });
         },
       }));

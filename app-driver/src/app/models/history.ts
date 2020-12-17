@@ -22,9 +22,15 @@ export interface IHistory extends IHistoryListItem {
   transportType: string; // type de course
 }
 
+function getFullUrl(part: string, host) {
+  if (!part.startsWith('/')) {
+    part = '/' + part;
+  }
+  return host + part;
+}
 export const FromAPIEntity = (d, endpoint: string): IHistory => ({
   id: d.id,
-  date: d.createdat,
+  date: d.created_at,
   price: d.price,
   origin: d.from,
   destination: d.to,
@@ -43,7 +49,7 @@ export const FromAPIEntity = (d, endpoint: string): IHistory => ({
   pressing: d.pressing || {},
   driver: {
     id: d.driver.id,
-    picture: endpoint + d.driver.driver.picture,
+    picture: getFullUrl(d.driver.driver.picture, endpoint),
     user: {
       id: d.driver.driver.id,
       name: d.driver.name,

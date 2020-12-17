@@ -48,19 +48,26 @@ export class PressingNewComponent implements OnInit {
         });
       },
     });
-    this._translateService.get(['Messages.Pressing.New']).subscribe({
-      next: (msg) => {
-        this.translations = msg;
-        this.selectedCloth = this.translations.SelectedCloth;
-      },
-    });
+    const trans = this._translateService.instant([
+      'Messages.Pressing.New.SelectedCloth',
+      'Messages.Pressing.New.ChooseClothTitle',
+      'Messages.Pressing.New.ChooseClothMessage',
+      'Views.Common.BtnCancel',
+    ]);
+    this.translations = {
+      SelectedCloth: trans[0],
+      ChooseClothTitle: trans[1],
+      ChooseClothMessage: trans[2],
+      Cancel: trans[3],
+    };
+    this.selectedCloth = this.translations.SelectedCloth;
   }
   onReturnPress(event: any) {}
   chooseCloth() {
     const options = {
       title: this.translations.ChooseClothTitle,
       message: this.translations.ChooseClothMessage,
-      cancelButtonText: 'Annuler',
+      cancelButtonText: this.translations.cancel,
       actions: this.clothTypes.map((c) => c.name),
     };
 

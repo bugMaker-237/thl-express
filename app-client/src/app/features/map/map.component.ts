@@ -172,7 +172,10 @@ export class MapComponent implements OnInit {
         this.isPacketTransportation = queryParams.isPacketTransportation;
         this.packet = this._store.get('current-packet-item');
         this.settings = this._settingsService.settings;
-        // console.log(settings);
+        console.log({
+          isPacket: this.isPacketTransportation,
+          packet: this.packet,
+        });
         if (this.isPacketTransportation && this.packet) {
           this.kmPrice =
             this.settings.colisprice +
@@ -362,11 +365,11 @@ export class MapComponent implements OnInit {
 
   calculatePacketPrice(km: number, sett: Settings) {
     let price = km < sett.kmmin ? sett.colisprice : km * sett.colisextraprice;
-    if (this.packet.weight > sett.kgmax) {
-      price = price * 0.01;
-    }
     if (this.packet.value > sett.valeurmax) {
-      price = sett.valeurmax * 0.1;
+      price += this.packet.value * 0.01;
+    }
+    if (this.packet.weight > sett.kgmax) {
+      price += this.packet.weight * 10;
     }
     return price;
   }

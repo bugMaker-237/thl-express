@@ -43,7 +43,7 @@ export class AppModule {
         },
         opened: (notif) => {
           // console.log(notif);
-          // if((android.nativeApp as android.app.Application).getBaseContext)
+          // const context = (android.nativeApp as android.app.Application).getBaseContext();
           this.ngZone
             .run(() => this.router.navigate(['app-shell/journey']))
             .then();

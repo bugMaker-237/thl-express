@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentsService } from './documents.service';
 import { AuthService } from '@app.shared/services';
-import { RadImagepicker } from '@nstudio/nativescript-rad-imagepicker';
+import { create } from 'nativescript-imagepicker';
 import { ImageSource } from 'tns-core-modules/image-source';
 import { Image } from 'tns-core-modules/ui/image';
 import { ImageAsset } from 'tns-core-modules/image-asset';
@@ -95,11 +95,15 @@ export class DocumentsComponent implements OnInit {
   }
 
   public async startSelection() {
-    const radImagepicker = new RadImagepicker();
-    return (
-      await radImagepicker.pick({
-        imageLimit: 1,
-      })
-    )[0];
+    const context = create({
+      mode: 'single',
+    });
+
+    await context.authorize();
+    const imageAssets = await context.present();
+
+    if (imageAssets && imageAssets.length > 0) {
+      return await ImageSource.fromAsset(imageAssets[0]);
+    }
   }
 }

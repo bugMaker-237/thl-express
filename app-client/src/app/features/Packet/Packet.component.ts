@@ -44,16 +44,20 @@ export class PacketComponent implements OnInit {
         'Messages.Packet.Continue',
         'Views.Common.BtnCancel',
         'Views.Common.BtnContinue',
+        'Messages.Common.MandatoryFields',
       ])
       .subscribe({
         next: (res) => {
-          this.msgs = res;
-          this.selectedType = res[1];
+          this.msgs = [];
+          for (const key in res) {
+            this.msgs.push(res[key]);
+          }
+          this.selectedType = this.msgs[1];
         },
       });
   }
   choosePacketType() {
-    if (this.packetTypes.length > 0) {
+    if (this.packetTypes && this.packetTypes.length > 0) {
       const options = {
         title: this.msgs[0],
         message: this.msgs[1],
@@ -69,8 +73,21 @@ export class PacketComponent implements OnInit {
     }
   }
   save() {
+    if (
+      !this.packet.weight ||
+      !this.packet.value ||
+      !this.packet.receiver_name ||
+      !this.packet.receiver_phone ||
+      this.packet.receiver_phone.length < 9 ||
+      this.selectedType === this.msgs[1]
+    ) {
+      this._dialogService.alert(this.msgs[5], this.msgs[4]);
+      return;
+    }
     this._dialogService.alert(this.msgs[2], this.msgs[4]);
     this.packet.nature = this.selectedType;
+    this.packet.weight = Number.parseFloat(this.packet.weight as any);
+    this.packet.value = Number.parseFloat(this.packet.value as any);
     this._storeService.set('current-packet-item', this.packet);
     this._router.navigate(['../map/VIP'], {
       transition: {
