@@ -14,7 +14,7 @@ app-shared : common modules between the app.
 To run the app, enter one of the app folders and launch the command `tns debug` as described on the official site.
 
 #Ressources
-Nativescript : https://nativescript.org/nativescript-is-how-you-build-native-mobile-apps-with-angular/
-Angular : https://angular.io
-Android studio : https://nativescript.org/nativescript-is-how-you-build-native-mobile-apps-with-angular/
-NodeJs : https://nodejs.org
+- Nativescript : https://nativescript.org/nativescript-is-how-you-build-native-mobile-apps-with-angular/
+- Angular : https://angular.io
+- Android studio : https://nativescript.org/nativescript-is-how-you-build-native-mobile-apps-with-angular/
+- NodeJs : https://nodejs.org
