@@ -44,6 +44,7 @@ export class PaymentService extends BaseService {
       name: buyer.firstName,
       phone: buyer.phone,
       type: ongoingPayment.type,
+      transactiontype: ongoingPayment.transactionType
     };
     return this.post<{ message: string; status: number; code: string }>(
       '/pay',

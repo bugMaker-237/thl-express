@@ -8,6 +8,7 @@ export interface IOngoingPayment {
   destination: IPlace;
   price: number;
   redirectUrl: string;
+  transactionType: string;
 }
 
 export interface IPaymentRequest {
@@ -17,4 +18,5 @@ export interface IPaymentRequest {
   journey: any;
   pressing: any;
   type: 'journey' | 'pressing';
+  transactiontype: string;
 }

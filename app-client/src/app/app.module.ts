@@ -8,8 +8,11 @@ import { CommonModule } from '@apps.common/modules';
 import { AppSharedModule } from '@app.shared/app-shared.module';
 import { AppShellComponent } from '@app.shared/components';
 import { pages, resolvers, providers } from './features';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { CustomTranslationLoader } from '@app.shared/services';
+import { device } from 'tns-core-modules/platform';
 
-AppComponent.forType('client');
+AppComponent._appType = CustomTranslationLoader.AppType = 'client';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -19,6 +22,10 @@ AppComponent.forType('client');
     CommonModule,
     AppRoutingModule,
     NativeScriptUIAutoCompleteTextViewModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'fr',
+      loader: { provide: TranslateLoader, useClass: CustomTranslationLoader },
+    }),
   ],
   declarations: [AppComponent, AppShellComponent, ...pages],
   providers: [...resolvers, ...providers],

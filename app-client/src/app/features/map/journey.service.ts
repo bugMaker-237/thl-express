@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   LocalStorageService,
   ToastService,
-  Loader
+  Loader,
 } from '@apps.common/services';
 import { IAppConfig, APP_CONFIG } from '@apps.common/config';
 import { IJourneyRequest } from './journey';
@@ -52,7 +52,7 @@ export class JourneyService extends BaseService {
       placeto: destination.name,
       placefrom: origin.name,
       type: isPacketTransportation ? 'COLIS' : 'PERSONNE',
-      wishes: wishes
+      wishes: wishes,
     };
     if (isPacketTransportation) {
       journey.valeur = packet.value;

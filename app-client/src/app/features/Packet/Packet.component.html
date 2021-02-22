@@ -1,11 +1,20 @@
 <StackLayout class="packet-block page-block">
-  <nav-bar text="Transporter un colis" showDrawerButton="true"></nav-bar>
-  <ScrollView class="stack" height="100%">
+  <nav-bar
+    [text]="'Views.Packet.Header' | translate"
+    showDrawerButton="true"
+  ></nav-bar>
+  <ScrollView
+    class="stack"
+    height="100%"
+  >
     <StackLayout padding="20">
-      <Button [text]="selectedType" (tap)="choosePacketType()"></Button>
+      <Button
+        [text]="selectedType"
+        (tap)="choosePacketType()"
+      ></Button>
 
       <core-ui-tf
-        hint="Valeur en CFA"
+        [hint]="'Views.Packet.ValueHint' | translate"
         [(ngModel)]="packet.value"
         required="true"
         keyboardType="number"
@@ -15,7 +24,7 @@
         customTextFieldClass="no-border p-10"
       ></core-ui-tf>
       <core-ui-tf
-        hint="Poids en Kg"
+        [hint]="'Views.Packet.WeightHint' | translate"
         [(ngModel)]="packet.weight"
         required="true"
         keyboardType="number"
@@ -25,7 +34,7 @@
         customTextFieldClass="no-border p-10"
       ></core-ui-tf>
       <core-ui-tf
-        hint="Nom du receveur"
+        [hint]="'Views.Packet.ReceiverHint' | translate"
         [(ngModel)]="packet.receiver_name"
         required="true"
         [editable]="!formDisabled"
@@ -35,7 +44,7 @@
       ></core-ui-tf>
       <core-ui-tf
         keyboardType="phone"
-        hint="Telephone du receveur"
+        [hint]="'Views.Packet.ReceiverPhoneHint' | translate"
         [(ngModel)]="packet.receiver_phone"
         required="true"
         keyboardType="number"
@@ -49,7 +58,7 @@
         class="btn btn-accent text-white"
         height="64"
         margin="0"
-        text="Enregistrer"
+        [text]="'Views.Common.BtnSave' | translate"
         (tap)="save()"
       ></Button>
     </StackLayout>

@@ -3,10 +3,11 @@ import { AuthService } from '@app.shared/services';
 import { IUser } from '@app.shared/models';
 import { ProfilService } from '../../../../../app-shared/services/profil.service';
 import { ToastService, Loader } from '@apps.common/services';
-import { RadImagepicker } from '@nstudio/nativescript-rad-imagepicker';
+import { create } from 'nativescript-imagepicker';
 import { ImageAsset } from 'tns-core-modules/image-asset/image-asset';
 import { ImageSource } from 'tns-core-modules/image-source';
 import { ImageItem } from '@app.shared/models/image-item';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'profil',
   moduleId: module.id,
@@ -20,11 +21,13 @@ export class ProfilComponent implements OnInit {
   toComplete: string;
   selectedImage: ImageSource;
   imageSelected: boolean;
+  isEnglish: boolean;
 
   constructor(
     private _authService: AuthService,
     private _profilService: ProfilService,
-    private _toasService: ToastService
+    private _toasService: ToastService,
+    private _translateService: TranslateService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -34,6 +37,7 @@ export class ProfilComponent implements OnInit {
       email: user.email,
       phone: user.phone,
     };
+    this.isEnglish = user.lang === 'en';
     // console.log('uuuuu');
     if (user.image) {
       const img = new ImageItem(this._authService.getFullUrl(user.image));
@@ -48,26 +52,38 @@ export class ProfilComponent implements OnInit {
     }
   }
   public async startSelection() {
-    const radImagepicker = new RadImagepicker();
-    this.selectedImage = (
-      await radImagepicker.pick({
-        imageLimit: 1,
-      })
-    )[0];
-    this.imageSelected = !!this.selectedImage;
+    const context = create({
+      mode: 'single',
+    });
+
+    await context.authorize();
+    const imageAssets = await context.present();
+
+    if (imageAssets && imageAssets.length > 0) {
+      this.selectedImage = await ImageSource.fromAsset(imageAssets[0]);
+      this.imageSelected = !!this.selectedImage;
+    }
+  }
+  langChanged() {
+    this.isEnglish = !this.isEnglish;
+    this._translateService.use(this.isEnglish ? 'en' : 'fr');
   }
   async update() {
     if (this.imageSelected) {
       this.userToUpdate.photo = await this.getPicture();
     }
-    // console.log('done');
+    this.userToUpdate.lang = this.isEnglish ? 'en' : 'fr';
+    console.log(this.userToUpdate);
     this._profilService.updateClientProfil(this.userToUpdate).subscribe({
       next: (res: IUser) => {
-        this._toasService.push({
-          text: 'Enregistrement effectué!',
-          data: {
-            backgroundColor: 'primary',
-          },
+        this._translateService.get('Messages.Common.Saved').subscribe({
+          next: (msg) =>
+            this._toasService.push({
+              text: msg,
+              data: {
+                backgroundColor: 'primary',
+              },
+            }),
         });
       },
     });

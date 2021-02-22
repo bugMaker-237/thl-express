@@ -56,6 +56,7 @@ import { SettingsService } from '@app.shared/services';
 import { IAppConfig, APP_CONFIG } from '@apps.common/config';
 import { IJourneyRequest } from './journey';
 import { JourneyService } from './journey.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface TAnimation {
   definition: AnimationDefinition;
@@ -117,8 +118,7 @@ export class MapComponent implements OnInit {
   private kmPrice = 0;
   private isPacketTransportation: boolean;
   private packet: IPacket;
-  kmMinPriceChange: number;
-  kmExtraPrice: number;
+  private settings: Settings;
 
   set currentMapRoute(value: IMapRoute) {
     this.curRt = value;
@@ -138,13 +138,14 @@ export class MapComponent implements OnInit {
     private _dialogService: DialogService,
     private _platformService: PlatformService,
     private _mailService: MailService,
-    private _journeyService: JourneyService
+    private _journeyService: JourneyService,
+    private _translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
     Loader.default.show();
     // using pixels and screen scale top align element at the bottom of absoluteLayout
-    this.state3.nativeElement.top = screen.mainScreen.heightDIPs - 56 - 100;
+    this.state3.nativeElement.top = screen.mainScreen.heightDIPs - 64 - 100;
     this.registerViewStates();
     const GAK = getStringResource('nativescript_google_maps_api_key');
     this.gp = new GooglePlaces(GAK);
@@ -170,15 +171,17 @@ export class MapComponent implements OnInit {
       next: (queryParams) => {
         this.isPacketTransportation = queryParams.isPacketTransportation;
         this.packet = this._store.get('current-packet-item');
-        const settings = this._settingsService.settings;
-        // console.log(settings);
+        this.settings = this._settingsService.settings;
+        console.log({
+          isPacket: this.isPacketTransportation,
+          packet: this.packet,
+        });
         if (this.isPacketTransportation && this.packet) {
           this.kmPrice =
-            settings.colisprice + settings.colispercentage * this.packet.value;
+            this.settings.colisprice +
+            this.settings.colispercentage * this.packet.value;
         } else {
-          this.kmPrice = settings.kmprice;
-          this.kmMinPriceChange = settings.kmmin;
-          this.kmExtraPrice = settings.kmextraprice;
+          this.kmPrice = this.settings.kmprice;
         }
       },
     });
@@ -238,9 +241,11 @@ export class MapComponent implements OnInit {
       .getAvailableDrivers(this.type, this.origin)
       .subscribe((res) => {
         if (res.length === 0) {
-          this._dialogService.alert(
-            `Aucun transporteur disponible dans cette zone pour l'instant, patientez, puis réessayé`
-          );
+          this._translateService
+            .get('Messages.Map.DialogNoTransporter')
+            .subscribe({
+              next: (msg) => this._dialogService.alert(msg),
+            });
         } else {
           const driverMarkersPromises = [];
           res.forEach((d) => {
@@ -317,7 +322,7 @@ export class MapComponent implements OnInit {
       );
     }
   }
-  payTrip() {
+  payTrip(transactionType: string) {
     this._journeyService
       .saveJourney(
         this.currentMapRoute,
@@ -337,6 +342,7 @@ export class MapComponent implements OnInit {
             destination: this.destination,
             price: this.getRoutePrice(),
             redirectUrl: '../history/JOURNEY',
+            transactionType
           });
           this._router.navigate(['../../pay-service'], {
             transition: {
@@ -352,9 +358,24 @@ export class MapComponent implements OnInit {
     const km = Number.parseFloat(
       (this.currentMapRoute.distance.value / 1000).toFixed(1)
     );
-    return this.isPacketTransportation || km <= this.kmMinPriceChange
-      ? this.kmPrice
-      : km * this.kmExtraPrice;
+
+    return this.isPacketTransportation
+      ? this.calculatePacketPrice(km, this.settings)
+      : this.calculatePersonPrice(km, this.settings);
+  }
+
+  calculatePacketPrice(km: number, sett: Settings) {
+    let price = km < sett.kmmin ? sett.colisprice : km * sett.colisextraprice;
+    if (this.packet.value > sett.valeurmax) {
+      price += this.packet.value * 0.01;
+    }
+    if (this.packet.weight > sett.kgmax) {
+      price += this.packet.weight * 10;
+    }
+    return price;
+  }
+  calculatePersonPrice(km: number, sett: Settings) {
+    return km < sett.kmmin ? sett.kmprice : km * sett.kmextraprice;
   }
   onMapReady(event) {
     this.mapView = event.object as MapView;

@@ -1,12 +1,30 @@
 <StackLayout class="page-block">
-  <nav-bar text="Demandes pressing" showDrawerButton="true">
+  <nav-bar
+    [text]="'Views.Pressing.List.Header'| translate"
+    showDrawerButton="true"
+  >
     <StackLayout actions>
-      <core-ui-icon name="add" size="28" (tapAction)="goToAdd()">
+      <core-ui-icon
+        name="add"
+        size="28"
+        (tapAction)="goToAdd()"
+      >
       </core-ui-icon>
     </StackLayout>
   </nav-bar>
-  <ScrollView class="pressing-list-block" height="100%">
+  <ScrollView
+    class="pressing-list-block"
+    height="100%"
+  >
     <StackLayout>
+      <Label
+        style="text-align:center;"
+        alignContent="center"
+        class="p-5"
+        [text]="'Views.Common.NoData' | translate"
+        *ngIf="articles.length === 0"
+        textWrap="true"
+      ></Label>
       <CardView
         margin="10"
         elevation="20"
@@ -46,7 +64,11 @@
                 colSpan="2"
                 [text]="a.type + ' (' + a.quantity + ')'"
               ></label>
-              <label row="0" col="1" [text]="a.price + ' FCFA'"></label>
+              <label
+                row="0"
+                col="1"
+                [text]="a.price + ' FCFA'"
+              ></label>
             </GridLayout>
           </StackLayout>
 
@@ -62,7 +84,7 @@
               (tap)="update(item)"
               margin="0"
               style="text-align: center;"
-              text="MODIFIER"
+              [text]="'Views.Pressing.List.BtnUpdate' | translate"
             ></Button>
             <Button
               width="100%"
@@ -71,7 +93,7 @@
               height="48"
               margin="0"
               style="text-align: center;"
-              text="PAYER"
+              [text]="'Views.Pressing.List.BtnPay' | translate"
             ></Button>
           </StackLayout>
         </StackLayout>

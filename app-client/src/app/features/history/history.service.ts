@@ -35,6 +35,13 @@ export class HistoryService extends BaseService {
     return Loader.default;
   }
 
+  public getFullUrl(part: string) {
+    if (!part.startsWith('/')) {
+      part = '/' + part;
+    }
+    return this.config.apiEndpoints.only.serviceHost + part;
+  }
+
   public getHistories(
     type: string,
     paging = 1
@@ -45,7 +52,7 @@ export class HistoryService extends BaseService {
         return {
           data: data.history.map((d) => ({
             id: d.id,
-            date: d.createdat,
+            date: d.created_at,
             price: d.price,
             origin: d.from,
             destination: d.to,
@@ -57,6 +64,7 @@ export class HistoryService extends BaseService {
               latitude: d.latto,
               longitude: d.lngto,
             },
+            review: d.review,
             state: d.status,
             transportType: d.type,
             paimentMethod: null,
@@ -64,9 +72,7 @@ export class HistoryService extends BaseService {
             pressing: d.pressing || {},
             driver: {
               id: d.driver.id,
-              picture:
-                this.config.apiEndpoints.client.serviceHost +
-                d.driver.driver.picture,
+              picture: this.getFullUrl(d.driver.driver.picture),
               user: {
                 id: d.driver.driver.id,
                 name: d.driver.name,
@@ -79,7 +85,12 @@ export class HistoryService extends BaseService {
     );
   }
 
-  getHistoryDetails(id: any): Observable<IHistory> {
-    return this.get<IHistory>(`/history/${id}`);
+  public note(
+    note: number,
+    comment: string,
+    driverId: any,
+    journeyId: any
+  ): Observable<any> {
+    return this.post(`/note/${driverId}/${journeyId}`, { note, comment });
   }
 }
