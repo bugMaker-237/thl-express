@@ -37,7 +37,7 @@
     "nativescript-ui-autocomplete": "^6.0.0",
     "nativescript-ui-dataform": "^5.1.1",
     "nativescript-ui-sidedrawer": "^8.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "reflect-metadata": "~0.1.12",
     "rxjs": "^6.5.4",
     "rxjs-compat": "^6.5.4",
